@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head th:include="common/head :: #head"></head>
+  
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+	
+		<!-- main -->
+		<div class="main">
+	   
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+				
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>主播基本信息</span>
+					</div>
+					
+					<!-- page body -->
+					<div class="pageB">
+						<form data-param="anchorVO" data-content="#content" data-template="#temp" data-pagination="#pagination"  data-action="findAnchor" data-form="search" class="form" novalidate="novalidate">
+							
+							<select name="anchorType" class="inputsearch" title="主播类型">
+								<option selected="selected" disabled="disabled">主播类型</option>
+								<option value="0">全职主播</option>
+								<option value="1">兼职主播</option>
+							</select>
+							
+							<select name="confraternityId" class="inputsearch guild_div" title="主播公会"></select>
+                        
+                        	<script type="text/template" id="guild_html">
+								<option selected="selected" disabled="disabled">主播公会</option>
+              					{{each this p}}
+									<option value="{{p.confraternityId}}">{{p.confraternityName}}</option>
+              					{{/each}}
+              					{{if this.length === 0}}{{/if}}
+            				</script>
+							
+							
+							<select name="isGuess" class="inputsearch" title="是否禁猜">
+								<option selected="selected" disabled="disabled">是否允许竞猜</option>
+								<option value="1">是</option>
+								<option value="2">否</option>
+							</select>
+							<select name="isLive" class="inputsearch" title="是否禁播">
+								<option selected="selected" disabled="disabled">是否禁播</option>
+								<option value="0">是</option>
+								<option value="1">否</option>
+							</select>
+							
+							<input name="query" type="text" placeholder="龙猫ID/昵称/手机号" data-chinese="龙猫ID/昵称/手机号" class="inputsearch" />
+							<input type="hidden" value="1" name="userType" />
+							
+							<button type="submit" class="btn">查询</button>
+							<button type="reset" class="btn btn-info">重置</button>
+						</form>
+						<div class="table">
+							<table>
+								<thead>
+									<tr>
+										<th>龙猫ID</th>
+										<th>头像</th>
+										<th>昵称</th>
+										<th>手机号</th>
+										<th>主播类型</th>
+										<th>所属公会</th>
+										<th>是否允许竞猜</th>
+										<th>是否禁播</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="content"></tbody>
+							</table>
+							<script type="text/template" id="temp">
+              					{{each this val}}
+              						<tr id="tr_{{val.userId}}">
+                						<td>{{val.userId||''}}</td>
+										<td><img class="uesr_img" src="{{val.phoneId==''?'http://opq77mx3q.bkt.clouddn.com/20170830-logo_totoro.png':val.phoneId}}" /></td>
+										<td>{{val.nickName||''}}</td>
+										<td>{{val.userName||''}}</td>
+										<td>{{val.anchorTypeStr}}</td>
+										<td>{{val.confraternityName||'无'}}</td>
+										<td>{{val.isguess==1?'允许竞猜':'<span class="red_color">禁止竞猜</span>'}}</td>
+										<td>{{val.islive==1?'允许直播':'<span class="red_color">禁止直播</span>'}}</td>
+               							<td>
+											<button data-id="{{val.userId}}" type="button" class="btn btn-info btn-sm J_AnchorLogBtn">查看</button>											
+											<button data-user-id="{{val.userId}}" data-nick-name="{{val.nickName}}" data-isguess="{{val.isguess==1?'2':'1'}}" data-guesstext="{{val.isguess==1?'禁止竞猜':'允许竞猜'}}" type="button" class="btn btn-info btn-sm wp_allowBtn">{{val.isguess==1?'禁止竞猜':'允许竞猜'}}</button>
+											<button data-id="{{val.userId}}" type="button" class="btn btn-info btn-sm J_PermitBtn">{{val.islive==1?'禁止直播':'允许直播'}}</button>
+											<button data-id="{{val.userId}}" data-islive="{{val.islive}}" type="button" class="btn btn-info btn-sm wp_cancleLive">取消主播</button>
+										</td>
+              						</tr>
+              					{{/each}}
+              					{{if this.length === 0}}
+              						<tr><td colspan="9">没有数据...</td></tr>
+              					{{/if}}
+							</script>
+							
+<!-- 							<button data-id="{{val.userId}}" type="button" class="btn btn-info btn-sm J_PermitBtn">权限</button>&nbsp;&nbsp; -->
+<!--  				  							<button data-id="{{val.userId}}" data-calorie="{{val.calorie}}" type="button" class="btn btn-info btn-sm J_CalorieBtn">卡路里</button>&nbsp;&nbsp; -->
+<!-- 				  							<button data-id="{{val.userId}}" type="button" class="btn btn-info btn-sm J_AnchorLogBtn">查看</button> -->
+<!-- 				  							<button data-id="{{val.userId}}" data-base="{{val.base}}" type="button" class="btn btn-info btn-sm wp_baseBtn">修改基数</button> -->
+<!-- 											<button data-user-id="{{val.userId}}" data-isguess="{{val.isguess==1?'2':'1'}}" type="button" class="btn btn-info btn-sm wp_allowBtn">{{val.isguess==1?'允许竞猜':'禁止竞猜'}}</button> -->
+						</div>
+						<!-- 分页 -->
+						<ul class="pagination" id="pagination"></ul>
+						<!-- /分页 -->
+						<!-- 主播卡路里 开始 -->
+						<div class="modal fade" id="J_showCalorie">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="J_AddCalorie" data-param="anchor" data-action="calorieCash" data-form="submit" novalidate="novalidate">
+							    <div class="modal-header text-center" style="font-size:16px;font-weight:bold;">主播卡路里</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												<tr>
+													<th>用户UserId:</th>
+													<td><input name="userId" id="calorie_userId" readonly="readonly"
+													 type="text" placeholder="用户UserId" data-chinese="用户UserId" class="input" /></td>
+												</tr>
+												<tr>
+													<th>卡路里数量:</th>
+													<td><input name="calorie" id="calorie_calorie" type="text" placeholder="卡路里数量" 
+													required="required" data-chinese="卡路里数量" class="input" /></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<input type="hidden" id="calorie_num" />
+									<button type="submit" class="btn" style="margin-right:30px">提现</button>
+									<button data-target="#J_showCalorie" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 主播卡路里 结束 -->
+						
+						<!-- 修改基数数值 开始 -->
+						<div class="modal fade" id="wp_base">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="wp_frombase" data-param="anchor" data-action="updateAnchorBase" data-form="submit" novalidate="novalidate">
+							    <div class="modal-header text-center" style="font-size:16px;font-weight:bold;">主播基数数值</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												<tr>
+													<th>主播ID :</th>
+													<td>
+														<input name="userId" id="base_userId" readonly="readonly"
+													           type="text" placeholder="用户UserId" data-chinese="用户UserId" class="input" /></td>
+												</tr>
+												<tr>
+													<th>基数数值 :</th>
+													<td>
+														<input name="base" id="base_base" type="text" placeholder="基数数值" 
+															   required="required" data-chinese="基数数值" class="input" />
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<input type="hidden" id="calorie_num" />
+									<button type="submit" class="btn" style="margin-right:30px">修改</button>
+									<button data-target="#wp_base" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 修改基数数值 结束 -->
+						
+						<!-- 开通主播 开始 -->
+						<div class="modal fade" id="J_showEdit">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="J_AddAnchor" data-param="anchor" data-action="editAnchor" data-form="submit" novalidate="novalidate">
+								<div class="modal-header text-center" style="font-size:16px;font-weight:bold;">开通主播</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												<tr>
+													<th>主播类型：</th>
+													<td>
+														<select name="anchorType" class="input" title="主播类型">
+															<option value="0">全职主播</option>
+															<option value="1">兼职主播</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<th>真实姓名：</th>
+													<td><input name="realName" type="text" placeholder="真实姓名" data-chinese="真实姓名" class="input" /></td>
+												</tr>
+												<tr>
+													<th>身份证号：</th>
+													<td><input name="idCard" type="text" placeholder="身份证号" data-chinese="身份证号" class="input" /></td>
+												</tr>
+												<tr>
+													<th>支付宝：</th>
+													<td><input name="alipayId" type="text" placeholder="支付宝" data-chinese="支付宝" class="input" /></td>
+												</tr>
+												<tr>
+													<th>手机号码：</th>
+													<td><input name="mobile" type="text" placeholder="手机号码" data-chinese="手机号码" class="input" /></td>
+												</tr>
+												<tr>
+													<th>兑换比率：</th>
+													<td><input name="ratio" required="required" type="text" placeholder="兑换比率" data-chinese="兑换比率" class="input" value="0.50"/></td>
+												</tr>
+												<tr>
+													<th>备注：</th>
+													<td><input name="remark" type="text" placeholder="备注" data-chinese="备注" class="input" /></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<input name="userId" id="edit_userId" type="hidden" required="required" class="input" />
+									<button type="submit" class="btn" style="margin-right:30px">开通</button>
+									<button data-target="#J_showEdit" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 开通主播 结束 -->
+						
+						<form id="upload_from" enctype="multipart/form-data" class="hide">
+							<img id="showload_img" src="" />
+							<input type="file" name="file" id="upload_img"/>
+						</form>
+						
+						<!-- 主播详情 开始 -->
+						<div class="modal fade" id="J_detail">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="J_EditAnchor" data-param="anchor" data-action="editAnchor" data-form="submit" novalidate="novalidate">
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												
+												<tr>
+													<th><h4>个人信息</h4></th>
+												</tr>
+												
+												<tr>
+													<th>头像：</th>
+													<td>
+														<img data-img="3" class="uesr_img code_img logo_img" src="">
+														<input type="hidden" name="phoneId" />
+													</td>
+												</tr>
+												<tr>
+													<th>ID：</th>
+													<td data-insert="userId"></td>
+												</tr>
+												<tr>
+													<th>昵称：</th>
+													<td><input name="nickName" type="text" data-insert="nickName" required="required" placeholder="昵称" data-chinese="昵称" class="input"></td>
+												</tr>
+												<tr>
+													<th>手机号：</th>
+													<td><input name="userName" type="text" pattern="^1\d{10}$" data-insert="userName" placeholder="手机号" data-chinese="手机号" class="input" maxlength="11"></td>
+												</tr>
+												<tr>
+													<th>性别：</th>
+													<td data-insert="sexStr"></td>
+													<th>城市：</th>
+													<td data-insert="city"></td>
+												</tr>
+												<tr>
+													<th>个人简介：</th>
+													<td colspan="3"><input name="signed" type="text" data-insert="signed" placeholder="个人简介" data-chinese="个人简介" class="input width490"></td>
+												</tr>
+												
+												<tr>
+													<th><h4>实名认证</h4></th>
+												</tr>
+												
+												<tr>
+													<th>真实姓名：</th>
+													<td><input name="realName" type="text" data-insert="realName" placeholder="真实姓名" data-chinese="真实姓名" class="input"></td>
+												</tr>
+												<tr>
+													<th>身份证号：</th>
+													<td colspan="3"><input name="idCard" type="text" data-insert="idCard" placeholder="身份证号" data-chinese="身份证号" maxlength="18" class="input width490"></td>
+												</tr>
+												
+												<tr>
+													<th>身份证扫描件：</th>
+													<td colspan="3">
+														<div class="certificates">
+														
+															<div class="cer_img">
+																<img data-img="1" class="code_just code_img" src="http://opq77mx3q.bkt.clouddn.com/20171025-positive.png">
+																<img class="big_seeimg big_just hide" src="" />
+																<input type="hidden" name="frontIdentityUrl" data-insert="frontIdentityUrl"/>
+																<p>正</p>
+															</div>
+														
+															<div class="cer_img" id="cer_divimg">
+																<img data-img="2" class="code_back code_img" src="http://opq77mx3q.bkt.clouddn.com/20171025-opposite.png">
+																<img class="big_seeimg big_back hide" src="" />
+																<input type="hidden" name="oppositeIdentityUrl" data-insert="oppositeIdentityUrl"/>
+																<p>反</p>
+															</div>
+															
+														</div>
+													</td>
+												</tr>
+												
+												<tr>
+													<th><h4>主播信息</h4></th>
+												</tr>
+												
+												<tr>
+													<th>主播类型：</th>
+													<td>
+														<select name="anchorType" class="inputsearch anchor_types" title="主播类型">
+															<option value="0">全职主播</option>
+															<option value="1">兼职主播</option>
+														</select>
+													</td>
+												</tr>
+												
+												<tr>
+													<th>所属经纪：</th>
+													<td data-insert="brokerName"></td>
+												</tr>
+												
+												<tr>
+													<th>所属公会：</th>
+													<td>
+														<select name="confraternityId" class="inputsearch guild_div_modal" title="主播公会"></select>
+                        								<script type="text/template" id="guild_html_modal">
+															<option value="0">无</option>
+              													{{each this p}}
+																	<option value="{{p.confraternityId}}">{{p.confraternityName}}</option>
+              													{{/each}}
+              													{{if this.length === 0}}{{/if}}
+            												</script>
+													</td>
+												</tr>
+												
+												<tr>
+													<th>备注：</th>
+													<td colspan="3"><input name="remark" type="text" data-insert="remark" placeholder="备注" data-chinese="备注" class="input width490"></td>
+												</tr>
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<input name="userId" id="add_userId" type="hidden" />
+									<button type="submit" class="btn" style="margin-right:30px">修改</button>
+									<button data-target="#J_detail" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 主播详情 结束 -->
+						
+						<!-- 主播权限 开始 -->
+						<div class="modal fade" id="J_permit">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="J_EditPermit" data-param="anchor" data-action="editPermit" data-form="submit" novalidate="novalidate">
+								<div class="modal-header text-center" style="font-size:16px;font-weight:bold;">主播权限</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												<tr>
+													<th>状态：</th>
+													<td id="stateInfo">
+														<label>主播禁播&nbsp;<input type="radio" name="state" value="0" checked="checked" /></label>
+													    <label>取消主播&nbsp;<input type="radio" name="state" value="2" /></label>
+													</td>
+												<tr>
+													<th>备注：</th>
+													<td>
+													   <textarea name="remark" id="permit_remark" style="resize:vertical;" class="input"
+													   required="required" placeholder="备注" data-chinese="备注">
+													   </textarea>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+								    <input name="userId" id="permit_userId" data-insert="userId" required="required" type="hidden" />
+								    <input id="permit_name" type="hidden" />
+									<button type="submit" class="btn" style="margin-right:30px">提交</button>
+									<button data-target="#J_permit" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 主播权限 结束 -->
+						
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+<!-- 	/wrapper -->
+	
+	</body>
+	<script data-main="js/anchor" src="js/base/require.min.js"></script>
+</html>

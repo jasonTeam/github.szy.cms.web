@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:include="common/head :: #head"></head>
+<body>
+
+<!-- wrapper -->
+<div class="wrapper">
+   
+	<!-- main -->
+	<div class="main">
+	     
+		<!-- page -->
+		<div class="page">
+
+			<!-- page main -->
+			<div class="pageMain">
+			
+				<div class="position">
+					<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>提现审核</span>
+				</div>
+				
+				<!-- page body -->
+				<div class="pageB">
+
+					<form data-param="extractVO" data-action="extract/getExtractPage" data-content="#content" data-template="#temp" data-pagination="#pagination" data-form="search" class="form" novalidate="novalidate">
+						
+						<input name="beginDate" id="startDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'endDate\')||\'%y-%M-%d\'}'})" placeholder="提现开始时间" type="text" class="inputsearch" /> 
+						<span class="middle_to">至</span>
+						<input name="finishDate" id="endDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'startDate\')}', maxDate:'%y-%M-%d'})" placeholder="提现结束时间" type="text" class="inputsearch" />
+						
+                        <select name="extractStatus" class="inputsearch" title="审核状态">
+                        	<option selected="selected" disabled="disabled">审核状态</option>
+                            <option value="1">待审核</option>
+                            <option value="2">审核通过</option>
+                            <option value="3">审核不通过</option>
+                        </select>
+                        
+                        <select name="conftranityId" class="inputsearch guild_div" title="提现公会">
+<!--                         	<option selected="selected" disabled="disabled">审核状态</option> -->
+<!--                             <option value="1">待审核</option> -->
+<!--                             <option value="2">审核通过</option> -->
+<!--                             <option value="3">审核不通过</option> -->
+                        </select>
+                        
+                        <script type="text/template" id="guild_html">
+							<option selected="selected" disabled="disabled">提现公会</option>
+              				{{each this p}}
+								<option value="{{p.confraternityId}}">{{p.confraternityName}}</option>
+              				{{/each}}
+              				{{if this.length === 0}}{{/if}}
+            			</script>	
+                        
+                        <input name="extractId" type="text" placeholder="订单号" data-chinese="主播id" pattern="[1-9]\d*" class="inputsearch width200"/>
+                        
+						<button type="submit" class="btn search_guessdata">查询</button>
+						<button type="reset" class="btn btn-info">重置</button>
+					</form>
+					
+					<div class="table">
+<!-- 					extractId -->
+					<script type="text/template" id="temp">
+              			{{each this val}}
+              				<tr>
+                				<td>{{val.extractId}}</td>
+                				<td>{{val.createDateStr}}</td>
+                				<td>{{val.confraternityName}}</td>
+               					<td>公会</td>
+                				<td>{{val.totalPrice}}</td>
+                				<td>{{val.extractStatus==3?'<span class="red">' + val.extractStatusStr + '</span>':val.extractStatusStr}}</td>
+               					<td>{{val.remark}}</td>
+                				<td>
+									{{if val.extractStatus == 1}}
+                						<button data-extract-id="{{val.extractId}}" type="button" class="btn btn-outline btn-sm wp_cashDetails">审核</button>
+                					{{else}}
+                						<button data-extract-id="{{val.extractId}}" type="button" class="btn btn-outline btn-sm wp_cashDetails">查看</button>
+                					{{/if}}
+								</td>
+              				</tr>
+              			{{/each}}
+              			{{if this.length === 0}}
+              				<tr><td colspan="8">没有数据...</td></tr>
+              			{{/if}}
+            		</script>
+						<table>
+							<thead>
+								<tr>
+									<th>订单号</th>
+									<th>创建时间</th>
+									<th>提现公会</th>
+									<th>类别</th>
+									<th>提现金额</th>
+									<th>审核状态</th>
+									<th>备注</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="content"></tbody>
+						</table>
+					</div>
+
+					<!-- 分页 -->
+					<ul class="pagination" id="pagination"></ul>
+					<!-- /分页 -->
+					
+					
+					
+					
+          
+				</div>
+				<!-- /page body -->
+
+			</div>
+			<!-- /page main -->
+
+		</div>
+		<!-- /page -->
+
+	</div>
+	<!-- /main -->
+
+</div>
+<!-- /wrapper -->
+</body>
+</html>
+
+<script data-main="js/cashAudit" src="js/base/require.min.js"></script>

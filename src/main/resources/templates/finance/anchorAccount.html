@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head th:include="common/head :: #head"></head>
+  
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+	
+		<!-- main -->
+		<div class="main">
+	   
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+				
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>主播账户</span>
+					</div>
+					
+					<!-- page body -->
+					<div class="pageB">
+					    <button id="J_Lord" data-id="777777" type="button" class="btn btn-info btn-sm" style="display:none">主账户</button>
+						<div class="table">
+							<table>
+								<thead>
+									<tr>
+										<th>主账户ID</th>
+										<th>龙猫豆&nbsp;<button data-id="777777" type="button" class="btn btn-primary btn-sm J_convertBtn">兑换</button></th>
+										<th>龙猫币&nbsp;<button data-id="777777" type="button" class="btn btn-primary btn-sm J_rechargeBtn">充值</button></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td id="lord_userId">777777</td>
+										<td id="lord_bean">0</td>
+										<td id="lord_coin">0</td>
+									</tr>
+								</tbody>
+							</table>
+						   </div>
+							<form data-param="finance" data-content="#content" data-template="#temp" data-pagination="#pagination" data-action="findBeanRecord" data-form="search" class="form" novalidate="novalidate">
+								<input name="userId" id="J_AnchorId" type="text" placeholder="用户ID" data-chinese="用户ID" class="inputsearch" required="required" pattern="[1-9][0-9]+" />
+								<button type="submit" class="btn">查询流水</button>
+								<button type="reset" class="btn btn-info">重置</button>&nbsp;|&nbsp;
+								<button id="J_Anchor" type="button" class="btn">增减豆币</button>
+							</form>
+							<div class="table">
+							<table>
+								<thead>
+									<tr>
+										<th>编号</th>
+										<th>增减前数量</th>
+										<th>增/减豆</th>
+<!-- 										<th>增减数量</th> -->
+										<th>创建时间</th>
+										<th>创建用户</th>
+									</tr>
+								</thead>
+								<tbody id="content"></tbody>
+							</table>
+			<script type="text/template" id="temp">
+              {{each this val}}
+              <tr>
+                <td>{{val.id||''}}</td>
+				<td>{{val.agoNum||''}}</td>
+				<td>{{if 0 === val.changeType}}增加{{else if 1 === val.changeType}}减少{{/if}}{{val.changeNum||''}}</td>
+				<td>{{val.gmtCreate||''}}</td>
+				<td>{{val.gmtCreateUser||''}}</td>
+              </tr>
+              {{/each}}
+              {{if this.length === 0}}
+              <tr><td colspan="6">没有数据...</td></tr>
+              {{/if}}
+			</script>
+						</div>
+						<!-- 分页 -->
+						<ul class="pagination" id="pagination"></ul>
+						<!-- /分页 -->	
+						<!-- 增减豆币 开始 -->
+						<div class="modal fade " id="J_showAccount">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="J_AddSubAccount" data-param="finance" data-action="accountAddSub" data-form="submit" novalidate="novalidate">
+								<div class="modal-header text-center" style="font-size:16px;font-weight:bold;">增减龙猫豆</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												<tr>
+													<th>userId :</th>
+													<td><input name="userId" id="anchor_userId" readonly="readonly" type="text" placeholder="用户UserId" 	data-chinese="用户UserId" class="input" /></td>
+												</tr>
+												<tr>
+													<th>龙猫豆 :</th>
+													<td><input id="anchor_bean" readonly="readonly" type="text" class="input" /></td>
+												</tr>
+<!-- 												<tr> -->
+<!-- 													<th>龙猫币 :</th> -->
+<!-- 													<td><input id="anchor_coin" readonly="readonly" type="text" class="input" /></td> -->
+<!-- 												</tr> -->
+											</tbody>
+										</table>
+										<div class="modal-footer">
+										<table>
+											<tbody>
+												<tr>
+													<th>类型 :</th>
+													<td>
+													<select name="bizType" class="input" title="类型">
+														<option value="1">龙猫豆</option>
+<!-- 														<option value="2">龙猫币</option> -->
+													</select>
+													</td>
+												</tr>
+												<tr>
+													<th>增减 :</th>
+													<td>
+													<label>增加&nbsp;<input type="radio" name="changeType" value="0" checked="checked"/></label>
+													<label>减少&nbsp;<input type="radio" name="changeType" value="1" /></label>
+													</td>
+												</tr>
+												<tr>
+													<th>数量 :</th>
+													<td><input name="changeNum" id="changeNum" type="text" placeholder="增减数量" required="required" data-chinese="增减数量" class="input" /></td>
+												</tr>
+											</tbody>
+										</table></div>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<input name="beanId" id="anchor_beanId" type="hidden"/>
+									<input name="coinId" id="anchor_coinId" type="hidden"/>
+									<button type="submit" class="btn" style="margin-right:30px">提交</button>
+									<button data-target="#J_showAccount" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 增减豆币 结束 -->
+						<!-- 兑换龙猫豆 开始 -->
+						<div class="modal fade " id="J_showBean">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="J_ConvertBean" data-param="finance" data-action="convertBean" data-form="submit" novalidate="novalidate">
+								<div class="modal-header text-center" style="font-size:16px;font-weight:bold;">兑换龙猫豆</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												<tr>
+													<th>userId :</th>
+													<td>
+														<input name="userId" id="convert_userId" readonly="readonly" type="text" placeholder="用户UserId" data-chinese="用户UserId" class="input" />
+													</td>
+												</tr>
+												<tr>
+													<th>龙猫豆 :</th>
+													<td><input id="convert_bean" readonly="readonly" type="text" class="input" /></td>
+												</tr>
+												<tr>
+													<th>龙猫币 :</th>
+													<td><input id="convert_coin" readonly="readonly" type="text" class="input" /></td>
+												</tr>
+											</tbody>
+										</table>
+										<div class="modal-footer">
+										<table>
+											<tbody>
+												<tr>
+													<th>数量 :</th>
+													<td><input name="changeNum" id="convert_Num" type="text" placeholder="兑换数量" required="required" data-chinese="兑换数量" class="input" /></td>
+												</tr>
+											</tbody>
+										</table></div>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<input name="bizType" value="1" type="hidden" />
+								    <input name="changeType" value="0" type="hidden" />
+									<button type="submit" class="btn" style="margin-right:30px">兑换</button>
+									<button type="button" data-target="#J_showBean" data-event="Storm.modal.hide" class="btn btn-warning">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 兑换龙猫豆 结束 -->
+						<!-- 充值龙猫币 开始 -->
+						<div class="modal fade " id="J_showCoin">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="J_RechargeCoin" data-param="finance" data-action="rechargeCoin" data-form="submit" novalidate="novalidate">
+								<div class="modal-header text-center" style="font-size:16px;font-weight:bold;">充值龙猫币</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+												<tr>
+													<th>userId :</th>
+													<td><input name="userId" id="recharge_userId" readonly="readonly" type="text" placeholder="用户UserId" data-chinese="用户UserId" class="input" /></td>
+												</tr>
+												<tr>
+													<th>龙猫豆 :</th>
+													<td><input id="recharge_bean" readonly="readonly" type="text" class="input" /></td>
+												</tr>
+												<tr>
+													<th>龙猫币 :</th>
+													<td><input id="recharge_coin" readonly="readonly" type="text" class="input" /></td>
+												</tr>
+											</tbody>
+										</table>
+										<div class="modal-footer">
+										<table>
+											<tbody>
+												<tr>
+													<th>数量 :</th>
+													<td>
+														<input name="changeNum" id="recharge_Num" type="text" placeholder="充值数量" required="required" data-chinese="充值数量" class="input" />
+													</td>
+												</tr>
+											</tbody>
+										</table></div>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+								    <input name="bizType" value="2" type="hidden" />
+								    <input name="changeType" value="0" type="hidden" />
+									<button type="submit" class="btn" style="margin-right:30px">充值</button>
+									<button type="button" data-target="#J_showCoin" data-event="Storm.modal.hide" class="btn btn-warning">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 充值龙猫币 结束 -->
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+<!-- 	/wrapper -->
+	
+	</body>
+	<script data-main="js/anchorAccount" src="js/base/require.min.js"></script>
+</html>

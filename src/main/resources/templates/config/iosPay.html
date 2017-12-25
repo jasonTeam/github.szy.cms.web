@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="common/head :: #head"></head>
+
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+		<!-- main -->
+		<div class="main">
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+					<!-- position -->
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>IOS支付</span>
+					</div>
+					<!-- /position -->
+					<!-- page body -->
+					<div class="pageB">
+						<!-- IOS支付配置开始 -->
+						<div class="modal-content sysconfig">
+							<div class="modal-body">
+							<form data-content="#content"
+							data-template="#temp" data-pagination="#pagination"
+							data-action="findIosPay" data-form="search" class="form"
+							novalidate="novalidate">
+							<button type="submit" class="btn" style="display:none">查询</button>
+							</form>
+							  <div class="table">
+							<table>
+								<thead>
+									<tr>
+										<th>说明</th>
+										<th>Key</th>
+										<th>CODE</th>
+										<th>Value</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="content"></tbody>
+							</table>
+							<script type="text/template" id="temp">
+              					{{each this val}}
+              					<tr>
+									<td>{{val.remark||''}}</td>
+                					<td><input id="key_{{val.appId||''}}" type="text" readonly="readonly" class="input" value="{{val.name||''}}" /></td>
+									<td><input id="code_{{val.appId||''}}" type="text" class="input" value="{{val.code||''}}" /></td>
+									<td><input id="val_{{val.appId||''}}" type="text" class="input" value="{{val.val||''}}" /></td>
+									<td><button data-id="{{val.appId}}" type="button" class="btn btn-primary btn-sm J_editBtn">修改</button></td>
+              					</tr>
+              					{{/each}}
+              					{{if this.length === 0}}
+              					<tr><td colspan="5">没有数据...</td></tr>
+              					{{/if}}
+							</script>
+						</div>
+							</div>
+						</div>
+						<!-- IOS支付配置结束 -->
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+	<!-- /wrapper -->
+
+</body>
+</html>
+<script data-main="js/iosPay" src="js/base/require.min.js"></script>

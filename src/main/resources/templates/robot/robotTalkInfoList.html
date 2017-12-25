@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head th:include="common/head2 :: #head"></head>
+  
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+	
+		<!-- main -->
+		<div class="main">
+	   
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+				
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>机器人语句列表</span>
+					</div>
+					
+					<!-- page body -->
+					<div class="pageB">
+						<form id="robotForm" data-param="robotTalkInfo" data-action="findAllRobotTalkInfo" data-content="#content" data-template="#temp" data-pagination="#pagination" data-form="search" class="form" novalidate="novalidate">
+							
+							 <select name="sentencePurpose" class="inputsearch" title="语句用途">
+                                <option selected="selected" disabled="disabled">语句用途</option>
+                                <option value="1">关注专用</option>
+                                <option value="2">分享专用</option>
+                                <option value="3">大礼物专用</option>
+                                <option value="4">中礼物专用</option>
+                                <option value="5">小礼物专用</option>
+                                <option value="6">小礼物连击专用</option>
+                                <option value="7">发弹幕消息专用</option>
+                                <option value="8">发普通消息专用</option>
+                            </select>
+                             <select name="talkType" class="inputsearch" title="对话类型">
+                                <option selected="selected" disabled="disabled">对话类型</option>
+                                <option value="1">机器人与主播</option>
+                                <option value="2">机器人与用户</option>
+                                <option value="3">机器人与机器人</option>
+                                <option value="4">机器人与自己</option>
+                            </select>
+                             <select name="sentenceType" class="inputsearch" title="语句类型">
+                                <option selected="selected" disabled="disabled">语句类型</option>
+                                <option value="1">简单句</option>
+                                <option value="2">疑问句</option>
+                                <option value="3">感叹句</option>
+                            </select>
+                            <select name="isGroup" class="inputsearch" title="是否语句组">
+                                <option selected="selected" disabled="disabled">是否语句组</option>
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                            
+<!--                             <select name="isDelete" class="inputsearch" title="是否上架"> -->
+<!--                                 <option selected="selected" disabled="disabled">是否上架</option> -->
+<!--                                 <option value="2">是</option> -->
+<!--                                 <option value="1">否</option> -->
+<!--                             </select> -->
+							
+							<input name="isgroupNum" type="text" placeholder="语句组关联编号" data-chinese="语句组关联编号" pattern="[0-9]+" class="inputsearch" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" /> 
+							
+							<button type="submit" class="btn">查询</button>
+							<button type="reset" class="btn btn-info">重置</button>
+							<button type="button" class="btn btn-success J_CreateRobotTalkInfo">创建</button>
+						</form>
+						<div class="table">
+							<table>
+								<thead>
+									<tr>
+										<th>对话id</th>
+										<th>语句用途</th>
+										<th>对话类型</th>
+										<th>语句类型</th>
+										<th>性别</th>
+										<th>是否语句组</th>
+										<th>语句组关联编号</th>
+										<th>语句内容</th>
+										<th>创建时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="content"></tbody>
+							</table>
+							
+							<script type="text/template" id="temp">
+              					{{each this val}}
+             						<tr>
+                						<td>{{val.infoId}}</td>
+										<td>{{val.sentencePurposeStr}}</td>
+										<td>{{val.talkTypeStr}}</td>
+										<td>{{val.sentenceTypeStr}}</td>
+										<td>{{val.sexStr}}</td>
+										<td>{{val.isGroupStr}}</td>
+										<td>{{val.isgroupNum}}</td>
+										<td>{{val.talkContent}}</td>
+										<td>{{val.ctimeStr}}</td>
+										<td>
+											<button type="button" data-info-id="{{val.infoId}}" class="btn btn-sm wp_edit">编辑</button>
+											{{if val.isDelete != 1}}
+												<button type="button" data-info-id="{{val.infoId}}" class="btn btn-sm wp_upper_lower">删除</button>
+											{{/if}}
+										</td>
+             						</tr>
+              					{{/each}}
+             					{{if this.length === 0}}
+             						<tr><td colspan="11">没有数据...</td></tr>
+              					{{/if}}
+							</script>
+							
+						</div>
+						<!-- 分页 -->
+						<ul class="pagination" id="pagination"></ul>
+						<!-- /分页 -->
+						
+						<!-- 机器人创建 开始 -->
+						<div class="modal fade" id="wp_establish">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+								<form id="wp_addEstablish" data-param="robotTalkInfo" data-action="addRobotTalkInfo" data-form="submit" novalidate="novalidate">
+								    <div class="modal-header text-center" style="font-size:16px;font-weight:bold;">机器人语句创建</div>
+									<div class="modal-body">
+										<div class="table-form table-center">
+											<table>
+												<tbody>
+													<tr>
+														<th>语句用途 :</th>
+														<td>
+															<select name="sentencePurpose" class="inputsearch margin0" title="语句用途">
+								                                <option value="1">关注专用</option>
+								                                <option value="2">分享专用</option>
+								                                <option value="3">大礼物专用</option>
+								                                <option value="4">中礼物专用</option>
+								                                <option value="5">小礼物专用</option>
+								                                <option value="6">小礼物连击专用</option>
+								                                <option value="7">发弹幕消息专用</option>
+								                                <option selected="selected" value="8">发普通消息专用</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>对话类型 :</th>
+														<td>
+															 <select name="talkType" class="inputsearch margin0" title="对话类型">
+								                                <option value="1">机器人与主播</option>
+								                                <option value="2">机器人与用户</option>
+								                                <option value="3">机器人与机器人</option>
+								                                <option value="4">机器人与自己</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>语句类型 :</th>
+														<td>
+															 <select name="sentenceType" class="inputsearch margin0" title="语句类型">
+								                                <option value="1">简单句</option>
+								                                <option value="2">疑问句</option>
+								                                <option value="3">感叹句</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>性别 :</th>
+														<td>
+															 <select name="sex" class="inputsearch margin0" title="性别">
+								                                <option value="0">男</option>
+								                                <option value="1">女</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>是否语句组 :</th>
+														<td>
+															<select name="isGroup" class="inputsearch margin0 is_group" title="是否语句组">
+								                                <option value="1">是</option>
+								                                <option selected="selected" value="2">否</option>
+								                            </select>
+							                            </td>
+													</tr>
+													<tr>
+														<th>语句组关联编号 :</th>
+														<td> <input name="isgroupNum" type="text" placeholder="语句组关联编号" required="required" data-chinese="语句组关联编号" class="input is_groupnum" /></td>
+													</tr>
+													<tr>
+														<th>语句内容 :</th>
+														<td>
+															<input name="talkContent" type="text" placeholder="语句内容" required="required" data-chinese="语句内容" class="input" />
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="modal-footer text-center">
+										
+										<input name="create" id="create_build" type="checkbox" style="margin: -2px 4px 0 0;vertical-align: middle;" />
+										<label for="create_build" style="margin: 0 35px 0 0;">创建并新建</label>
+										
+										<button type="button" class="btn sub_establish" style="margin-right:30px">创建</button>
+										<button data-target="#wp_establish" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<!-- 机器人创建 结束 -->
+						
+						<!-- 机器人语句回填 开始 -->
+						<div class="modal fade" id="wp_edit_modal">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+								<form id="wp_edit_form" data-param="robotTalkInfo" data-action="robotTalkInfo/updateRobotTalkInfo" data-form="submit" novalidate="novalidate">
+								    <div class="modal-header text-center" style="font-size:16px;font-weight:bold;">机器人语句编辑</div>
+									<div class="modal-body">
+										<div class="table-form table-center">
+											<table>
+												<tbody>
+													<tr>
+														<th>语句用途 :</th>
+														<td>
+															<select name="sentencePurpose" class="inputsearch margin0 sentencePurpose_val" title="语句用途">
+								                                <option value="1">关注专用</option>
+								                                <option value="2">分享专用</option>
+								                                <option value="3">大礼物专用</option>
+								                                <option value="4">中礼物专用</option>
+								                                <option value="5">小礼物专用</option>
+								                                <option value="6">小礼物连击专用</option>
+								                                <option value="7">发弹幕消息专用</option>
+								                                <option value="8">发普通消息专用</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>对话类型 :</th>
+														<td>
+															 <select name="talkType" class="inputsearch margin0 talkType_val" title="对话类型">
+								                                <option value="1">机器人与主播</option>
+								                                <option value="2">机器人与用户</option>
+								                                <option value="3">机器人与机器人</option>
+								                                <option value="4">机器人与自己</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>语句类型 :</th>
+														<td>
+															 <select name="sentenceType" class="inputsearch margin0 sentenceType_val" title="语句类型">
+								                                <option value="1">简单句</option>
+								                                <option value="2">疑问句</option>
+								                                <option value="3">感叹句</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>性别 :</th>
+														<td>
+															 <select name="sex" class="inputsearch margin0 sex_val" title="性别">
+								                                <option value="0">男</option>
+								                                <option value="1">女</option>
+								                            </select>
+														</td>
+													</tr>
+													<tr>
+														<th>是否语句组 :</th>
+														<td>
+															<select name="isGroup" class="inputsearch margin0 isGroup_val" title="是否语句组">
+								                                <option value="1">是</option>
+								                                <option value="2">否</option>
+								                            </select>
+							                            </td>
+													</tr>
+													<tr>
+														<th>语句组关联编号 :</th>
+														<td> <input name="isgroupNum" type="text" placeholder="语句组关联编号" required="required" data-chinese="语句组关联编号" class="input isgroupNum_val" /></td>
+													</tr>
+													<tr>
+														<th>语句内容 :</th>
+														<td>
+															<input name="talkContent" type="text" placeholder="语句内容" required="required" data-chinese="语句内容" class="input talkContent_val" />
+<!-- 															<input type="hidden" name="isDelete" class="isDelete_val" value="" /> -->
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="modal-footer text-center">
+										<input type="hidden" name="infoId" class="infoId_val" value="" />
+										<button type="button" class="btn sub_edit" style="margin-right:30px">修改</button>
+										<button data-target="#wp_edit_modal" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<!-- 机器人回填  结束 -->
+						
+						
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+<!-- 	/wrapper -->
+	
+	</body>
+	<script data-main="../js/robotTalkInfo" src="../js/base/require.min.js"></script>
+</html>

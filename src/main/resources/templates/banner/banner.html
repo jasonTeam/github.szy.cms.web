@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common/head :: #head"></head>
+
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+
+		<!-- main -->
+		<div class="main">
+
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+					<!-- position -->
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>banner配置</span>
+					</div>
+					<!-- /position -->
+					<!-- page body -->
+					<div class="pageB">
+						<form data-param="tvBanner" data-content="#content" id="J_tvBanner" data-template="#temp" data-pagination="#pagination" data-action="findTvBanner" data-form="search" class="form" novalidate="novalidate">
+							<input name="bannerName" type="text" data-chinese="banner名称" placeholder="banner名称" class="inputsearch" />
+							
+<!-- 							<select name="bannerStatus" class="inputsearch" title="启用状态"> -->
+<!--                                 <option selected="selected" disabled="disabled">启用状态</option> -->
+<!--                                 <option value="1">是</option> -->
+<!--                                 <option value="2">否</option> -->
+<!--                             </select> -->
+                            
+                            <select name="appSit" class="inputsearch" title="banner设备">
+                                <option selected="selected" disabled="disabled">banner设备</option>
+                                <option value="3">全部</option>
+                                <option value="1">IOS</option>
+                                <option value="2">Android</option>
+                            </select>
+                            
+							<button type="submit" class="btn">查询</button>
+							<button type="reset" class="btn btn-info">重置</button>
+							<button type="button" class="btn btn-success J_addsave">添加</button>
+							<!-- <a href="cash.html" target="_blank"><button type="button" class="btn btn-danger J_extractCash" style="float:right;">提现处理</button></a> -->
+						</form>
+						<div class="table" id="content"></div>
+<!-- 							<table> -->
+<!-- 								<thead> -->
+<!-- 									<tr> -->
+<!-- 										<th>banner名称</th> -->
+<!-- 										<th>banner图</th> -->
+<!-- 										<th>banner链接</th> -->
+<!-- 										<th>banner设备</th> -->
+<!-- 										<th>排序</th> -->
+<!-- 										<th>启用状态</th> -->
+<!-- 										<th>是否分享</th> -->
+<!-- 										<th>分享图片</th> -->
+<!-- 										<th>分享标题</th> -->
+<!-- 										<th>操作</th> -->
+<!-- 									</tr> -->
+<!-- 								</thead> -->
+<!-- 								<tbody></tbody> -->
+<!-- 							</table> -->
+							<script type="text/template" id="temp">
+								<div class="guess_title">已上架banner</div>
+								<table class="margin_top20">
+									<thead>
+										<tr>
+											<th>banner名称</th>
+											<th>banner图</th>
+											<th>banner链接</th>
+											<th>banner设备</th>
+											<th>是否分享</th>
+											<th>分享图片</th>
+											<th>分享标题</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody id="drag_tr">
+										{{each this val}}
+											{{if val.bannerStatus == 1}}
+             									<tr style="cursor:move;" data-id="{{val.bannerId}}" data-sortNum="{{val.sortNum}}">
+                									<td>{{val.bannerName||''}}</td>
+													<td>{{if val.bannerPicUrl != ''}}<img class="showload_img" src="{{val.bannerPicUrl}}"><img class="see_bigimg" src="{{val.bannerPicUrl}}">{{/if}}</td>
+													<td>{{val.bannerUrl||''}}</td>
+													<td>
+														{{if val.appSit == 1}}IOS{{/if}}
+														{{if val.appSit == 2}}Android{{/if}}
+														{{if val.appSit == 3}}全部{{/if}}
+													</td>
+													<td>{{val.isShareStr||''}}</td>
+
+													<td>{{if val.sharePicUrl != ''}}<img class="showload_share" src="{{val.sharePicUrl}}">{{/if}}</td>
+													<td>{{val.shareTitle||''}}</td>
+
+                									<td>
+				  										<button data-banner-id="{{val.bannerId}}" data-banner-status="2" type="button" class="btn btn-primary btn-sm wp_shelf">下架</button>
+                									</td>
+              									</tr>
+											{{/if}}
+              							{{/each}}
+              							{{if this.length === 0}}
+              								<tr><td colspan="9">没有数据...</td></tr>
+              							{{/if}}
+									</tbody>
+								</table>
+             					
+								<div class="guess_title">未上架banner</div>
+								<table class="margin_top20">
+									<thead>
+										<tr>
+											<th>banner名称</th>
+											<th>banner图</th>
+											<th>banner链接</th>
+											<th>banner设备</th>
+											<th>是否分享</th>
+											<th>分享图片</th>
+											<th>分享标题</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										{{each this val}}
+											{{if val.bannerStatus == 2}}
+             									<tr style="cursor:move" data-id="{{val.bannerId}}" data-sortNum="{{val.sortNum}}">
+                									<td>{{val.bannerName||''}}</td>
+													<td>{{if val.bannerPicUrl != ''}}<img class="showload_img" src="{{val.bannerPicUrl}}"><img class="see_bigimg" src="{{val.bannerPicUrl}}">{{/if}}</td>
+													<td>{{val.bannerUrl||''}}</td>
+													<td>
+														{{if val.appSit == 1}}IOS{{/if}}
+														{{if val.appSit == 2}}Android{{/if}}
+														{{if val.appSit == 3}}全部{{/if}}
+													</td>
+													<td>{{val.isShareStr||''}}</td>
+	
+													<td>{{if val.sharePicUrl != ''}}<img class="showload_share" src="{{val.sharePicUrl}}">{{/if}}</td>
+													<td>{{val.shareTitle||''}}</td>
+
+                									<td>
+														<button  data-banner-id="{{val.bannerId}}" data-banner-status="1" type="button" class="btn btn-primary btn-sm wp_shelf">上架</button>
+														<button data-id="{{val.bannerId}}" type="button" class="btn btn-primary btn-sm wp_modifyBtn">修改</button>
+                  										<button data-id="{{val.bannerId}}" type="button" class="btn btn-danger btn-sm wp_deleteBtn">删除</button>
+                									</td>
+              									</tr>
+											{{/if}}
+              							{{/each}}
+              							{{if this.length === 0}}
+              								<tr><td colspan="9">没有数据...</td></tr>
+              							{{/if}}
+									</tbody>
+								</table>
+							</script>
+				
+							<!-- 分页 -->
+							<ul class="pagination" id="pagination"></ul>
+							<!-- /分页 -->
+
+
+						<!-- banner图片添加层 -->
+						<div class="modal fade" id="J_showAddBanner">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+									
+								<div class="modal-body">
+									<div class="table-form table-center">
+									
+										<form id="J_bannerimg" enctype="multipart/form-data">
+											<table>
+												<tbody>
+													<tr>
+														<th>banner图：</th>
+														<td id="banner_divimg">
+															<img class="upload_img" id="banner_showimg" src="http://opq77mx3q.bkt.clouddn.com/170510-640-150.png">
+															<input type="file" name="file" id="banner_upimg" placeholder="banner图" data-chinese="banner图" class="input_file"/>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+										
+										<form id="wp_shareimg" enctype="multipart/form-data">
+											<table>
+												<tbody>
+													<tr>
+														<th>分享logo：</th>
+														<td id="share_divimg">
+															<img class="upload_img upload_width100" id="share_showimg" src="http://opq77mx3q.bkt.clouddn.com/20170710-share_logo.png">
+															<input type="file" class="input_file filewidth100" name="file" id="share_upimg" placeholder="分享logo" data-chinese="分享logo" value="" onchange="filefujianChange(this)"/>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+										
+									</div>
+								</div>
+							
+								<!-- http://opq77mx3q.bkt.clouddn.com/20170710-share_logo.png -->
+							
+								<!-- 添加banner开始 -->
+								<form id="J_AddBanner" data-param="tvBannerVO" data-action="saveTvBanner" data-form="submit" novalidate="novalidate">
+									
+									<div class="modal-body">
+										<div class="table-form table-center">
+											<table>
+												<tbody>
+													<tr>
+														<th>banner名称：</th>
+														<td><input name="bannerName" type="text" data-insert="bannerName" required="required" 
+															placeholder="banner名称" maxlength="20" data-chinese="banner名称" class="input" /></td>
+															
+														<th>banner链接：</th>
+														<td><input name="bannerUrl" type="text" data-insert="bannerUrl"
+															pattern="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?"
+															placeholder="banner链接" data-chinese="banner链接" class="input width300" required="required"/></td>
+													</tr>
+													
+													<input name="bannerPicUrl" type="hidden" data-insert="bannerPicUrl" required="required" />
+													
+													<tr>
+														<th>banner设备：</th>
+														<td>
+															<select id="abc" name="appSit" class="input" title="banner设备">
+								                                <option value="3" selected="selected">全部</option>
+								                                <option value="1">IOS</option>
+								                                <option value="2">Android</option>
+								                        	</select>
+														</td>
+														
+<!-- 														<th>活动启用：</th> -->
+<!-- 														<td> -->
+<!-- 															<select name="bannerStatus" class="input" title="banner启用"> -->
+<!-- 																<option value="1" selected="selected">已上架</option> -->
+<!-- 																<option value="2">未上架</option> -->
+<!-- 															</select> -->
+<!-- 														</td> -->
+													</tr>
+													<tr>
+														
+														<th>是否分享：</th>
+														<td>
+															<select name="isShare" class="input add_isShare" title="分享启用">
+																<option value="1" selected="selected">是</option>
+																<option value="2">否</option>
+															</select>
+														</td>
+														<th class="add_share_logo">分享回调：</th>
+														<td class="add_share_logo">
+															<input name="backUrl" type="text" data-insert="backUrl" placeholder="分享回调" data-chinese="分享回调" class="input width300" />
+														</td>
+													</tr>
+													<tr class="add_share_logo">
+														<input name="sharePicUrl" type="hidden" data-insert="sharePicUrl" required="required" />
+														<th>分享标题：</th>
+														<td>
+															<input name="shareTitle" type="text" data-insert="shareTitle" required="required" placeholder="分享标题" maxlength="20" data-chinese="分享标题" class="input" />
+														</td>
+														<th>分享内容：</th>
+														<td>
+															<textarea name="shareRemark" data-insert="shareRemark"
+																data-chinese="分享内容" class="input_textarea textarea_width300" required="required"
+																style='overflow:scroll;overflow-y:hidden;overflow-x:hidden'
+																onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" 
+																onblur="clearInterval(this.clock);"></textarea>
+														</td>
+													</tr>
+													
+<!-- 													<tr style="display: none;"> -->
+<!-- 														<th>活动上架时间：</th> -->
+<!-- 														<td><input name="upTimeStr" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" data-insert="upTimeStr"  -->
+<!-- 															placeholder="活动上架时间" data-chinese="活动上架时间" class="input"  /></td> -->
+															
+<!-- 														<th>活动下架时间：</th> -->
+<!-- 														<td><input name="downTimeStr" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" data-insert="downTimeStr"  -->
+<!-- 															placeholder="活动下架时间" data-chinese="活动下架时间" class="input" /></td> -->
+<!-- 													</tr> -->
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="modal-footer text-center">
+										<button type="submit" class="btn" style="margin-right: 30px">添加</button>
+										<button data-target="#J_showAddBanner" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+									</div>
+								</form>
+								<!-- 添加banner 结束 -->
+								
+								<!-- 修改banner 开始 -->
+								<form id="J_ModifyBanner" data-param="tvBanner" style="display: none;"
+									data-action="updateTvBanner" data-form="submit" novalidate="novalidate">
+									
+									<div class="modal-body">
+										<div class="table-form table-center">
+											<table>
+												<tbody>
+													<input type="hidden" name="bannerId" >
+													<tr>
+														<th>banner名称：</th>
+														<td><input name="bannerName" type="text" data-insert="bannerName" required="required"
+															placeholder="banner名称" maxlength="20" data-chinese="banner名称" class="input" /></td>
+															
+														<th>banner链接：</th>
+														<td><input name="bannerUrl" type="text" data-insert="bannerUrl" required="required"
+															pattern="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?"
+															placeholder="banner链接" data-chinese="banner链接" class="input width300" /></td>
+													</tr>
+													
+													<input name="bannerPicUrl" type="hidden" data-insert="bannerPicUrl" required="required" />
+													
+													<tr>
+														<th>排序：</th> 
+														<td><input name="sortNum" type="number" data-insert="sortNum" required="required"
+															placeholder="排序" data-chinese="排序" class="input" /></td>
+															
+														<th>banner设备：</th>
+														<td>
+															<select name="appSit" class="input appsit" title="banner设备">
+								                                <option value="3">全部</option>
+								                                <option value="1">IOS</option>
+								                                <option value="2">Android</option>
+								                        	</select>
+														</td>
+													</tr>
+													
+													<tr>
+<!-- 														<th>活动启用：</th> -->
+<!-- 														<td> -->
+<!-- 															<select name="bannerStatus" class="input bannerStatus" title="banner启用"> -->
+<!-- 																<option value="1" selected="selected">已上架</option> -->
+<!-- 																<option value="2">未上架</option> -->
+<!-- 															</select> -->
+<!-- 														</td> -->
+														<th>是否分享：</th>
+														<td>
+															<select name="isShare" class="input add_isShare modify_isShare" title="分享启用">
+																<option value="1" selected="selected">是</option>
+																<option value="2">否</option>
+															</select>
+														</td>
+														<th class="add_share_logo">分享回调：</th>
+														<td class="add_share_logo">
+															<input name="backUrl" type="text" data-insert="backUrl" placeholder="分享回调" data-chinese="分享回调" class="input width300" />
+														</td>
+													</tr>
+													
+<!-- 													<tr class="add_share_logo"> -->
+<!-- 														<th>分享回调：</th> -->
+<!-- 														<td> -->
+<!-- 															<input name="backUrl" type="text" data-insert="backUrl" required="required" placeholder="分享回调" data-chinese="分享回调" class="input" /> -->
+<!-- 														</td> -->
+<!-- 													</tr> -->
+													
+													<tr class="add_share_logo">
+														<input name="sharePicUrl" type="hidden" data-insert="sharePicUrl" required="required" value="http://opq77mx3q.bkt.clouddn.com/20170710-share_logo.png"/>
+														<th>分享标题：</th>
+														<td>
+															<input name="shareTitle" type="text" data-insert="shareTitle" required="required" 
+															placeholder="分享标题" maxlength="20" data-chinese="分享标题" class="input" />
+														</td>
+														<th>分享内容：</th>
+														<td>
+															<textarea name="shareRemark" data-insert="shareRemark"
+																data-chinese="分享内容" class="input_textarea textarea_width300" required="required"
+																style='overflow:scroll;overflow-y:hidden;overflow-x:hidden'
+																onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" 
+																onblur="clearInterval(this.clock);"></textarea>
+														</td>
+													</tr>
+													
+<!-- 													<tr style="display: none;"> -->
+<!-- 														<th>活动上架时间：</th> -->
+<!-- 														<td><input name="upTimeStr" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" data-insert="upTimeStr" -->
+<!-- 															placeholder="活动上架时间" data-chinese="活动上架时间" class="input" /></td> -->
+															
+<!-- 														<th>活动下架时间：</th> -->
+<!-- 														<td><input name="downTimeStr" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" data-insert="downTimeStr" -->
+<!-- 															placeholder="活动下架时间" data-chinese="活动下架时间" class="input" /></td> -->
+<!-- 													</tr> -->
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="modal-footer text-center">
+										<button type="submit" class="btn" style="margin-right: 30px">修改</button>
+										<button data-target="#J_showAddBanner" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+									</div>
+								</form>
+								
+							</div>
+						</div>
+						<!-- 修改banner 结束 -->
+
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+	<!-- 	/wrapper -->
+	
+	
+</body>
+<script data-main="js/banner" src="js/base/require.min.js"></script>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head th:include="common/head :: #head"></head>
+  
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+	
+		<!-- main -->
+		<div class="main">
+	   
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+				
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>公会信息</span>
+					</div>
+					
+					<!-- page body -->
+					<div class="pageB">
+						<form data-param="brokerVo" data-content="#content" data-template="#temp" data-pagination="#pagination" data-action="getBrokerMessage" data-form="search" class="form" novalidate="novalidate">
+								
+<!-- 							<select name="brokerId" class="inputsearch" title="所属经纪"> -->
+<!-- 								<option selected="selected" disabled="disabled">所属经纪</option> -->
+<!-- 								<option value="0">普通用户</option> -->
+<!-- 								<option value="1">主播</option> -->
+<!-- 								<option value="2">企业</option> -->
+<!-- 							</select> -->
+							
+							<select name="confraternityType" class="inputsearch" title="认证类型">
+								<option selected="selected" disabled="disabled">认证类型</option>
+								<option value="1">个人</option>
+								<option value="2">企业</option>
+								<option value="3">组织</option>
+							</select>
+							
+							<select name="status" class="inputsearch" title="是否审核">
+								<option selected="selected" disabled="disabled">是否审核</option>
+<!-- 								<option value="1">没有公会</option> -->
+<!-- 								<option value="2">未填写认证信息</option> -->
+<!-- 								<option value="3">未填写账号信息</option> -->
+								<option value="4">审核中</option>
+								<option value="5">审核通过</option>
+								<option value="6">审核不通过</option>
+							</select>
+							
+							<input name="query" type="text" placeholder="公会ID/公会名称/手机号" data-chinese="手机号码" class="inputsearch" />
+							
+							<button type="submit" class="btn">查询</button>
+							<button type="reset" class="btn btn-info">重置</button>
+						</form>
+						
+						<div class="table">
+							<table>
+								<thead>
+									<tr>
+										<th>公会ID</th>
+										<th>公会名称</th>
+										<th>工会长姓名</th>
+										<th>手机号</th>
+										<th>主播数量</th>
+										<th>所属经纪</th>
+										<th>认证类型</th>
+										<th>是否审核</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="content"></tbody>
+							</table>
+							
+							<script type="text/template" id="temp">
+              					{{each this val}}
+             						<tr>
+                						<td>{{val.confraternityId}}</td>
+										<td>{{val.confraternityName}}</td>
+										<td>{{val.leaderName}}</td>
+										<td>{{val.leaderMobile}}</td>
+										<td>{{val.anchorNum}}</td>
+										<td>{{val.brokerIdStr}}</td>
+										<td>{{val.confraternityTypeStr}}</td>
+										<td>{{val.statusStr}}</td>
+										<td>
+											{{if val.status == 4}}
+												<button data-confraternity-id="{{val.confraternityId}}" type="button" class="btn btn-danger btn-sm wp_examine" title="审核">审核</button>
+											{{/if}}
+ 											{{if val.status == 5}}
+												<button data-confraternity-id="{{val.confraternityId}}" type="button" class="btn btn-info btn-sm wp_see" title="查看修改">查看</button>
+											{{/if}}
+               							</td>
+              						</tr>
+              					{{/each}}
+             					{{if this.length === 0}}
+             						<tr><td colspan="9">没有数据...</td></tr>
+              					{{/if}}
+							</script>
+			
+						</div>
+						<!-- 分页 -->
+						<ul class="pagination" id="pagination"></ul>
+						<!-- /分页 -->
+						
+						<!-- 审核 开始 -->
+						<div class="modal fade" id="wp_modal_check">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="wp_check_from" data-param="anchor" data-action="editAnchor" data-form="submit" novalidate="novalidate">
+								<div class="modal-header text-center" style="font-size:16px;font-weight:bold;">审核</div>
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+											
+												<tr>
+													<th><h4>公会信息</h4></th>
+												</tr>
+												
+												<tr>
+													<th>公会名称：</th>
+													<td data-insert="confraternityName"></td>
+													<th>公会ID：</th>
+													<td data-insert="confraternityId" id="confr_id"></td>
+												</tr>
+												
+												<tr>
+													<th><h4>公会长信息</h4></th>
+												</tr>
+												
+												<tr>
+													<th>公会长姓名：</th>
+													<td data-insert="leaderName"></td>
+													<th>手机号：</th>
+													<td data-insert="leaderMobile"></td>
+												</tr>
+												
+												<tr>
+													<th>身份证号：</th>
+													<td colspan="3" data-insert="leaderIdentityNum"></td>
+												</tr>
+											
+												<tr>
+													<th>身份证扫描件：</th>
+													<td colspan="3">
+														<div class="certificates">
+															<div class="cer_img">
+																<img class="code_just" src="http://opq77mx3q.bkt.clouddn.com/20171025-positive.png"/>
+																<img class="big_seeimg big_just hide" src="" />
+																<p>正</p>
+															</div>
+															<div class="cer_img">
+																<img class="code_back" src="http://opq77mx3q.bkt.clouddn.com/20171025-opposite.png">
+																<img class="big_seeimg big_back hide" src="" />
+																<p>反</p>
+															</div>
+														</div>
+													</td>
+												</tr>
+												
+												<tr>
+													<th>微信号：</th>
+													<td data-insert="weChat"></td>
+													<th>QQ号：</th>
+													<td data-insert="qq"></td>
+												</tr>
+												
+												<tr class="dis_enterprise">
+													<th><h4>企业认证</h4></th>
+												</tr>
+												
+												<tr class="dis_enterprise">
+													<th>组织类型：</th>
+													<td data-insert="confraternityTypeStr"></td>
+													<th class="company_names">企业名称：</th>
+													<td data-insert="companyName"></td>
+												</tr>
+												
+												<tr class="dis_enterprise">
+													<th class="company_nums">营业执照注册号：</th>
+													<td colspan="3" data-insert="businessLicenceNum"></td>
+												</tr>
+												
+												<tr class="dis_enterprise">
+													<th class="company_codes">营业执照扫描件：</th>
+													<td colspan="3">
+														<img class="reg_num" src="http://opq77mx3q.bkt.clouddn.com/20171020-upload.png">
+														<img class="big_seeimg big_reg_num hide" src="" />
+													</td>
+												</tr>
+												
+												<tr>
+													<th><h4>账号信息</h4></th>
+												</tr>
+												
+												<tr class="alipay_name">
+													<th>支付宝真实姓名：</th>
+													<td colspan="3" data-insert="userCompanyName"></td>
+												</tr>
+												<tr class="bank_name">
+													<th>开户银行：</th>
+													<td colspan="3" data-insert="bankName"></td>
+												</tr>
+												<tr>
+													<th class="accout_num">银行卡号：</th>
+													<td colspan="3" data-insert="accountNum"></td>
+												</tr>
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<button type="button" class="btn audit_btn" data-status="5" style="margin-right:30px">通过</button>
+									<button type="button" class="btn audit_btn" data-status="6" style="margin-right:30px">不通过</button>
+									<button data-target="#wp_modal_check" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 审核 结束 -->
+						
+						<form id="upload_from" enctype="multipart/form-data" class="hide">
+							<img id="showload_img" src="" />
+							<input type="file" name="file" id="upload_img"/>
+						</form>
+						
+						<!-- 查看 开始 -->
+						<div class="modal fade" id="wp_modal_modify">
+							<div class="modal-backdrop"></div>
+							<div class="modal-content">
+							<form id="wp_modify_from" data-param="brokerConfraternity" data-action="modifyBroker" data-form="submit" novalidate="novalidate">
+								<div class="modal-body">
+									<div class="table-form table-center">
+										<table>
+											<tbody>
+											
+												<input type="hidden" name="confraternityId" />
+												
+												<tr>
+													<th><h4>公会信息</h4></th>
+												</tr>
+												
+												<tr>
+													<th>公会名称：</th>
+													<td data-insert="confraternityName"></td>
+													<th>公会ID：</th>
+													<td data-insert="confraternityId"></td>
+												</tr>
+												
+												<tr>
+													<th><h4>公会长信息</h4></th>
+												</tr>
+												
+												<tr>
+													<th>公会长姓名：</th>
+													<td><input name="leaderName" type="text" data-insert="leaderName" required="required" placeholder="公会长姓名" data-chinese="公会长姓名" class="input"></td>
+													<th>手机号：</th>
+													<td><input name="leaderMobile" type="text" data-insert="leaderMobile" required="required" placeholder="手机号" data-chinese="手机号" maxlength="11" class="input"></td>
+												</tr>
+												<tr>
+													<th>身份证号：</th>
+													<td colspan="3"><input name="leaderIdentityNum" type="text" data-insert="leaderIdentityNum" required="required" maxlength="18" placeholder="身份证号" data-chinese="身份证号" class="input"></td>
+												</tr>
+											
+												<tr>
+													<th>身份证扫描件：</th>
+													<td colspan="3">
+														<div class="certificates">
+														
+															<div class="cer_img">
+																<img data-img="1" class="code_just code_img" src="http://opq77mx3q.bkt.clouddn.com/20171025-positive.png">
+																<img class="big_seeimg big_just hide" src="" />
+																<input type="hidden" name="frontIdentityUrl" data-insert="frontIdentityUrl"/>
+																<p>正</p>
+															</div>
+														
+															<div class="cer_img" id="cer_divimg">
+																<img data-img="2" class="code_back code_img" src="http://opq77mx3q.bkt.clouddn.com/20171025-opposite.png">
+																<img class="big_seeimg big_back hide" src="" />
+																<input type="hidden" name="oppositeIdentityUrl" data-insert="oppositeIdentityUrl"/>
+																<p>反</p>
+															</div>
+															
+														</div>
+													</td>
+												</tr>
+												
+												<tr>
+													<th>微信号：</th>
+													<td><input name="weChat" type="text" data-insert="weChat" placeholder="微信号" data-chinese="微信号" class="input"></td>
+													<th>QQ号：</th>
+													<td><input name="qq" type="text" data-insert="qq" placeholder="QQ号" data-chinese="QQ号" class="input"></td>
+												</tr>
+												
+												<tr class="dis_prise">
+													<th><h4>企业认证</h4></th>
+												</tr>
+												
+												<tr class="dis_prise">
+													<th>组织类型：</th>
+													<td>
+														<select name="confraternityType" class="inputsearch margin0 con_type" title="认证类型">
+															<option value="2">企业</option>
+															<option value="3">组织</option>
+														</select>
+													</td>
+													<th class="company_names">企业名称：</th>
+													<td><input name="companyName" type="text" data-insert="companyName" required="required" placeholder="企业名称" data-chinese="企业名称" class="input"></td>
+												</tr>
+												
+												<tr class="dis_prise">
+													<th class="company_nums">营业执照注册号：</th>
+													<td colspan="3"><input name="businessLicenceNum" type="text" data-insert="businessLicenceNum" required="required" placeholder="营业执照注册号" data-chinese="营业执照注册号" class="input width490"></td>
+												</tr>
+												
+												<tr class="dis_prise">
+													<th class="company_codes">营业执照扫描件：</th>
+													<td colspan="3">
+														<img data-img="3" class="reg_num code_img" src="http://opq77mx3q.bkt.clouddn.com/20171020-upload.png">
+														<img class="big_seeimg big_reg_num hide" src="" />
+														<input type="hidden" class="scanning" name="businessLicenceUrl" data-insert="businessLicenceUrl"/>
+													</td>
+												</tr>
+												
+												<tr>
+													<th><h4>账号信息</h4></th>
+												</tr>
+												
+												<tr class="alipay_input_name">
+													<th>支付宝真实姓名：</th>
+													<td colspan="3"><input name="userCompanyName" type="text" data-insert="userCompanyName" placeholder="支付宝真实姓名" data-chinese="支付宝真实姓名" class="input width490"></td>
+												</tr>
+												<tr class="bank_input_name">
+													<th>开户银行：</th>
+													<td colspan="3"><input name="bankName" type="text" data-insert="bankName" placeholder="开户银行" data-chinese="开户银行" class="input width490"></td>
+												</tr>
+												<tr>
+													<th class="accout_num">银行卡号：</th>
+													<td colspan="3"><input name="accountNum" type="text" data-insert="accountNum" placeholder="银行卡号" data-chinese="银行卡号" class="input width490"></td>
+												</tr>
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer text-center">
+									<button type="submit" class="btn" style="margin-right:30px">修改</button>
+									<button data-target="#wp_modal_modify" data-event="Storm.modal.hide" class="btn btn-warning" type="button">关闭</button>
+								</div>
+								</form>
+							</div>
+						</div>
+						<!-- 查看 结束 -->
+						
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+<!-- 	/wrapper -->
+	
+	</body>
+	<script data-main="js/guildInfo" src="js/base/require.min.js"></script>
+</html>

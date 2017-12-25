@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="common/head :: #head"></head>
+
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+	
+		<!-- main -->
+		<div class="main">
+		
+			<!-- page -->
+			<div class="page">
+				
+				<!-- page main -->
+				<div class="pageMain">
+				
+					<!-- position -->
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>礼物配置</span>
+					</div>
+					<!-- /position -->
+					
+					<!-- page body -->
+					<div class="pageB">
+					
+<!-- 						<form data-param="" data-action="findAllActAssignmenta" data-content="#content" data-template="#temp" data-pagination="#pagination" data-form="search" class="form hide" novalidate="novalidate"> -->
+<!-- 							<button type="submit" class="btn">查询</button> -->
+<!-- 							<button type="reset" class="btn btn-info">重置</button> -->
+<!-- 						</form> -->
+						<div class="gift_title">已上架礼物</div>
+						
+						<div class="classright">
+							<div class="add_new_game add_gift_btn">添加新礼物</div>					
+						</div>
+						
+						<div class="table">
+						
+							<script type="text/template" id="temp_upper">
+              					{{each this val}}
+             						<tr style="cursor:move;" data-id="{{val.id}}" data-sortNum="{{val.sort}}">
+                						<td><img class="sign_img" src="{{val.giftPic}}"></td>
+                						<td>{{val.giftName}}</td>
+                						<td>{{val.giftTypeStr}}</td>
+                						<td>{{val.bean==0?'免费':val.bean}}</td>
+                						<td>
+											<button type="button" data-id="{{val.id}}" data-is-enable="2" class="btn btn-outline btn-sm wp_up_low">下架</button>
+										</td>
+              						</tr>
+              					{{/each}}
+              					{{if this.length === 0}}
+             						<tr><td colspan="5">没有数据...</td></tr>
+              					{{/if}}
+            				</script>
+            				
+							<table>
+								<thead>
+									<tr>
+										<th>礼物图标</th>
+										<th>礼物名称</th>
+										<th>礼物类型</th>
+										<th>礼物价格（豆）</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="content_upper"></tbody>
+							</table>
+							
+							<script type="text/template" id="temp_lower">
+              					{{each this val}}
+             						<tr>
+                						<td>
+											<img class="sign_img gift_val gift_{{val.id}}" src="{{val.giftPic}}">
+											<img class="sign_img gift_edit gift_{{val.id}} gift_upimg hide" data-id="{{val.id}}" name="" src="{{val.giftPic}}" style="cursor: pointer;">
+											<input type="hidden" id="gift_img_{{val.id}}" value="{{val.giftPic}}" />
+										</td>
+                						<td>
+											<span class="gift_val">{{val.giftName}}</span>
+											<input type="text" id="gift_name_{{val.id}}" name="" class="input gift_edit hide" value="{{val.giftName}}" />
+                						<td>
+											<span class="gift_val">{{val.giftTypeStr}}</span>
+											<select name="" id="gift_type_{{val.id}}" class="inputsearch gift_edit hide" title="礼物类型">
+                               					<option value="1" {{val.giftType==1?'selected="selected"':''}}>小礼物</option>
+                               					<option value="2" {{val.giftType==2?'selected="selected"':''}}>大礼物</option>
+												<option value="0" {{val.giftType==0?'selected="selected"':''}}>活动礼物</option>
+                            				</select>
+										</td>
+                						<td>
+											<span class="gift_val">{{val.bean==0?'免费':val.bean}}</span>
+											<input type="text" id="gift_bean_{{val.id}}" name="" class="input gift_edit hide" value="{{val.bean}}" />
+										</td>
+                						<td>
+											<button type="button" data-id="{{val.id}}" class="btn btn-outline btn-sm wp_gift_modify">编辑</button>
+											<button type="button" data-id="{{val.id}}" class="btn btn-outline btn-sm wp_gift_save hide">保存</button>
+											<button type="button" data-id="{{val.id}}" class="btn btn-outline btn-sm wp_gift_cancle hide">取消</button>
+
+											<button type="button" data-id="{{val.id}}" data-is-enable="1" class="btn btn-outline btn-sm wp_up_low">上架</button>
+											<button type="button" data-id="{{val.id}}" class="btn btn-outline btn-sm wp_delete">删除</button>
+										</td>
+              						</tr>
+              					{{/each}}
+              					{{if this.length === 0}}
+             						<tr><td colspan="5">没有数据...</td></tr>
+              					{{/if}}
+            				</script>
+							<div class="gift_title margin50">未上架礼物</div>
+							<table>
+								<thead>
+									<tr>
+										<th>礼物图标</th>
+										<th>礼物名称</th>
+										<th>礼物类型</th>
+										<th>礼物价格（豆）</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="content_lower"></tbody>
+							</table>
+							
+						</div>
+						<!-- 分页 -->
+						<ul class="pagination" id="pagination"></ul>
+						<!-- /分页 -->
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+	<!-- /wrapper -->
+	
+	<form id="J_photoImg" enctype="multipart/form-data" style="display: none">
+		<div class="photo_div" id="photo_divimg">
+			<img id="photo_showimg" src="" />
+			<input type="file" name="file" id="photo_upimg" placeholder="机器人头像" data-chinese="机器人头像" class="input_file"/>
+		</div>
+	</form>
+	<input type="hidden" id="photo_id"/>
+	
+	<!-- 新增礼物配置 开始 -->
+	<div class="modal fade" id="wp_gift_modal">
+		<div class="modal-backdrop"></div>
+		<div class="modal-content">
+		<form id="wp_fromgift" data-param="giftConfigInfo" data-action="giftConfig/saveGiftConfig" data-form="submit" novalidate="novalidate">
+		    <div class="modal-header text-center" style="font-size:16px;font-weight:bold;">添加新礼物</div>
+			<div class="modal-body">
+				<div class="table-form table-center">
+					<table>
+						<tbody>
+							<tr>
+								<th>礼物图标 :</th>
+								<td>
+									<img class="gift_logo" data-id="0" src="http://opq77mx3q.bkt.clouddn.com/20171020-upload.png">
+									<input name="giftPic" type="hidden" required="required" data-chinese="选择礼物图标" value=""/>
+								</td>
+							</tr>
+							<tr>
+								<th>礼物名称 :</th>
+								<td>
+									<input name="giftName" type="text" placeholder="礼物名称" required="required" data-chinese="礼物名称" class="input" />
+								</td>
+							</tr>
+							<tr>
+								<th>礼物类型 :</th>
+								<td>
+									<select name="giftType" class="input" title="礼物类型">
+										<option value="1">小礼物</option>
+										<option value="2">大礼物</option>
+										<option value="0">活动礼物</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th>礼物价格 :</th>
+								<td>
+									<input name="bean" type="text" placeholder="礼物价格（豆）" required="required" data-chinese="礼物价格（豆）" class="input" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer text-center">
+				<button type="button" class="btn add_gift_submit" style="margin-right:30px">添加</button>
+				<button data-target="#wp_gift_modal" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 新增礼物配置 结束 -->
+	
+</body>
+</html>
+<script data-main="js/giftSet" src="js/base/require.min.js" type="text/javascript"></script>

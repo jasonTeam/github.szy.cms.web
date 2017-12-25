@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:include="common/head :: #head"></head>
+<body>
+
+<!-- wrapper -->
+<div class="wrapper">
+   
+	<!-- main -->
+	<div class="main">
+	     
+		<!-- page -->
+		<div class="page">
+
+			<!-- page main -->
+			<div class="pageMain">
+			
+				<div class="position">
+					<a href="/index" target="_parent" title="首页">首页</a> &gt; <a href="/cashAudit" title="首页">上一页</a> &gt; <span>提现详情</span>
+				</div>
+				
+				<!-- page body -->
+				<div class="pageB">
+					<form id="wp_cashdetails" data-param="extract" data-action="extract/updateExtract" data-form="submit" novalidate="novalidate">
+						<div class="cash_details">
+							
+							<!-- 竞猜总数据 -->
+							<div class="guess_all">
+								
+								<div class="guessall_list">
+									<p>订单号</p>
+									<p data-insert="extractId"></p>
+								</div>
+								
+								<div class="guessall_list">
+									<p>创建时间</p>
+									<p data-insert="createDateStr"></p>
+								</div>
+								
+								<div class="guessall_list">
+									<p>提现公会</p>
+									<p data-insert="confraternityName"></p>
+								</div>
+								
+							</div>
+							
+							<div class="cash_list">
+								<ul>
+									<li>
+										<p class="acc_name"></p>
+										<p data-insert="accountOwnerName"></p>
+									</li>
+									<li>
+										<p class="acc_num"></p>
+										<p data-insert="accountNum"></p>
+									</li>								
+								</ul>
+							</div>
+								
+							<div class="cash_name">
+								<p>审核状态</p>
+								<span class="extract_div">
+<!-- 									<select name="extractStatus" class="inputsearch extract_status" title="审核状态"> -->
+<!-- 			                            <option value="2">审核通过</option> -->
+<!-- 			                            <option value="3">审核不通过</option> -->
+<!-- 			                        </select> -->
+		                        </span>
+							</div>
+								
+							<div class="cash_table">
+								<ul>
+									<li></li>
+									<li>申请提现</li>
+									<li class="unusual">异常</li>
+									<li>实际提现</li>
+									<li>结算金额（元）</li>
+								</ul>
+								<ul>
+									<li>贡献值</li>
+									<li data-insert="totalOpal" class="totalOpal"></li>
+									<li data-insert="freezeOpal" class="unusual freezeOpal"></li>
+									<li data-insert="realOpalNum" class="red realOpalNum"></li>
+									<li>
+										<input type="text" name="opalPrice" data-insert="opalPrice" class="cash_input cash_readonly opal_price" oninput="NumBers(this)" placeholder="输入贡献值金额"/>
+									</li>
+								</ul>
+								<ul>
+									<li>卡路里</li>
+									<li data-insert="totalCalorie" class="totalCalorie"></li>
+									<li data-insert="freezeCalorie" class="unusual freezeCalorie"></li>
+									<li data-insert="realCalorieNum" class="red realCalorieNum"></li>
+									<li>
+										<input type="text" name="caloriePrice" data-insert="caloriePrice" class="cash_input cash_readonly calorie_price" oninput="NumBers(this)" placeholder="输入卡路里金额"/>
+									</li>
+								</ul>
+								<ul>
+									<li></li>
+									<li></li>
+									<li class="unusual"></li>
+									<li>总计</li>
+									<li class="all_num">-</li>
+								</ul>
+							</div>
+							
+							<div class="cash_name">
+								<p>备注</p>
+								<span class="remark_div"></span>
+								
+							</div>
+							
+							<div class="cash_btn">
+								<input type="hidden" name="extractId" id="extractid_submit"/>
+								<button type="button" class="btn btn-primary btn-sm wp_cash_submit">提交</button>
+								<button type="button" class="btn btn-primary btn-sm wp_cash_export hide">导出</button>
+							</div>
+						</div>
+					</form>
+						
+					<div class="cash_list">
+						<p>提现申请明细</p>
+					</div>
+					
+					
+					<form data-param="extractVO" data-content="#content" data-template="#temp" data-pagination="#pagination" data-action="extract/getExtractDetail" data-form="search" class="form hide" novalidate="novalidate">
+						
+                        <input name="extractId" id="extract_id" type="text" />
+                        
+						<button type="submit" class="btn search_guessdata" data-type="1">查询</button>
+						<button type="reset" class="btn btn-info">重置</button>
+					</form>
+					
+					<div class="table">
+						<script type="text/template" id="temp">
+              				{{each this val}}
+              					<tr>
+                					<td>{{val.anchorId}}</td>
+									<td>{{val.nickName}}</td>
+									<td>{{val.totalOpal}}</td>
+									<td>{{val.totalCalorie}}</td>
+									<td class="unusual">
+										<span>{{val.freezeOpal}}</span>
+										<input type="text" class="input width100 hide" value="{{val.freezeOpal}}" />
+									</td>
+									<td class="unusual">
+										<span>{{val.freezeCalorie}}</span>
+										<input type="text" class="input width100 hide" value="{{val.freezeCalorie}}" />
+									</td>
+									<td class="unusual handle_but">
+										<button type="button" class="btn wp_cash_modify">修改</button>
+										<button type="button" class="btn wp_cash_cancle hide">取消</button>
+										<button type="button" data-detail-id="{{val.detailId}}" data-totalOpal="{{val.totalOpal}}" data-totalCalorie="{{val.totalCalorie}}" class="btn wp_cash_save hide">保存</button>
+									</td>
+              					</tr>
+              				{{/each}}
+              				{{if this.length === 0}}
+              					<tr><td colspan="6">没有数据...</td></tr>
+              				{{/if}}
+            		</script>
+						<table>
+							<thead>
+								<tr>
+									<th>主播ID</th>
+									<th>主播昵称</th>
+									<th>贡献值（点）</th>
+									<th>卡路里（卡）</th>
+									<th class="unusual">异常贡献值（点）</th>
+									<th class="unusual">异常卡路里（卡）</th>
+									<th class="unusual handle_but">操作</th>
+								</tr>
+							</thead>
+							<tbody id="content"></tbody>
+						</table>
+					</div>
+
+					<!-- 分页 -->
+					<ul class="pagination" id="pagination"></ul>
+					<!-- /分页 -->
+					
+					
+					
+					
+          
+				</div>
+				<!-- /page body -->
+
+			</div>
+			<!-- /page main -->
+
+		</div>
+		<!-- /page -->
+
+	</div>
+	<!-- /main -->
+
+</div>
+<!-- /wrapper -->
+</body>
+<script type="text/javascript">
+	function NumBers(obj){//input保留2位小数
+	  	obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+	  	obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+	  	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
+	  	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	  	obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+	}
+</script>
+
+</html>
+
+<script data-main="js/cashDetails" src="js/base/require.min.js"></script>

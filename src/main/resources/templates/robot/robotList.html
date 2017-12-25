@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head th:include="common/head2 :: #head"></head>
+  
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+	
+		<!-- main -->
+		<div class="main">
+	   
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+				
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>机器人列表</span>
+					</div>
+					
+					<!-- page body -->
+					<div class="pageB">
+						<form id="robotForm" data-size="10" data-param="userVO" data-action="findRobot" data-content="#content" data-template="#temp" data-pagination="#pagination" data-form="search" class="form" novalidate="novalidate">
+							<input name="userId" type="text" placeholder="用户ID" d ata-chinese="用户ID" pattern="[1-9][0-9]+" class="inputsearch" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" /> 
+							<input name="userName" type="text" placeholder="手机号码" maxlength="11" data-chinese="手机号码" pattern="[1-9][0-9]+" class="inputsearch" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" />
+							 
+							<button type="submit" class="btn">查询</button>
+							<button type="reset" class="btn btn-info">重置</button>
+							<button type="button" class="btn btn-success J_CreateShowRobot">创建</button>
+						</form>
+						<div class="table">
+							<table>
+								<thead>
+									<tr>
+										<th>用户ID</th>
+										<th>手机号码</th>
+										<th>用户昵称</th>
+										<th>用户性别</th>
+										<th>用户等级</th>
+										<th>城市</th>
+										<th>注册时间</th>
+									</tr>
+								</thead>
+								<tbody id="content"></tbody>
+							</table>
+			<script type="text/template" id="temp">
+              {{each this val}}
+              <tr>
+                <td>{{val.userId||''}}</td>
+				<td>{{val.userName||''}}</td>
+				<td>{{val.nickName||''}}</td>
+				<td>{{if 1 === val.sex}}男{{else}}女{{/if}}</td>
+				<td>{{val.grade||'1'}}</td>
+				<td>{{val.city||'保密'}}</td>
+				<td>{{val.gmtCreate||''}}</td>
+              </tr>
+              {{/each}}
+              {{if this.length === 0}}
+              <tr><td colspan="7">没有数据...</td></tr>
+              {{/if}}
+			</script>
+							
+						</div>
+						<!-- 分页 -->
+						<ul class="pagination" id="pagination"></ul>
+						<!-- /分页 -->
+						<!-- 机器人详情 开始 -->
+						
+						<!-- 机器人详情 结束 -->
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+<!-- 	/wrapper -->
+	
+	</body>
+	<script data-main="../js/robotInfo" src="../js/base/require.min.js"></script>
+</html>

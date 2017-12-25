@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:include="common/head :: #head"></head>
+<body>
+
+<!-- wrapper -->
+<div class="wrapper">
+   
+	<!-- main -->
+	<div class="main">
+	     
+		<!-- page -->
+		<div class="page">
+
+			<!-- page main -->
+			<div class="pageMain">
+			
+				<div class="position">
+					<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>竞猜题库</span>
+				</div>
+				
+				<div class="classify">
+					<ul>
+						<li data-is-man="1" class="select_classify">人控游戏</li>
+						<li data-is-man="2">机控游戏</li>
+					</ul>
+					
+					<div class="classright">
+						<div class="add_new_game">添加新游戏</div>					
+					</div>
+					
+					
+				</div>
+				
+				<!-- page body -->
+				<div class="pageB">
+
+					<!-- 竞猜分类标题 -->
+					<div class="guess_title">已上架游戏</div>
+					
+					<div class="table">
+						<script type="text/template" id="shelves_html_yes">
+                            	{{each this v}}
+									{{if v.isEnable == 1}}
+										<tr style="cursor:move" data-id="{{v.subId}}" data-sortNum="{{v.sorts}}">
+											<td>{{v.guessTitle||''}}</td>
+											<td>{{v.optionOne||''}}</td>
+											<td>{{v.optionTwo||''}}</td>
+											<td>{{v.poolBean||''}}</td>
+											<td>{{v.disTime||''}}</td>
+											<td>
+												<button type="button" data-sub-id="{{v.subId}}" data-is-enable="2" class="btn btn-outline btn-sm wp_shelf">下架</button>
+											</td>
+										</tr>
+									{{/if}}
+                            	{{/each}}
+                             	{{if this.length === 0}}
+              						<tr><td colspan="6">没有数据...</td></tr>
+              					{{/if}}
+                       	</script>
+						<table>
+							<thead>
+								<tr>
+									<th>竞猜话题</th>
+									<th>竞猜A</th>
+									<th>竞猜B</th>
+									<th>注池金额（默认）</th>
+									<th>投注时间（默认）</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="shelves_yes"></tbody>
+						</table>
+					</div>
+					
+					<!-- 竞猜分类标题 -->
+					<div class="guess_title">未上架游戏</div>
+					
+					<div class="table">
+					
+						<script type="text/template" id="shelves_html_not">
+                            	{{each this v}}
+                                	{{if v.isEnable == 2}}
+										{{if v.isDelete != -1}}
+											<tr>
+												<td>{{v.guessTitle||''}}</td>
+												<td>{{v.optionOne||''}}</td>
+												<td>{{v.optionTwo||''}}</td>
+												<td>{{v.poolBean||''}}</td>
+												<td>{{v.disTime||''}}</td>
+												<td>
+													{{if v.isMan == 1}}
+														<button type="button" data-sub-id="{{v.subId}}" class="btn btn-outline btn-sm wp_edit">编辑</button>
+													{{/if}}
+													<button type="button" data-sub-id="{{v.subId}}" data-is-enable="1" class="btn btn-outline btn-sm wp_shelf">上架</button>
+													<button type="button" data-sub-id="{{v.subId}}" class="btn btn-outline btn-sm wp_delete">删除</button>
+												</td>
+											</tr>
+										{{/if}}
+									{{/if}}
+                            	{{/each}}
+                             	{{if this.length === 0}}
+                                	<tr><td colspan="6">没有数据...</td></tr>
+                             	{{/if}}
+                       	</script>
+                       	
+						<table>
+							<thead>
+								<tr>
+									<th>竞猜话题</th>
+									<th>竞猜A</th>
+									<th>竞猜B</th>
+									<th>注池金额（默认）</th>
+									<th>投注时间（默认）</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="shelves_not"></tbody>
+						</table>
+					</div>
+
+         			<!-- 添加竞猜题库 -->
+          			<div class="modal fade" id="wp_addquestions">
+            			<div class="modal-backdrop"></div>
+            			<div class="modal-content">
+              				<div class="modal-body">
+              				
+	              				<form data-param="guessSubject" id="wp_addquestionsform" data-form="submit" data-action="saveGuessSubject" novalidate="novalidate">
+								
+	                				<div class="table-form table-center">
+	                  					<table>
+	                    					<tbody>
+	                    						<tr>
+	                      							<th>游戏类别：</th>
+	                      							<td>
+	                      								<span class="game_span">
+	                      									<input type="radio" id="man_game" name="isMan" checked="checked" value="1" />
+	                      									<label for="man_game">人控游戏</label>
+                      									</span>
+	                      								<!-- <span class="game_span">
+	                      									<input type="radio" id="machine_game" name="isMan" data-insert="" />
+	                      									<label for="machine_game">机控游戏</label>
+                      									</span> -->
+	                      								
+	                      							</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>竞猜话题：</th>
+							                      	<td>
+							                      		<input type="text" name="guessTitle" data-insert="" class="input empty_in" maxlength="15" placeholder="最多15个字" />
+							                      	</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>选项A：</th>
+							                      	<td>
+							                      		<input type="text" name="optionOne" data-insert="" class="input empty_in" maxlength="10" placeholder="最多10个字" />
+							                      	</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>选项B：</th>
+							                      	<td>
+							                      		<input type="text" name="optionTwo" data-insert="" class="input empty_in" maxlength="10" placeholder="最多10个字" />
+							                      	</td>
+							                    </tr>
+							                  	<tr>
+							                      	<th>注池金额：</th>
+							                      	<td>
+							                      		<input type="number" name="poolBean" data-insert="" class="input empty_in width150" placeholder="至少10000" />
+							                      		<span>豆</span>
+							                      	</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>投注时间：</th>
+							                      	<td>
+							                      		<select name="disTime" class="input empty_select">
+															<option value="30" selected="selected">30s</option>
+															<option value="60">60s</option>
+															<option value="180">3m</option>
+															<option value="300">5m</option>
+															<option value="600">10m</option>
+														</select>
+							                      	</td>
+							                    </tr>
+						                    </tbody>
+					                  	</table>
+					                </div>
+					                
+				                </form>
+			              	</div>
+				            <div class="modal-footer text-center">
+				           		<button type="submit" class="btn wp_addbutton" style="margin-right:30px">添加</button>
+				            	<button data-target="#wp_addquestions" data-event="Storm.modal.hide" type="button" class="btn btn-warning">关闭</button>
+				            </div>
+           				</div>
+          			</div>
+          			<!-- /添加游戏 -->
+          			
+          			<!-- 修改竞猜题库 -->
+          			<div class="modal fade" id="wp_modifyquestions">
+            			<div class="modal-backdrop"></div>
+            			<div class="modal-content">
+              				<div class="modal-body">
+              				
+	              				<form data-param="guessSubject" id="wp_modifyquestionsform" data-form="submit" data-action="updateGuessSubject" novalidate="novalidate">
+								
+	                				<div class="table-form table-center">
+	                  					<table>
+	                    					<tbody>
+	                    						<tr>
+	                      							<th>游戏类别：</th>
+	                      							<td>
+	                      								<span class="game_span">
+	                      									<input type="radio" id="man_game" name="isMan" checked="checked" value="1" />
+	                      									<label for="man_game">人控游戏</label>
+                      									</span>
+	                      								<!-- <span class="game_span">
+	                      									<input type="radio" id="machine_game" name="isMan" data-insert="" />
+	                      									<label for="machine_game">机控游戏</label>
+                      									</span> -->
+	                      								
+	                      							</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>竞猜话题：</th>
+							                      	<td>
+							                      		<input type="hidden" name="subId" data-insert="subId"/>
+							                      		<input type="text" name="guessTitle" data-insert="guessTitle" class="input empty_in" maxlength="15" placeholder="最多15个字" />
+							                      	</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>选项A：</th>
+							                      	<td>
+							                      		<input type="text" name="optionOne" data-insert="optionOne" class="input empty_in" maxlength="10" placeholder="最多10个字" />
+							                      	</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>选项B：</th>
+							                      	<td>
+							                      		<input type="text" name="optionTwo" data-insert="optionTwo" class="input empty_in" maxlength="10" placeholder="最多10个字" />
+							                      	</td>
+							                    </tr>
+							                  	<tr>
+							                      	<th>注池金额：</th>
+							                      	<td>
+							                      		<input type="number" name="poolBean" data-insert="poolBean" class="input empty_in width150" placeholder="至少10000" />
+							                      		<span>豆</span>
+							                      	</td>
+							                    </tr>
+							                    <tr>
+							                      	<th>投注时间：</th>
+							                      	<td>
+							                      		<select name="disTime" class="input dis_time">
+															<option value="30">30s</option>
+															<option value="60">60s</option>
+															<option value="180">3m</option>
+															<option value="300">5m</option>
+															<option value="600">10m</option>
+														</select>
+							                      	</td>
+							                    </tr>
+						                    </tbody>
+					                  	</table>
+					                </div>
+					                
+				                </form>
+			              	</div>
+				            <div class="modal-footer text-center">
+				           		<button type="submit" class="btn wp_modifybutton" style="margin-right:30px">修改</button>
+				            	<button data-target="#wp_modifyquestions" data-event="Storm.modal.hide" type="button" class="btn btn-warning">关闭</button>
+				            </div>
+           				</div>
+          			</div>
+          			<!-- /修改游戏 -->
+          			
+				</div>
+				<!-- /page body -->
+
+			</div>
+			<!-- /page main -->
+
+		</div>
+		<!-- /page -->
+
+	</div>
+	<!-- /main -->
+
+</div>
+<!-- /wrapper -->
+</body>
+</html>
+
+<script data-main="js/guessQuestions" src="js/base/require.min.js"></script>

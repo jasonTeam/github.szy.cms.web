@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:include="common/head :: #head"></head>
+<body>
+
+<!-- wrapper -->
+<div class="wrapper">
+   
+	<!-- main -->
+	<div class="main">
+	     
+		<!-- page -->
+		<div class="page">
+
+			<!-- page main -->
+			<div class="pageMain">
+			
+				<div class="position">
+					<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>竞猜设置</span>
+				</div>
+				
+				<!-- page body -->
+				<div class="pageB">
+
+					<!-- 竞猜分类标题 -->
+					<div class="guess_title">竞猜配置</div>
+					<div class="app_set">
+						
+						<div class="appset_list" data-id="3">
+							<p class="appset_name">竞猜总开关：</p>
+							<div class="appset_radio">
+								<span class="game_span">
+									<input type="radio" id="open" data-id="3" data-key="guess_set" name="guessSet" value="1" />
+									<label for="open">开</label>
+								</span>
+								<span class="game_span">
+									<input type="radio" id="shut" data-id="3" data-key="guess_set" name="guessSet" value="2"/>
+									<label for="shut">关</label>
+								</span>
+							</div>
+						</div>
+						
+						<div class="appset_list" data-id="37">
+							<p class="appset_name">用户单局最高可押注：</p>
+							<div class="appset_con">
+								<p><span></span><span>豆</span></p>
+								<p class="appset_btn">修改</p>
+							</div>
+							<div class="appset_input">
+								<input type="text" class="input appset_share" value=""  placeholder="请输入豆数" />
+								<span class="appset_bean">豆</span>
+								<button class="btn sure_btn">确认</button>
+								<button class="btn cancel_btn">取消</button>
+							</div>
+						</div>
+						
+						<div class="appset_list" data-id="38">
+							<p class="appset_name">主播日亏损报警线：</p>
+							<div class="appset_con">
+								<p><span></span><span>豆</span></p>
+								<p class="appset_btn">修改</p>
+							</div>
+							<div class="appset_input">
+								<input type="text" class="input appset_share" value=""  placeholder="请输入豆数" />
+								<span class="appset_bean">豆</span>
+								<button class="btn sure_btn">确认</button>
+								<button class="btn cancel_btn">取消</button>
+							</div>
+						</div>
+						
+					</div>
+					
+					
+					<!-- 竞猜分类标题 -->
+					<div class="guess_title">机控游戏配置</div>
+					<div class="app_set">
+						
+						<div class="appset_list" data-id="39">
+							<p class="appset_name">注池金额：</p>
+							<div class="appset_con">
+								<p><span></span><span>豆</span></p>
+								<p class="appset_btn">修改</p>
+							</div>
+							<div class="appset_input">
+								<input type="text" class="input appset_share appset_money" value=""  placeholder="输入豆数不能少于10W" />
+								<span class="appset_bean">豆</span>
+								<button class="btn sure_btn">确认</button>
+								<button class="btn cancel_btn">取消</button>
+							</div>
+						</div>
+						
+						<div class="appset_list">
+							<p class="appset_name">当前机控竞猜：</p>
+							<div class="appset_con">
+								<p><span class="reap_num"></span><span>盘</span></p>
+								<p class="appset_btnmodal">答题配置</p>
+							</div>
+						</div>
+						
+					</div>
+
+          			<!-- 竞猜分类标题 -->
+					<div class="guess_title">人控游戏配置</div>
+					<div class="app_set">
+						
+						<div class="appset_list" data-id="40">
+							<p class="appset_name">主播日龙猫豆基准：</p>
+							<div class="appset_con">
+								<p><span></span><span>豆</span></p>
+								<p class="appset_btn">修改</p>
+							</div>
+							<div class="appset_input">
+								<input type="text" class="input appset_share" value=""  placeholder="请输入豆数" />
+								<span class="appset_bean">豆</span>
+								<button class="btn sure_btn">确认</button>
+								<button class="btn cancel_btn">取消</button>
+							</div>
+						</div>
+						
+					</div>
+          			
+          			
+          			<!-- 修改收割开关开始 -->
+					<div class="modal fade" id="wp_reap">
+						<div class="modal-backdrop"></div>
+						<div class="modal-content">
+							
+							<div class="modal-body">
+								<div class="table-form table-center">
+									<div class="appset_reap">答题开关</div>
+								</div>
+							</div>
+							
+							<!-- 修改banner -->
+							<div class="modal-body">
+							
+								<div class="appset_modal_title">
+									<p>当前机控开盘</p>
+									<p><span></span>盘</p>
+									<p class="appset_refresh">刷新</p>
+									<div class="mui-spinner"></div>
+								</div>
+							
+								<div class="harvest_select">
+									<p class="appset_name">答题开关：</p>
+									<div class="appset_radio">
+										<span class="game_span">
+											<input type="radio" id="harvest" name="harvest" checked="checked"  value="1" />
+											<label for="harvest">提问</label>
+										</span>
+										<span class="game_span">
+											<input type="radio" id="anti_harvest" name="harvest" value="3"/>
+											<label for="anti_harvest">回答</label>
+										</span>
+									</div>
+								</div>
+							
+								<div class="harvest_time">答题时间</div>
+								
+								<div class="input_harvest">
+									<input type="text" class="input harvest_minute" style="width: 123px" value="" placeholder="数字不能大于60"/>
+									<span>分</span>
+								</div>
+								
+								<div class="harvest_countdown"></div>
+								
+							</div>
+							<div class="modal-footer text-center">
+								<button type="submit" class="btn btn_modify hide" data-winVal="1" style="margin-right: 30px">确定</button>
+								<button type="button" class="btn btn_cancel hide" data-winVal="2" style="margin-right: 30px">取消收割</button>
+								<button data-target="#wp_reap" data-event="Storm.modal.hide" class="btn btn-warning" type="button">关闭</button>
+							</div>
+							
+						</div>
+					</div>
+					<!-- 修改收割开关 结束 -->
+          			
+				</div>
+				<!-- /page body -->
+
+			</div>
+			<!-- /page main -->
+
+		</div>
+		<!-- /page -->
+
+	</div>
+	<!-- /main -->
+
+</div>
+<!-- /wrapper -->
+</body>
+</html>
+
+<script data-main="js/guessSet" src="js/base/require.min.js"></script>

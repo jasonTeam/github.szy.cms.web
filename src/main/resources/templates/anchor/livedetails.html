@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:include="common/head :: #head"></head>
+  
+<body>
+    <!-- wrapper -->
+    <div class="wrapper">
+       
+        <!-- main -->
+        <div class="main">
+        
+            <!-- page -->
+            <div class="page">
+                <!-- page main -->
+                <div class="pageMain">
+                
+	                <div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>直播详情</span>
+					</div>
+					
+                    <!-- page body -->
+                    <div class="pageB">
+                        <form data-param="anchorVO" data-content="#content"
+                            data-template="#temp" data-pagination="#pagination"
+                            data-action="getAnchorMessage" data-form="search" class="form"
+                            novalidate="novalidate">
+                            
+                            <input name="userId" type="text" placeholder="用户ID" data-chinese="用户ID" pattern="[1-9][0-9]+" class="inputsearch" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" /> 
+                           <input name="startTime" id="startDate"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'endDate\')||\'%y-%M-%d\'}'})"
+								placeholder="反馈开始时间" type="text" class="inputsearch" /> 
+							<span class="middle_to">至</span> 
+							<input name="finishTime" id="endDate"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'startDate\')}', maxDate:'%y-%M-%d'})"
+								placeholder="反馈结束时间" type="text" class="inputsearch" /> 
+                         
+                            <select name="anchorType" class="inputsearch" title="主播类型">
+                                <option selected="selected" disabled="disabled">主播类型</option>
+                                <option value="0">全职主播</option>
+                                <option value="1">兼职主播</option>
+                            </select>
+                            
+                            <button type="submit" class="btn">查询</button>
+                            <button type="reset" class="btn btn-info">重置</button>
+                            <button type="button" class="btn btn-success exprot_anchor">导出</button>
+                        </form>
+                        <div class="table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>主播ID</th>
+                                        <th>主播昵称</th>
+                                        <th>主播类型</th>
+                                        <th>主播卡路里数量</th>
+                                        <th>卡路里增加量</th>
+                                        <th>主播贡献值</th>
+                                        <th>主播豆子数量</th>
+                                        <th>主播豆子增加量</th>
+                                        <th>直播天数</th>
+                                        <th>直播时长/h</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="content"></tbody>
+                            </table>
+                            
+           					<script type="text/template" id="temp">
+              					{{each this val}}
+             						 <tr>
+										<td>{{val.userId||''}}</td>
+                                        <td>{{val.nickName||''}}</td>
+										<td>{{val.strAnchorType||''}}</td>
+                                        <td>{{val.calorie||'0'}}</td>
+                                        <td>{{val.calories||'0'}}</td>
+                                        <td>{{val.opal||'0'}}</td>
+                                        <td>{{val.lmBeanNum||'0'}}</td>
+                                        <td>{{val.changNum||'0'}}</td>
+                                        <td>{{val.days||'0'}}</td>
+                                        <td>{{val.hours||'0'}}</td>
+             						 </tr>
+              					{{/each}}
+              					{{if this.length === 0}}
+             						 <tr><td colspan="13">没有数据...</td></tr>
+              					{{/if}}
+            			</script>
+                            
+                        </div>
+                        <!-- 分页 -->
+                        <ul class="pagination" id="pagination"></ul>
+                        <!-- /分页 -->
+                        <!-- 主播提现记录 开始 -->
+                        <div class="modal fade " id="J_showCash">
+                            <div class="modal-backdrop"></div>
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="table-form table-center table">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>提现编号：</th>
+                                                    <td id="o_oid"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>主播ID：</th>
+                                                    <td id="o_uid"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>提现金额：</th>
+                                                    <td id="o_price"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>提现转账信息：</th>
+                                                    <td id="o_param"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>提现时间：</th>
+                                                    <td id="o_time"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>失败原因：</th>
+                                                    <td>
+                                                     <textarea id="o_remark" rows="4" cols="20" placeholder="失败原因!" maxlength="15"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer text-center">
+                                    <button data-oid="" type="button" class="btn btn-danger J_extractCashSuccess" style="margin-right:30px">转账成功</button>
+                                    <button data-target="#J_showCash" data-event="Storm.modal.hide" class="btn btn-warning" type="button">取消</button>
+                                    <button data-oid="" type="button" class="btn btn-danger J_extractCashFail" style="margin-left:30px">转账失败</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 主播提现记录 结束 -->
+                    </div>
+                    <!-- /page body -->
+                </div>
+                <!-- /page main -->
+            </div>
+            <!-- /page -->
+        </div>
+        <!-- /main -->
+    </div>
+    <!-- /wrapper -->
+    
+</body>
+</html>
+<script data-main="js/cash" src="js/base/require.min.js"></script>

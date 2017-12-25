@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common/head :: #head"></head>
+
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+
+		<!-- main -->
+		<div class="main">
+
+			<!-- page -->
+			<div class="page">
+				<!-- page main -->
+				<div class="pageMain">
+					<!-- position -->
+					<div class="position">
+						<a href="/index" target="_parent" title="首页">首页</a> &gt; <span>真心话大冒险</span>
+					</div>
+					<!-- /position -->
+					<!-- page body -->
+					<div class="pageB">
+						<form data-param="guessAdventure" data-content="#content" id="wp_truthform" data-template="#temp" data-pagination="#pagination" 
+							data-action="findAllGuessAdventure" data-form="search" class="form" novalidate="novalidate">
+							
+							<button type="submit" class="btn hide">查询</button>
+						</form>
+						<div class="table" id="content"></div>
+							<script type="text/template" id="temp">
+								<div class="list_title">
+									<span>真心话</span>
+									<button type="button" class="btn btn-success btn_add wp_add">添加</button>
+								</div>
+								<table class="margin_top20">
+									<thead>
+										<tr>
+											<th>内容（字数限定20字）</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody id="drag_tr">
+										{{each this val}}
+											{{if val.adventureType == 1}}
+             									<tr>
+													<td>{{val.adventureContent}}</td>
+                									<td>
+				  										<button data-adventure-id="{{val.adventureId}}" data-type="{{val.adventureType}}" type="button" class="btn btn-primary btn-sm wp_edit">编辑</button>
+														<button data-adventure-id="{{val.adventureId}}" data-type="{{val.adventureType}}" type="button" class="btn btn-danger btn-sm wp_delete">删除</button>
+                									</td>
+              									</tr>
+											{{/if}}
+              							{{/each}}
+              							{{if this.length === 0}}
+              								<tr><td colspan="9">没有数据...</td></tr>
+              							{{/if}}
+									</tbody>
+								</table>
+             					
+								<div class="list_title">
+									<span>大冒险</span>
+									<button type="button" class="btn btn-success btn_add wp_add">添加</button>
+								</div>
+								<table class="margin_top20">
+									<thead>
+										<tr>
+											<th>内容（字数限定20字）</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										{{each this val}}
+											{{if val.adventureType == 2}}
+             									<tr>
+													<td>{{val.adventureContent||''}}</td>
+                									<td>
+				  										<button data-adventure-id="{{val.adventureId}}" data-type="{{val.adventureType}}" type="button" class="btn btn-primary btn-sm wp_edit">编辑</button>
+														<button data-adventure-id="{{val.adventureId}}" data-type="{{val.adventureType}}" type="button" class="btn btn-danger btn-sm wp_delete">删除</button>
+                									</td>
+              									</tr>
+											{{/if}}
+              							{{/each}}
+              							{{if this.length === 0}}
+              								<tr><td colspan="9">没有数据...</td></tr>
+              							{{/if}}
+									</tbody>
+								</table>
+							</script>
+				
+							<!-- 分页 -->
+							<ul class="pagination" id="pagination"></ul>
+							<!-- /分页 -->
+
+					</div>
+					<!-- /page body -->
+				</div>
+				<!-- /page main -->
+			</div>
+			<!-- /page -->
+		</div>
+		<!-- /main -->
+	</div>
+	<!-- /wrapper -->
+	
+	<!-- 添加真心话大冒险弹框 -->
+	<div class="modal fade" id="wp_truth">
+		<div class="modal-backdrop"></div>
+		<div class="modal-content">
+			<div class="modal-body">
+				<form id="wp_truthmodal" data-param="guessAdventure" data-action="saveGuessAdventure" data-form="submit" novalidate="novalidate">
+					<div class="table-form">
+						<table>
+							<tr>
+								<th>添加类型：</th>
+								<td>
+									<select name="adventureType" class="input" title="真心话大冒险" required="required">
+		                                <option value="1" selected="selected">真心话</option>
+		                                <option value="2">大冒险</option>
+		                        	</select>
+								</td>
+							</tr>
+							<tr>
+								<th>内容：</th>
+								<td>
+<!-- 									<input name="adventureType" type="hidden" required="required" value="1" /> -->
+									<input name="adventureContent" type="text" data-insert="adventureContent" maxlength="20" required="required" placeholder="真心话" data-chinese="真心话" class="input truth_input" />
+								</td>
+							</tr>
+                       		
+							<tr>
+								<td colspan="2">
+									<button class="btn" type="submit">添加</button> &nbsp;
+									<button data-target="#wp_truth" data-event="Storm.modal.hide" class="btn btn-warning" type="button">关闭</button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 修改真心话大冒险弹框 -->
+	<div class="modal fade" id="wp_editruth">
+		<div class="modal-backdrop"></div>
+		<div class="modal-content">
+			<div class="modal-body">
+				<form id="wp_edittruthmodal" data-param="guessAdventure" data-action="updateGuessAdventure" data-form="submit" novalidate="novalidate">
+					<div class="table-form">
+						<table>
+						
+							<tr>
+								<th>修改类型：</th>
+								<td>
+									<select name="adventureType" data-insert="adventureType" class="input truthtype" title="真心话大冒险" required="required">
+		                                <option value="1" selected="selected">真心话</option>
+		                                <option value="2">大冒险</option>
+		                        	</select>
+								</td>
+							</tr>
+							
+							<tr>
+								<th>内容：</th>
+								<td>
+									<input name="adventureId" type="hidden" required="required" class="truth_id" />
+									<input name="adventureContent" type="text" data-insert="adventureContent" maxlength="20" required="required" placeholder="真心话" data-chinese="真心话" class="input edit_truthinput" />
+								</td>
+							</tr>
+                       		
+							<tr>
+								<td colspan="2">
+									<button class="btn" type="submit">修改</button> &nbsp;
+									<button data-target="#wp_editruth" data-event="Storm.modal.hide" class="btn btn-warning" type="button">关闭</button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+</body>
+<script data-main="js/truthDare" src="js/base/require.min.js"></script>
+</html>
