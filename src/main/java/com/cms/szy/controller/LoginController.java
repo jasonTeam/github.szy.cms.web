@@ -44,23 +44,6 @@ public class LoginController {
 		return RetResult.setRetDate("1101", "success", user);
 	}
 	
-    /**
-     * 
-     * (根据ID获取用户信息) 
-     * @Title getUserById 
-     * @param userId
-     * @return RetResult返回类型   
-     * @author ShenZiYang
-     * @date 2017年12月26日下午3:56:45
-     * @throws 异常
-     */
-	@RequestMapping(value = "/getUserById", method = RequestMethod.POST)
-	public @ResponseBody RetResult getUserById(Long userId) {
-		TbUser user = tbUserServuce.getUserById(userId);
-		return RetResult.setRetDate("1101", "success", user);
-	}
-	
-	
 	
 	
 }	

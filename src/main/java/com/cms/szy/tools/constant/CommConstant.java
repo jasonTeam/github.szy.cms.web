@@ -6,7 +6,6 @@ public class CommConstant {
 	public static final String GWSSUCC = "success";
 	public static final String GWS1001 = "访问资源不存在，或者服务器异常";
 	public static final String GWS1002 = "服务器拒绝连接，或者通讯超时";
-//	public static final String PARAMERR = "参数非法";
 	public static final String PARAMETER = "必须参数不能为空!";
 	
 	// http请求返回信息
@@ -28,6 +27,8 @@ public class CommConstant {
 	public static final String GWSCOD0005 = "005";
 	public static final String GWSMSG0005 = "手机号或密码不能为空!";
 	
+	public static final String GWSCOD0006 = "006";
+	public static final String GWSMSG0006 = "必须参数不能为空!";
 	
 	//增,删,改,查,异常信息
 	public static final String GWSCOD1101 = "1101";

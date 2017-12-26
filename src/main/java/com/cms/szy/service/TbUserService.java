@@ -2,6 +2,7 @@ package com.cms.szy.service;
 
 
 import com.cms.szy.entity.po.TbUser;
+import com.cms.szy.entity.vo.TbUserVO;
 
 public interface TbUserService {
 	
@@ -30,6 +31,19 @@ public interface TbUserService {
 	 * @throws 异常
 	 */
 	TbUser getUserById(Long userId);
+	
+	/**
+	 * 
+	 * (插入用户数据) 
+	 * @Title saveUser 
+	 * @param vo
+	 * @return TbUser返回类型   
+	 * @author ShenZiYang
+	 * @date 2017年12月26日下午4:36:49
+	 * @throws
+	 */
+	TbUser saveUser(TbUserVO vo);
+	
 	
 	
 	
