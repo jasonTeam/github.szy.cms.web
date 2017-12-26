@@ -38,12 +38,28 @@ public class LoginController {
 	 * @date 2017年12月19日上午9:49:35
 	 * @throws 登录异常
 	 */
-	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public RetResult login(HttpSession session,@JsonParam TbUserVO  vo, HttpServletRequest request) {
+	public @ResponseBody RetResult login(HttpSession session, @JsonParam TbUserVO vo, HttpServletRequest request) {
 		TbUser user = tbUserServuce.login(vo.getUserName(), vo.getUserPwd());
 		return RetResult.setRetDate("1101", "success", user);
 	}
+	
+    /**
+     * 
+     * (根据ID获取用户信息) 
+     * @Title getUserById 
+     * @param userId
+     * @return RetResult返回类型   
+     * @author ShenZiYang
+     * @date 2017年12月26日下午3:56:45
+     * @throws 异常
+     */
+	@RequestMapping(value = "/getUserById", method = RequestMethod.POST)
+	public @ResponseBody RetResult getUserById(Long userId) {
+		TbUser user = tbUserServuce.getUserById(userId);
+		return RetResult.setRetDate("1101", "success", user);
+	}
+	
 	
 	
 	

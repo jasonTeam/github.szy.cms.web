@@ -17,6 +17,11 @@ public class TbUserServiceImpl implements TbUserService{
 	public TbUser login(String userName, String userPwd) {
 		return tbUserRepositoryDao.login(userName, userPwd);
 	}
+
+	@Override
+	public TbUser getUserById(Long userId) {
+		return tbUserRepositoryDao.findOne(userId);
+	}
 	
 	
 	

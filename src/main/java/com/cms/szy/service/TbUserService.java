@@ -19,6 +19,18 @@ public interface TbUserService {
 	 */
 	TbUser login(String userName,String userPwd);
 	
+	/**
+	 * 
+	 * (根据用户ID获取用户信息) 
+	 * @Title getUserById 
+	 * @param userId
+	 * @return TbUser返回类型   
+	 * @author ShenZiYang
+	 * @date 2017年12月26日下午3:57:47
+	 * @throws 异常
+	 */
+	TbUser getUserById(Long userId);
+	
 	
 	
 }
