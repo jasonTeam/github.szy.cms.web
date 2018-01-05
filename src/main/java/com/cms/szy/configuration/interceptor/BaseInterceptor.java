@@ -26,11 +26,11 @@ public class BaseInterceptor extends WebMvcConfigurerAdapter {
 		// excludePathPatterns 用户排除拦截
 		
 		//http日志拦截器
-		registry.addInterceptor(accessInterceptor()).addPathPatterns("/**");
+//		registry.addInterceptor(accessInterceptor()).addPathPatterns("/**");
 		//登录拦截器
-		registry.addInterceptor(httpInterceptor()).addPathPatterns("/**");
+//		registry.addInterceptor(httpInterceptor()).addPathPatterns("/**");
 		//权限拦截器
-		registry.addInterceptor(RightsHandlerInterceptor()).addPathPatterns("/**");
+//		registry.addInterceptor(RightsHandlerInterceptor()).addPathPatterns("/**");
 		// token拦截
 //		registry.addInterceptor(tokenInterceptor()).addPathPatterns("/**");
 		

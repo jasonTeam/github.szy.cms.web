@@ -38,7 +38,7 @@ public class LoginController {
 	 * @date 2017年12月19日上午9:49:35
 	 * @throws 登录异常
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public @ResponseBody RetResult login(HttpSession session, @JsonParam TbUserVO vo, HttpServletRequest request) {
 		TbUser user = tbUserServuce.login(vo.getUserName(), vo.getUserPwd());
 		return RetResult.setRetDate("1101", "success", user);
