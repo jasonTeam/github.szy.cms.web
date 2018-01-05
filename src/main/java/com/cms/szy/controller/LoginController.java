@@ -1,19 +1,22 @@
 package com.cms.szy.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cms.szy.configuration.annotation.JsonParam;
-import com.cms.szy.entity.po.TbUser;
-import com.cms.szy.entity.vo.TbUserVO;
 import com.cms.szy.service.TbUserService;
 import com.cms.szy.tools.result.RetResult;
+import com.cms.szy.tools.shiro.ShiroUtils;
+
+
 
 /**
  * 
@@ -38,11 +41,29 @@ public class LoginController {
 	 * @date 2017年12月19日上午9:49:35
 	 * @throws 登录异常
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public @ResponseBody RetResult login(HttpSession session, @JsonParam TbUserVO vo, HttpServletRequest request) {
-		TbUser user = tbUserServuce.login(vo.getUserName(), vo.getUserPwd());
-		return RetResult.setRetDate("1101", "success", user);
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public @ResponseBody RetResult login(String userName,String password) {
+				
+		try {
+			
+			Subject subject = ShiroUtils.getSubject();
+			UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+			subject.login(token);
+			
+		} catch (UnknownAccountException e) {
+			return RetResult.setRetDate("1101", e.getMessage(),null);
+		} catch (IncorrectCredentialsException e) {
+			return RetResult.setRetDate("1111","账号或密码不正确",null);
+		} catch (LockedAccountException e) {
+			return RetResult.setRetDate("1111","账号已被锁定,请联系管理员",null);
+		} catch (AuthenticationException e) {
+			return RetResult.setRetDate("1111","账户验证失败",null);
+		}
+		
+		return RetResult.setRetDate("1101", "success",null);
 	}
+	
+	
 	
 	
 	
