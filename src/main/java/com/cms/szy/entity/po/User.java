@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 /**
  * 
- * @Description TODO(这里用一句话描述这个类的作用) 
+ * (用户实体类) 
  * @ClassName User 
  * @author ShenZiYang 
  * @date 2018年1月5日 下午2:55:00
