@@ -3,10 +3,10 @@ package com.cms.szy.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cms.szy.configuration.repository.dao.TbUserRepositoryDao;
 import com.cms.szy.entity.po.TbUser;
 import com.cms.szy.entity.vo.TbUserVO;
 import com.cms.szy.enums.UserStatusEnum;
+import com.cms.szy.repository.dao.TbUserRepositoryDao;
 import com.cms.szy.service.TbUserService;
 import com.cms.szy.tools.date.DateUtil;
 

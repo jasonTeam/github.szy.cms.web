@@ -24,7 +24,7 @@ import com.cms.szy.configuration.jpa.BaseSimpleJpaRepositoryEx;
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "masterEntityManagerFactory",
 //                       transactionManagerRef = "masterTransactionManager",
-                       basePackages = {"com.cms.szy.configuration.repository.dao"},//设置dao（repo）所在位置
+                       basePackages = {"com.cms.szy.repository.dao"},//设置dao（repo）所在位置
                        repositoryBaseClass = BaseSimpleJpaRepositoryEx.class)//jpa增強配置
 
 public class MasterRepositoryConfig {

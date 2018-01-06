@@ -1,4 +1,4 @@
-package com.cms.szy.configuration.repository.dao;
+package com.cms.szy.repository.dao;
 
 import java.util.List;
 
