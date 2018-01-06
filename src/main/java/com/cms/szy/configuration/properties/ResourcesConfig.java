@@ -10,7 +10,8 @@ public class ResourcesConfig extends WebMvcConfigurerAdapter {
 	
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/");
     }
     
 }

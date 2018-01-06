@@ -8,7 +8,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,17 +25,25 @@ import com.cms.szy.tools.shiro.ShiroUtils;
  * @author ShenZiYang 
  * @date 2017年12月19日 上午9:35:29
  */
+
 @Controller
 public class LoginController {
 	
 	@Autowired
 	TbUserService tbUserServuce;
 	
-	//页面测试
-	@RequestMapping("/hello")
-	public String hello(Model model){
-		model.addAttribute("ss", "ss");
-		return "sys/user";
+	/**
+	 * 
+	 * (登录页面) 
+	 * @Title hello 
+	 * @return String返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月6日下午5:28:26
+	 * @throws
+	 */
+	@RequestMapping("/login")
+	public String hello(){
+		return "login";
 	}
 	
 	
@@ -51,7 +58,7 @@ public class LoginController {
 	 * @date 2017年12月19日上午9:49:35
 	 * @throws 登录异常
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public @ResponseBody RetResult login(String userName,String password) {
 				
 		try {
@@ -70,7 +77,7 @@ public class LoginController {
 			return RetResult.setRetDate("1111","账户验证失败",null);
 		}
 		
-		return RetResult.setRetDate("1101", "success",null);
+		return RetResult.setRetDate("1101", "success",0);
 	}
 	
 	
