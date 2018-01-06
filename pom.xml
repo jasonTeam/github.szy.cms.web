@@ -82,9 +82,16 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		
+		<!-- 添加thymeleaf视图模板组件  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
+		<!-- 添加framework视图模板组件  -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
 		
 		<dependency>

@@ -8,6 +8,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +31,15 @@ public class LoginController {
 	
 	@Autowired
 	TbUserService tbUserServuce;
+	
+	//页面测试
+	@RequestMapping("/hello")
+	public String hello(Model model){
+		model.addAttribute("ss", "ss");
+		return "sys/user";
+	}
+	
+	
 	
 	/**
 	 * 
