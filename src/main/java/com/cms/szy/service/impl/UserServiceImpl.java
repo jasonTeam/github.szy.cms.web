@@ -29,6 +29,13 @@ public class UserServiceImpl implements UserService{
 		
 		return listPerms;
 	}
+
+	
+	@Override
+	public List<Long> queryAllMenuId(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

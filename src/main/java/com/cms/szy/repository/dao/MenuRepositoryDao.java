@@ -30,6 +30,19 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	List<Menu> menuList();
 	
 	
+	/**
+	 * 
+	 * (根据父菜单查询子菜单) 
+	 * @Title queryMenuByParentId 
+	 * @param parentId
+	 * @return List<Menu>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月6日下午1:57:39
+	 * @throws 查询失败
+	 */
+	@Query("SELECT m FROM Menu m WHERE m.parentId = ?1 ORDER BY m.sort ")
+	List<Menu> queryMenuByParentId(Long parentId);
+	
 	
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.cms.szy.configuration.query.core.BaseRepository;
 import com.cms.szy.entity.po.User;
 
+
 public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	
 	
@@ -41,7 +42,18 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	User queryByUserName(String userName);
 	
 	
-	
+	/**
+	 * 
+	 * (根据用户ID获取用户的所有菜单ID) 
+	 * @Title queryAllMenuId 
+	 * @param userId
+	 * @return List<Long>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月6日下午2:18:14
+	 * @throws 查询失败
+	 */
+	@Query(value = "select distinct rm.menu_id from sys_user_role ur LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
+	List<Long> queryAllMenuId(Long userId);
 	
 	
 }

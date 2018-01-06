@@ -106,11 +106,11 @@ public class User implements Serializable{
 		this.status = status;
 	}
 
-	public Long getDept_id() {
+	public Long getDeptId() {
 		return deptId;
 	}
 
-	public void setDept_id(Long deptId) {
+	public void setDeptId(Long deptId) {
 		this.deptId = deptId;
 	}
 

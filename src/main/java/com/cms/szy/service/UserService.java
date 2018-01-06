@@ -24,4 +24,17 @@ public interface UserService {
 	List<String> getPermsByUser(Long userId);
 	
 	
+	/**
+	 * 
+	 * (查询用户的所有菜单ID) 
+	 * @Title queryAllMenuId 
+	 * @param userId
+	 * @return List<Long>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月6日下午2:18:14
+	 * @throws 查询失败
+	 */
+	List<Long> queryAllMenuId(Long userId);
+	
+	
 }

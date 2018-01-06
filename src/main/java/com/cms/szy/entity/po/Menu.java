@@ -1,6 +1,7 @@
 package com.cms.szy.entity.po;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.cms.szy.entity.dto.MenuDTO;
 
 /**
  * 
@@ -18,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sys_menu") 
-public class Menu implements Serializable{
+public class Menu extends MenuDTO implements Serializable{
 	
 	private static final long serialVersionUID = -900324715261758027L;
 
@@ -54,9 +57,11 @@ public class Menu implements Serializable{
 	@Column(name = "icon")
 	private String icon;
 	
-	@Column(name = "order")
-	private Integer order;
+	@Column(name = "sort")
+	private Integer sort;
 	
+	
+
 	
 	public Long getMenuId() {
 		return menuId;
@@ -114,13 +119,15 @@ public class Menu implements Serializable{
 		this.icon = icon;
 	}
 
-	public Integer getOrder() {
-		return order;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
+
+	
 	
 	
 	
