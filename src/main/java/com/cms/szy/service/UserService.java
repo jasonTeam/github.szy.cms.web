@@ -2,6 +2,11 @@ package com.cms.szy.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.cms.szy.entity.po.User;
+import com.cms.szy.entity.vo.UserVO;
+
 /**
  * 
  * (用户业务层接口类) 
@@ -10,6 +15,22 @@ import java.util.List;
  * @date 2018年1月6日 上午9:37:08
  */
 public interface UserService {
+	
+	/**
+	 * 
+	 * (分页查询用户数据列表) 
+	 * @Title findPageUser 
+	 * @param vo
+	 * @param pageNo
+	 * @param pageSize
+	 * @param sortField
+	 * @return Page<User>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月8日下午3:56:05
+	 * @throws 异常
+	 */
+	Page<User> findPageUser(UserVO vo ,Integer pageNo,Integer pageSize,String sortField);
+	
 	
 	/**
 	 * 

@@ -111,7 +111,7 @@ function routerList(router, menuList){
 		if(menu.type == 0){
 			routerList(router, menu.list);
 		}else if(menu.type == 1){
-			router.add('#'+menu.url, function() {
+			router.add('#'+menu.menuUrl, function() {
 				var url = window.location.hash;
 				
 				//替换iframe的url
@@ -121,7 +121,7 @@ function routerList(router, menuList){
 			    $(".treeview-menu li").removeClass("active");
 			    $("a[href='"+url+"']").parents("li").addClass("active");
 			    
-			    vm.navTitle = $("a[href='"+url+"']").text();
+			    vm.navTitle = $("a[href='"+menuUrl+"']").text();
 			});
 		}
 	}

@@ -1,11 +1,15 @@
 package com.cms.szy.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.cms.szy.entity.po.User;
+import com.cms.szy.entity.vo.UserVO;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
@@ -18,7 +22,7 @@ import com.cms.szy.tools.shiro.ShiroUtils;
  * @author ShenZiYang 
  * @date 2018年1月6日 下午12:30:09
  */
-@Controller
+@RestController
 @RequestMapping("/sys/user")
 public class UserController extends AbstractController{
 	
@@ -36,12 +40,29 @@ public class UserController extends AbstractController{
 	 * @throws 异常
 	 */
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-	public @ResponseBody Ret userInfo(){
+	public Ret userInfo(){
 		return Ret.ok().put("user", getUser());
 	}
 	
 	
-	//分页查询所有用户列表
+	/**
+	 * 
+	 * (分页查询所有用户列表) 
+	 * @Title userList 
+	 * @param vo
+	 * @param pageNo
+	 * @param pageSize
+	 * @return Ret返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月8日下午4:07:14
+	 * @throws 异常
+	 */
+	@RequestMapping(value = "/list", method  = RequestMethod.POST)
+	@RequiresPermissions("sys:user:list")
+	public Ret userList(UserVO vo) {
+		Page<User> pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), "userId");
+		return Ret.ok().put("page", pageData);
+	}
 	
 	
 	/**
