@@ -13,6 +13,8 @@ import com.cms.szy.entity.vo.UserVO;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
+import com.cms.szy.tools.validator.Assert;
+
 
 
 /**
@@ -78,7 +80,8 @@ public class UserController extends AbstractController{
 	 */
 	@RequestMapping(value = "/password", method  = RequestMethod.POST)
 	public Ret modifyPwd(String oriPassword, String newPassword) {
-
+		
+		Assert.isBlank(newPassword, "新密码不为能空");
 		oriPassword = ShiroUtils.sha256(oriPassword, getUser().getSalt()); // 原密码
 		newPassword = ShiroUtils.sha256(newPassword, getUser().getSalt()); // 新密码
 
