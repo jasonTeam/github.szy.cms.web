@@ -14,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PageController {
 
-	@RequestMapping("modules/{module}/{url}.html")
+//	@RequestMapping("modules/{module}/{url}.html")
+//	public String module(@PathVariable("module") String module, @PathVariable("url") String url){
+//		return "modules/" + module + "/" + url;
+//	}
+	
+	@RequestMapping("/{module}/{url}.html")
 	public String module(@PathVariable("module") String module, @PathVariable("url") String url){
-		return "modules/" + module + "/" + url;
+		return "/" + module + "/" + url;
 	}
 
 	@RequestMapping("{url}.html")

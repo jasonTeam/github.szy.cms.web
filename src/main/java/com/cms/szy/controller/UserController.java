@@ -76,6 +76,7 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月8日下午2:44:18
 	 * @throws
 	 */
+	@RequestMapping(value = "/password", method  = RequestMethod.POST)
 	public Ret modifyPwd(String oriPassword, String newPassword) {
 
 		oriPassword = ShiroUtils.sha256(oriPassword, getUser().getSalt()); // 原密码
