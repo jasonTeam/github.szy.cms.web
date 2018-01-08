@@ -39,10 +39,10 @@
         <input type="password" class="form-control" v-model="password" placeholder="密码">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
-      <div class="form-group has-feedback">
+      <!-- <div class="form-group has-feedback">
         <input type="text" class="form-control" v-model="captcha" @keyup.enter="login" placeholder="验证码">
         <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
-      </div>
+      </div> -->
      <!--  <div class="form-group has-feedback">
         <img alt="如果看不清楚，请单击图片刷新！" class="pointer" :src="src" @click="refreshCode">
         &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" @click="refreshCode">点击刷新</a>
@@ -76,13 +76,19 @@
 <script type="text/javascript">
 var vm = new Vue({
 	el:'#rrapp',
-	data:{
+	/* data:{
 		userName: '',
 		password: '',
 		captcha: '',
 		error: false,
 		errorMsg: '',
 		src: 'captcha.jpg'
+	}, */
+	data:{
+		userName: '',
+		password: '',
+		error: false,
+		errorMsg: ''
 	},
 	beforeCreate: function(){
 		if(self != top){
@@ -90,11 +96,12 @@ var vm = new Vue({
 		}
 	},
 	methods: {
-		refreshCode: function(){
+		/* refreshCode: function(){
 			this.src = "captcha.jpg?t=" + $.now();
-		},
+		}, */
 		login: function (event) {
-			var data = "userName="+vm.userName+"&password="+vm.password+"&captcha="+vm.captcha;
+			//var data = "userName="+vm.userName+"&password="+vm.password+"&captcha="+vm.captcha;
+			var data = "userName="+vm.userName+"&password="+vm.password;
 			$.ajax({
 				type: "POST",
 			    url: "sys/login",
@@ -106,7 +113,7 @@ var vm = new Vue({
 					}else{
 						vm.error = true;
 						vm.errorMsg = result.msg;
-						vm.refreshCode();
+						//vm.refreshCode();
 					}
 				}
 			});

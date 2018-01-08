@@ -2,6 +2,9 @@ package com.cms.szy.repository.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.cms.szy.configuration.query.core.BaseRepository;
@@ -54,6 +57,23 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	 */
 	@Query(value = "select distinct rm.menu_id from sys_user_role ur LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
 	List<Long> queryAllMenuId(Long userId);
+	
+	
+	/**
+	 * 
+	 * (修改用户密码) 
+	 * @Title updatePwd 
+	 * @param userId
+	 * @param newPassowrd
+	 * @return int返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月8日下午2:32:44
+	 * @throws 异常
+	 */
+	@Modifying(clearAutomatically = true)
+	@Transactional //事务控制
+	@Query("UPDATE User u SET u.password = ?1 WHERE u.userId = ?2 ")
+	int updatePwd(String newPassowrd, Long userId);
 	
 	
 }

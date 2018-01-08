@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cms.szy.entity.po.User;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.service.UserService;
+import com.cms.szy.tools.exception.ImplException;
 
 /**
  * 
@@ -35,6 +37,19 @@ public class UserServiceImpl implements UserService{
 	public List<Long> queryAllMenuId(Long userId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public int updatePwd(Long userId, String oriPassword, String newPassword) {
+       
+        User user = userRepositoryDao.findOne(userId);
+        if(!user.getPassword().equals(oriPassword)){
+        	throw new ImplException("1111", "原密码错误!");
+        }
+        int res = userRepositoryDao.updatePwd(newPassword, userId);
+        
+        return res;
 	}
 	
 	

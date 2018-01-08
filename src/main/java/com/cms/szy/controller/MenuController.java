@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cms.szy.entity.po.Menu;
 import com.cms.szy.service.MenuService;
+import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.result.RetResult;
 
 
@@ -33,10 +34,10 @@ public class MenuController extends AbstractController{
 	/**
 	 * 导航菜单
 	 */
-	@RequestMapping(value = "/nav",method = RequestMethod.POST)
-	public @ResponseBody RetResult nav(){
-		List<Menu> meunList = menuService.getUserMenuList(2L);
-		return RetResult.setRetDate("0000", "success", meunList);
+	@RequestMapping(value = "/nav",method = RequestMethod.GET)
+	public @ResponseBody Ret nav(){
+		List<Menu> meunList = menuService.getUserMenuList(1L);
+		return Ret.ok().put("menuList", meunList);
 	}
 	
 	
@@ -51,10 +52,9 @@ public class MenuController extends AbstractController{
 	 */
 	@RequestMapping(value = "/list",method = RequestMethod.POST)
 	@RequiresPermissions("sys:menu:list")
-	public @ResponseBody RetResult list(){
-	
+	public String list(){
 		List<Menu> menuList = menuService.menuList();
-		return RetResult.setRetDate("0000", "success", menuList);
+		return null;
 	}
 	
 	

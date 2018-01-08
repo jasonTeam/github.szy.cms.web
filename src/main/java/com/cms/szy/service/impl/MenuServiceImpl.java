@@ -82,7 +82,7 @@ public class MenuServiceImpl implements MenuService{
 		
 		List<Menu> menuList = queryListParentId(parentId);
 		
-		if(null == menuList){
+		if(null == menuIdList){
 			return menuList;
 		}
 		

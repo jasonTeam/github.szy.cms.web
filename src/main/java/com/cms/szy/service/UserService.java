@@ -37,4 +37,20 @@ public interface UserService {
 	List<Long> queryAllMenuId(Long userId);
 	
 	
+	/**
+	 * 
+	 * (修改用戶密码) 
+	 * @Title updatePwd 
+	 * @param userId
+	 * @param oriPassword
+	 * @param newPassword
+	 * @return int返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月8日下午2:27:17
+	 * @throws 异常
+	 */
+	int updatePwd(Long userId, String oriPassword, String newPassword);
+	
+	
+	
 }

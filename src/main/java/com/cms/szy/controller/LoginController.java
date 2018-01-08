@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cms.szy.service.TbUserService;
-import com.cms.szy.tools.result.RetResult;
+import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
 
 
@@ -59,27 +59,24 @@ public class LoginController {
 	 * @throws 登录异常
 	 */
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
-	public @ResponseBody RetResult login(String userName,String password) {
-				
+	public @ResponseBody Ret login(String userName, String password) {
+
 		try {
-			
+
 			Subject subject = ShiroUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 			subject.login(token);
-			
+
 		} catch (UnknownAccountException e) {
-			return RetResult.setRetDate("1101", e.getMessage(),null);
+			return Ret.error(e.getMessage());
 		} catch (IncorrectCredentialsException e) {
-			return RetResult.setRetDate("1111","账号或密码不正确",null);
+			return Ret.error("账号或密码不正确");
 		} catch (LockedAccountException e) {
-			return RetResult.setRetDate("1111","账号已被锁定,请联系管理员",null);
-		} catch (AuthenticationException e) {
-			return RetResult.setRetDate("1111","账户验证失败",null);
-		}
-		
-		return RetResult.setRetDate("1101", "success",0);
+			return Ret.error("账号已被锁定,请联系管理员");
+		} 
+
+		return Ret.ok();
 	}
-	
 	
 	
 	
