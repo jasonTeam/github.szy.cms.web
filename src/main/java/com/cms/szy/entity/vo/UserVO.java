@@ -16,25 +16,25 @@ public class UserVO implements Serializable{
 
 	private String userName; //用户名
 	
-	private int pageNo; //当前页数
+	private int page; //当前页数
 	 
-	private int pageSize; //每页条数
+	private int limit; //每页条数
 	
 	
-	public int getPageNo() {
-		return pageNo;
+	public int getPage() {
+		return page;
 	}
 
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
+	public void setPage(int page) {
+		this.page = page;
 	}
 
-	public int getPageSize() {
-		return pageSize;
+	public int getLimit() {
+		return limit;
 	}
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 
 	public String getUserName() {

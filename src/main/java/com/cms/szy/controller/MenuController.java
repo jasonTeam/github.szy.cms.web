@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cms.szy.entity.po.Menu;
 import com.cms.szy.service.MenuService;
 import com.cms.szy.tools.result.Ret;
-import com.cms.szy.tools.result.RetResult;
 
 
 /**
@@ -52,9 +51,9 @@ public class MenuController extends AbstractController{
 	 */
 	@RequestMapping(value = "/list",method = RequestMethod.POST)
 	@RequiresPermissions("sys:menu:list")
-	public String list(){
+	public List<Menu> list(){
 		List<Menu> menuList = menuService.menuList();
-		return null;
+		return menuList;
 	}
 	
 	

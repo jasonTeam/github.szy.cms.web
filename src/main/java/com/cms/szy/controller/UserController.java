@@ -59,10 +59,10 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月8日下午4:07:14
 	 * @throws 异常
 	 */
-	@RequestMapping(value = "/list", method  = RequestMethod.POST)
+	@RequestMapping(value = "/list", method  = RequestMethod.GET)
 	@RequiresPermissions("sys:user:list")
 	public Ret userList(UserVO vo) {
-		Page<User> pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), "userId");
+		Page<User> pageData = userService.findPageUser(vo, vo.getPage()-1, vo.getLimit(), "userId");
 		return Ret.ok().put("page", pageData);
 	}
 	
