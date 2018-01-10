@@ -1,5 +1,8 @@
 package com.cms.szy.repository.dao;
 
-public interface DeptRepositoryDao {
+import com.cms.szy.configuration.query.core.BaseRepository;
+import com.cms.szy.entity.po.Dept;
 
+public interface DeptRepositoryDao extends BaseRepository<Dept, Long>{
+	
 }

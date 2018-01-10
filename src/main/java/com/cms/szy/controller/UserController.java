@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cms.szy.entity.po.User;
@@ -62,9 +61,19 @@ public class UserController extends AbstractController{
 	@RequestMapping(value = "/list", method  = RequestMethod.GET)
 	@RequiresPermissions("sys:user:list")
 	public Ret userList(UserVO vo) {
-		Page<User> pageData = userService.findPageUser(vo, vo.getPage()-1, vo.getLimit(), "userId");
+		Page<User> pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), "userId");
 		return Ret.ok().put("page", pageData);
 	}
+	
+	//新增用户
+	
+	
+	
+	
+	//修改用户信息
+	
+	
+	//删除用户
 	
 	
 	/**

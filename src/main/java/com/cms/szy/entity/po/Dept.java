@@ -34,6 +34,9 @@ public class Dept implements Serializable{
 	@Column(name = "parent_id")
 	private Long parentId;
 	
+	/**
+	 * 部门名称
+	 */
 	@Column(name = "dept_name")
 	private String deptName;
 	

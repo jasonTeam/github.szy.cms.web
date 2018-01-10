@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cms.szy.entity.dto.UserDTO;
+
 /**
  * 
  * (用户实体类) 
@@ -17,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sys_user") 
-public class User implements Serializable{
+public class User extends UserDTO implements Serializable{
 
 	private static final long serialVersionUID = -6910527803052728069L;
 	

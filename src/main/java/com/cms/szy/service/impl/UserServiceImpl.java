@@ -1,6 +1,8 @@
 package com.cms.szy.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
+import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
 import com.cms.szy.service.UserService;
@@ -31,6 +35,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserRepositoryDao userRepositoryDao;
+	
+	@Autowired
+	private DeptRepositoryDao deptRepositoryDao;
 	
 	@Override
 	public List<String> getPermsByUser(Long userId) {
@@ -76,7 +83,20 @@ public class UserServiceImpl implements UserService{
 		//分页条件
 		Pageable page = new PageRequest(pageNo, pageSize, sort);
 		
+		//获取分页数据
 		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
+		List<User> userList = pageData.getContent();
+		
+		//user实体和dept实体dept_id映射
+		Map<Long,Dept> userDeptMap  = new HashMap<>();
+		for(User u : userList){
+			userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
+		}
+		
+		//数据拼装
+		for(User u : userList){
+			u.setDeptName(userDeptMap.get(u.getDeptId()).getDeptName());//获取部门名称
+		}
 		
 		return pageData;
 	}
