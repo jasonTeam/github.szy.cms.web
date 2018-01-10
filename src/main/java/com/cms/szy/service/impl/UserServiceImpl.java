@@ -100,6 +100,19 @@ public class UserServiceImpl implements UserService{
 		
 		return pageData;
 	}
+
+
+	@Override
+	public void saveUser(User user) {
+		User newUser = new User();
+		newUser.setUserName(user.getUserName()); //登录账号
+		newUser.setDeptId(user.getDeptId()); //所属部门
+		newUser.setPassword(user.getPassword()); //登录密码
+		newUser.setEmail(user.getEmail()); //邮箱
+		newUser.setMobile(user.getMobile()); //手机号
+		newUser.setStatus(user.getStatus()); //状态  0：禁用   1：正常
+		userRepositoryDao.save(newUser);
+	}
 	
 	
 	

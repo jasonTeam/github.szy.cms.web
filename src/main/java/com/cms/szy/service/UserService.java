@@ -72,6 +72,18 @@ public interface UserService {
 	 */
 	int updatePwd(Long userId, String oriPassword, String newPassword);
 	
+	/**
+	 * 
+	 * (新增用户信息) 
+	 * @Title addUser 
+	 * @param user void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月10日下午8:43:41
+	 * @throws 增加失败
+	 */
+	void saveUser(User user);
+	
+	
 	
 	
 }

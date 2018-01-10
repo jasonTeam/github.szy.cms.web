@@ -3,6 +3,7 @@ package com.cms.szy.controller;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,7 +67,12 @@ public class UserController extends AbstractController{
 	}
 	
 	//新增用户
-	
+	@RequestMapping("/save")
+	@RequiresPermissions("sys:user:save")
+	public Ret saveUser(User user){
+		userService.saveUser(user);
+		return Ret.ok();
+	}
 	
 	
 	
