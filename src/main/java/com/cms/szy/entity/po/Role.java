@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cms.szy.entity.dto.RoleDTO;
+
 /**
  * 
  * (角色表实体类)
@@ -20,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sys_role")
-public class Role implements Serializable{
+public class Role extends RoleDTO implements Serializable{
 
 	private static final long serialVersionUID = -2817569474213523738L;
 
