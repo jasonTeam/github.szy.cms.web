@@ -25,14 +25,27 @@ public class RoleController {
 	
 	@Autowired
 	private RoleService roleService;
-	
-	//分页查询角色列表
+
+	/**
+	 * 
+	 * (分页查询角色列表) 
+	 * @Title roleList 
+	 * @param vo
+	 * @return Ret返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月11日下午5:57:09
+	 * @throws
+	 */
 	@RequestMapping(value = "/list",method = RequestMethod.GET)
 	@RequiresPermissions("sys:role:list")
 	public Ret roleList(RoleVO vo){
 		Page<Role> pageData = roleService.findPageRole(vo, vo.getPageNo()-1, vo.getPageSize(), "roleId");
 		return Ret.ok().put("page", pageData);
 	}
+	
+	
+	
+	
 	
 	
 }
