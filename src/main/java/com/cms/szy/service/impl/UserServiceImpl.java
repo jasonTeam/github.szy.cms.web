@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.cms.szy.configuration.annotation.DataFilter;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
@@ -21,6 +22,7 @@ import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.exception.ImplException;
+
 
 /**
  * 
@@ -69,6 +71,7 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
+	@DataFilter(tableAlias = "r", user = false)
 	public Page<User> findPageUser(UserVO vo, Integer pageNo, Integer pageSize, String sortField) {
 		
 		//查询条件

@@ -5,12 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+
 /**
- * 配置文件
- *
- * @version
- * @author Hermit 2017年2月19日 下午9:22:32
  * 
+ * (配置文件) 
+ * @ClassName EnvironmentConfig 
+ * @author ShenZiYang 
+ * @date 2018年1月12日 上午10:04:48
  */
 @Configuration
 @EnableConfigurationProperties
