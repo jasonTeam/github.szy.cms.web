@@ -41,10 +41,8 @@ public class RoleServiceImpl implements RoleService{
 		
 		//排序
 		Sort sort = new Sort(Direction.DESC,sortField);
-		
 		//分页条件
 		Pageable page = new PageRequest(pageNo,pageSize,sort);
-		
 		//分页查询
 		Page<Role> pageData = roleRepositoryDao.findAll(query, page);
 		List<Role> roleList = pageData.getContent();
@@ -61,6 +59,17 @@ public class RoleServiceImpl implements RoleService{
 		}
 	
 		return pageData;
+	}
+
+	@Override
+	public List<Role> getRoleList() {
+		List<Role> roleList = roleRepositoryDao.findAll();
+		return roleList;
+	}
+
+	@Override
+	public Role queryByRoleId(Long roleId) {
+		return roleRepositoryDao.findOne(roleId);
 	}
 
 }
