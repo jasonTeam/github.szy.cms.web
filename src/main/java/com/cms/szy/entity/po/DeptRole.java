@@ -27,10 +27,16 @@ public class DeptRole implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
-
+	
+	/**
+	 * 角色Id
+	 */
 	@Column(name = "role_id")
 	private Long roleId;
 
+	/**
+	 * 部门Id
+	 */
 	@Column(name = "dept_id")
 	private Long deptId;
 
@@ -58,10 +64,5 @@ public class DeptRole implements Serializable{
 	public void setDeptId(Long deptId) {
 		this.deptId = deptId;
 	}
-	
-	
-	
-	
-	
 
 }

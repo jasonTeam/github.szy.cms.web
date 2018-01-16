@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cms.szy.entity.po.Role;
 import com.cms.szy.entity.vo.RoleVO;
+import com.cms.szy.service.DeptRoleService;
+import com.cms.szy.service.MenuRoleService;
 import com.cms.szy.service.RoleService;
 import com.cms.szy.tools.result.Ret;
 
@@ -28,6 +30,10 @@ public class RoleController {
 	
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private MenuRoleService menuRoleService;
+	@Autowired
+	private DeptRoleService DeptRoleService;
 
 	/**
 	 * 
@@ -80,12 +86,14 @@ public class RoleController {
 		Role role = roleService.queryByRoleId(roleId);
 		
 		//查询角色对应的菜单
-		
+		List<Long> menuIdList = menuRoleService.queryMenuByRoleId(roleId);
+		role.setMenuIdList(menuIdList);
 		
 		//查询角色对应的部门
+		List<Long> deptIdList = DeptRoleService.queryDeptByRoleId(roleId);
+		role.setDeptIdList(deptIdList);
 		
-		
-		return null;
+		return Ret.ok().put("role", role);
 	}
 	
 	

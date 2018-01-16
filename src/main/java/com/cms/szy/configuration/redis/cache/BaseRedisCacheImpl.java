@@ -17,9 +17,6 @@ public class BaseRedisCacheImpl extends AbstractBaseRedis implements CacheClient
 
 	/**
 	 * 设置缓存值
-	 * 
-	 * (non-Javadoc)
-	 * @see com.gws.utils.cache.CacheClient#set(java.lang.String, java.lang.Object, java.lang.Long, java.lang.Class)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -32,12 +29,8 @@ public class BaseRedisCacheImpl extends AbstractBaseRedis implements CacheClient
 		return true;
 	}
 
-	/**
-	 * 
+	/** 
 	 * 设置缓存值
-	 * 
-	 * (non-Javadoc)
-	 * @see com.opengroup.longmao.gwcommon.configuration.redis.cache.CacheClient#set(java.lang.String, java.lang.String, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -52,11 +45,7 @@ public class BaseRedisCacheImpl extends AbstractBaseRedis implements CacheClient
 	
 	
 	/**
-	 * 
 	 * 设置缓存值
-	 * 
-	 * (non-Javadoc)
-	 * @see com.opengroup.longmao.gwcommon.configuration.redis.cache.CacheClient#set(java.lang.String, java.lang.String, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -70,11 +59,7 @@ public class BaseRedisCacheImpl extends AbstractBaseRedis implements CacheClient
 	}
 	
 	/**
-	 * 
 	 * 设置小键的值
-	 * 
-	 * (non-Javadoc)
-	 * @see com.opengroup.longmao.gwcommon.configuration.redis.cache.CacheClient#hashSet(java.lang.String, java.lang.String, java.lang.Object)
 	 */
 	public <T> boolean hashSet(String realKey,String hashKey, T t) {
 		if (realKey == null || hashKey == null) {
@@ -85,11 +70,7 @@ public class BaseRedisCacheImpl extends AbstractBaseRedis implements CacheClient
 	}
 	
 	/**
-	 * 
 	 * 得到最外层的大键的值
-	 * 
-	 * (non-Javadoc)
-	 * @see com.opengroup.longmao.gwcommon.configuration.redis.cache.CacheClient#hashGet(java.lang.String)
 	 */
 	public <T> T hashGet(String realKey) {
 		if (realKey == null) {

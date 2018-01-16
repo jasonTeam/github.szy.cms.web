@@ -42,10 +42,10 @@ public class RedisCacheConfig {
 	@Bean
 	public JedisPoolConfig getRedisConfig() {
 		JedisPoolConfig config = new JedisPoolConfig();
-//		config.setMaxTotal(redisConfig.getMaxTotal());
-//		config.setMaxIdle(redisConfig.getMaxIdle());
-//		config.setMinIdle(redisConfig.getMinIdle());
-//		config.setMaxWaitMillis(redisConfig.getMaxWaitMillis());
+		config.setMaxTotal(redisConfig.getMaxTotal());
+		config.setMaxIdle(redisConfig.getMaxIdle());
+		config.setMinIdle(redisConfig.getMinIdle());
+		config.setMaxWaitMillis(redisConfig.getMaxWaitMillis());
 		GwsLogger.info("JedisPoolConfig bean init success.");
 		return config;
 	}
@@ -55,11 +55,11 @@ public class RedisCacheConfig {
 		JedisConnectionFactory factory = new JedisConnectionFactory();
 		JedisPoolConfig config = getRedisConfig();
 		factory.setPoolConfig(config);
-//		factory.setHostName(redisConfig.getHost());
-//		factory.setPort(redisConfig.getPort());
-//		if (StringUtils.isNotBlank(redisConfig.getPassword())) {
-//			factory.setPassword(redisConfig.getPassword().trim());
-//		}
+		factory.setHostName(redisConfig.getHost());
+		factory.setPort(redisConfig.getPort());
+		if (StringUtils.isNotBlank(redisConfig.getPassword())) {
+			factory.setPassword(redisConfig.getPassword().trim());
+		}
 		GwsLogger.info("JedisConnectionFactory bean init success.");
 		return factory;
 	}
@@ -69,7 +69,7 @@ public class RedisCacheConfig {
 		RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
 		template.setKeySerializer(keySerializer);
 		template.setValueSerializer(keySerializer);  //修改前redis setList不能存List
-//		template.setValueSerializer(valueSerializer);  //修改后
+		template.setValueSerializer(valueSerializer);  //修改后
 		template.setDefaultSerializer(valueSerializer);
 		template.setHashValueSerializer(valueSerializer);
 		template.setConnectionFactory(factory);

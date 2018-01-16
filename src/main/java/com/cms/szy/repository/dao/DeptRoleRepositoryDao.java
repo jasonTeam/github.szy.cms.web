@@ -2,6 +2,8 @@ package com.cms.szy.repository.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
+
 import com.cms.szy.configuration.query.core.BaseRepository;
 import com.cms.szy.entity.po.DeptRole;
 
@@ -22,8 +24,8 @@ public interface DeptRoleRepositoryDao extends BaseRepository<DeptRole, Long>{
 	 * @date 2018年1月13日下午4:50:56
 	 * @throws 异常
 	 */
+	@Query("SELECT dr.depeId FROM DeptRole dr WHERE dr.roleId = ?1")
 	List<Long> queryDeptByRoleId(Long roleId);
-	
 	
 	
 }
