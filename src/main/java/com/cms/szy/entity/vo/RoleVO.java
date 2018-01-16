@@ -15,7 +15,7 @@ public class RoleVO implements Serializable {
 	private static final long serialVersionUID = 2300429869844098481L;
 
 	private Integer pageNo; // 当前页数
-	private Integer pageSize; // 没有条数
+	private Integer pageSize; // 每页条数
 	
 	private String roleName;
 	
