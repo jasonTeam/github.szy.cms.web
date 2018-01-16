@@ -24,7 +24,7 @@ public interface DeptRoleRepositoryDao extends BaseRepository<DeptRole, Long>{
 	 * @date 2018年1月13日下午4:50:56
 	 * @throws 异常
 	 */
-	@Query("SELECT dr.depeId FROM DeptRole dr WHERE dr.roleId = ?1")
+	@Query("SELECT dr.deptId FROM DeptRole dr WHERE dr.roleId = ?1")
 	List<Long> queryDeptByRoleId(Long roleId);
 	
 	
