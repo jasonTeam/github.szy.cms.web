@@ -81,14 +81,14 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		//排序
-		Sort sort = new Sort(Direction.DESC,sortField);
+		Sort sort = new Sort(Direction.ASC,sortField);
 		
 		//分页条件
 		Pageable page = new PageRequest(pageNo, pageSize, sort);
 		
 		//获取分页数据
 		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
-		List<User> userList = pageData.getContent();
+		List<User> userList = pageData.getContent();	
 		
 		//user实体和dept实体dept_id映射
 		Map<Long,Dept> userDeptMap  = new HashMap<>();

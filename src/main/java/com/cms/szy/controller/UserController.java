@@ -14,6 +14,9 @@ import com.cms.szy.service.UserService;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
 import com.cms.szy.tools.validator.Assert;
+import com.cms.szy.tools.validator.ValidatorUtils;
+import com.cms.szy.tools.validator.group.UpdateGroup;
+
 
 
 
@@ -66,6 +69,7 @@ public class UserController extends AbstractController{
 		return Ret.ok().put("page", pageData);
 	}
 	
+	
 	//新增用户
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:user:save")
@@ -74,14 +78,15 @@ public class UserController extends AbstractController{
 		return Ret.ok();
 	}
 	
-	
-	
+
 	//修改用户信息
+	public Ret update(@RequestBody User user){
+		ValidatorUtils.validateEntity(user, UpdateGroup.class);
+		return null;
+	}
 	
 	
 	//删除用户
-	
-	
 	/**
 	 * 
 	 * (修改密码) 
@@ -93,20 +98,17 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月8日下午2:44:18
 	 * @throws
 	 */
-	@RequestMapping(value = "/password", method  = RequestMethod.POST)
+	@RequestMapping(value = "/password",method  = RequestMethod.POST)
 	public Ret modifyPwd(String oriPassword, String newPassword) {
-		
 		Assert.isBlank(newPassword, "新密码不为能空");
 		oriPassword = ShiroUtils.sha256(oriPassword, getUser().getSalt()); // 原密码
 		newPassword = ShiroUtils.sha256(newPassword, getUser().getSalt()); // 新密码
 
 		try {
-
 			int res = userService.updatePwd(getUserId(), oriPassword, newPassword);
 			if (res < 1) {
 				return Ret.error("密码修改失败!");
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -114,9 +116,6 @@ public class UserController extends AbstractController{
 		return Ret.ok();
 
 	}
-	
-	
-	
 	
 //	@RequestMapping(value = "/getPermsByUser", method = RequestMethod.POST)
 //	public @ResponseBody RetResult getPermsByUser(Long userId){
@@ -126,11 +125,5 @@ public class UserController extends AbstractController{
 //		return RetResult.setRetDate("0000", "success", listPerms);
 //		
 //	}
-	
-	
-	
-	
-	
-	
 	
 }
