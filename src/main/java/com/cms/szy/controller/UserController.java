@@ -71,9 +71,10 @@ public class UserController extends AbstractController{
 	
 	
 	//新增用户
+
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:user:save")
-	public Ret saveUser(User user){
+	public Ret saveUser(@RequestBody User user){
 		userService.saveUser(user);
 		return Ret.ok();
 	}

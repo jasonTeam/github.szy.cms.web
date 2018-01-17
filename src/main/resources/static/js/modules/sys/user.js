@@ -96,9 +96,9 @@ var vm = new Vue({
             $.get(baseURL + "sys/dept/list", function(r){
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
                 var node = ztree.getNodeByParam("deptId", vm.user.deptId);
+              
                 if(node != null){
-                    ztree.selectNode(node);
-
+                    ztree.selectNode();
                     vm.user.deptName = node.name;
                 }
             })
