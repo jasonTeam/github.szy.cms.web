@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
+import com.cms.szy.service.UserRoleService;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
 import com.cms.szy.tools.validator.Assert;
 import com.cms.szy.tools.validator.ValidatorUtils;
 import com.cms.szy.tools.validator.group.UpdateGroup;
-
-
 
 
 /**
@@ -36,6 +35,8 @@ public class UserController extends AbstractController{
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserRoleService userRoleService;
 	
 
 	/**
@@ -85,50 +86,67 @@ public class UserController extends AbstractController{
 	@RequestMapping("/info/{userId}")
 	@RequiresPermissions("sys:user:info")
 	public Ret info(@PathVariable("userId") Long userId){
-		
-		userService.queryUserByUserId(userId);
-		//获取用户所属的角色列表
-		
-		
-		return Ret.ok().put("user", null);
+		User user = userService.queryUserByUserId(userId);
+		//根据用户ID获取用户所属的角色ID列表
+		List<Long> roleIdList = userRoleService.queryRoleIdByUserId(userId);
+		user.setRoleIdList(roleIdList);
+		return Ret.ok().put("user", user);
 	}
 	
 	
-	//新增用户
-
-	@RequestMapping("/save")
+	/**
+	 * 
+	 *【新增用户】
+	 * @Title saveUser 
+	 * @param user
+	 * @return Ret返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月18日下午10:10:43
+	 * @throws  异常
+	 */
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@RequiresPermissions("sys:user:save")
 	public Ret saveUser(@RequestBody User user){
 		userService.saveUser(user);
 		return Ret.ok();
 	}
 	
-
-	//修改用户信息
+	
+	/**
+	 * 
+	 *【修改用户信息】
+	 * @Title update 
+	 * @param user
+	 * @return Ret返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月18日下午10:14:27
+	 * @throws  异常
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequiresPermissions("sys:user:update")
 	public Ret update(@RequestBody User user){
 		ValidatorUtils.validateEntity(user, UpdateGroup.class);
-		return null;
+		userService.updateUser(user);
+		return Ret.ok();
 	}
 	
 	
-	//删除用户
 	/**
 	 * 
-	 * (修改密码) 
+	 *【修改密码】
 	 * @Title modifyPwd 
 	 * @param oriPassword
 	 * @param newPassword
 	 * @return Ret返回类型   
 	 * @author ShenZiYang
-	 * @date 2018年1月8日下午2:44:18
-	 * @throws
+	 * @date 2018年1月18日下午10:12:57
+	 * @throws  异常
 	 */
 	@RequestMapping(value = "/password",method  = RequestMethod.POST)
 	public Ret modifyPwd(String oriPassword, String newPassword) {
 		Assert.isBlank(newPassword, "新密码不为能空");
 		oriPassword = ShiroUtils.sha256(oriPassword, getUser().getSalt()); // 原密码
 		newPassword = ShiroUtils.sha256(newPassword, getUser().getSalt()); // 新密码
-
 		try {
 			int res = userService.updatePwd(getUserId(), oriPassword, newPassword);
 			if (res < 1) {

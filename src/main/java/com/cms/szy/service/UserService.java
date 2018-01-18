@@ -95,5 +95,18 @@ public interface UserService {
 	User queryUserByUserId(Long userId);
 	
 	
+	/**
+	 * 
+	 *【更新用户信息】
+	 * @Title updateUser 
+	 * @param user
+	 * @return User返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月18日下午10:17:46
+	 * @throws  异常
+	 */
+	void updateUser(User user);
+	
+	
 	
 }

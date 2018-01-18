@@ -27,8 +27,6 @@ import com.cms.szy.service.UserService;
 import com.cms.szy.tools.exception.ImplException;
 import com.cms.szy.tools.shiro.ShiroUtils;
 
-
-
 /**
  * 
  *(用户业务层接口实现类) 
@@ -125,6 +123,22 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User queryUserByUserId(Long userId) {
 		return userRepositoryDao.findOne(userId);
+	}
+
+
+	@Override
+	public void updateUser(User user) {
+		//先查询用户是否存在
+		User userBean = userRepositoryDao.findOne(user.getUserId());
+		if(null != userBean){
+			userBean.setUserName(user.getUserName()); //用户名
+			userBean.setDeptId(user.getDeptId());     //用户所属部门
+			userBean.setPassword(user.getPassword()); //登录密码
+			userBean.setEmail(user.getEmail());       //邮箱
+			userBean.setMobile(user.getMobile());     //手机号
+			userBean.setStatus(user.getStatus());     //用户状态
+			userRepositoryDao.save(userBean); //保存
+		}
 	}
 	
 	
