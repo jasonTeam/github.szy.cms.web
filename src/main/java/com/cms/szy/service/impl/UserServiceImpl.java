@@ -20,6 +20,7 @@ import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
+import com.cms.szy.enums.IsDeleteEnum;
 import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
@@ -110,7 +111,7 @@ public class UserServiceImpl implements UserService{
 		newUser.setDeptId(1L); //所属部门
 		newUser.setEmail(user.getEmail()); //邮箱
 		newUser.setMobile(user.getMobile()); //手机号
-		newUser.setStatus(user.getStatus()); //状态  0：禁用   1：正常
+//		newUser.setStatus(user.getStatus()); //状态  0：禁用   1：正常
 		//sha256加密
 		String salt = RandomStringUtils.randomAlphanumeric(20);
 		newUser.setSalt(salt); 
@@ -137,6 +138,7 @@ public class UserServiceImpl implements UserService{
 			userBean.setEmail(user.getEmail());       //邮箱
 			userBean.setMobile(user.getMobile());     //手机号
 			userBean.setStatus(user.getStatus());     //用户状态
+			userBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); //是否删除
 			userRepositoryDao.save(userBean); //保存
 		}
 	}
