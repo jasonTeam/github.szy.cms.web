@@ -1,9 +1,11 @@
 package com.cms.szy.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.cms.szy.configuration.annotation.DataFilter;
+import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
@@ -22,6 +25,8 @@ import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.exception.ImplException;
+import com.cms.szy.tools.shiro.ShiroUtils;
+
 
 
 /**
@@ -37,9 +42,10 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserRepositoryDao userRepositoryDao;
-	
 	@Autowired
 	private DeptRepositoryDao deptRepositoryDao;
+	@Autowired
+	private IdGlobalGenerator idGlobalGenerator;
 	
 	@Override
 	public List<String> getPermsByUser(Long userId) {
@@ -104,16 +110,21 @@ public class UserServiceImpl implements UserService{
 		return pageData;
 	}
 
-
 	@Override
 	public void saveUser(User user) {
 		User newUser = new User();
+		Long userId = idGlobalGenerator.getSeqId(User.class);
+		newUser.setUserId(userId); //用户ID
 		newUser.setUserName(user.getUserName()); //登录账号
-		newUser.setDeptId(user.getDeptId()); //所属部门
-		newUser.setPassword(user.getPassword()); //登录密码
+		newUser.setDeptId(1L); //所属部门
 		newUser.setEmail(user.getEmail()); //邮箱
 		newUser.setMobile(user.getMobile()); //手机号
 		newUser.setStatus(user.getStatus()); //状态  0：禁用   1：正常
+		//sha256加密
+		String salt = RandomStringUtils.randomAlphanumeric(20);
+		newUser.setSalt(salt); 
+		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt())); //登录密码
+		newUser.setCreateTime(new Date()); //创建时间
 		userRepositoryDao.save(newUser);
 	}
 	
