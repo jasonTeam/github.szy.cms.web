@@ -79,34 +79,27 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@DataFilter(tableAlias = "r", user = false)
 	public Page<User> findPageUser(UserVO vo, Integer pageNo, Integer pageSize, String sortField) {
-		
 		//查询条件
 		UserQuery query = new UserQuery();
 		if(StringUtils.isEmpty(vo.getUserName())){
 			query.setUserName(vo.getUserName());
 		}
-		
 		//排序
 		Sort sort = new Sort(Direction.ASC,sortField);
-		
 		//分页条件
 		Pageable page = new PageRequest(pageNo, pageSize, sort);
-		
 		//获取分页数据
 		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
 		List<User> userList = pageData.getContent();	
-		
 		//user实体和dept实体dept_id映射
 		Map<Long,Dept> userDeptMap  = new HashMap<>();
 		for(User u : userList){
 			userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
 		}
-		
 		//数据拼装
 		for(User u : userList){
 			u.setDeptName(userDeptMap.get(u.getDeptId()).getDeptName());//获取部门名称
 		}
-		
 		return pageData;
 	}
 
@@ -126,6 +119,12 @@ public class UserServiceImpl implements UserService{
 		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt())); //登录密码
 		newUser.setCreateTime(new Date()); //创建时间
 		userRepositoryDao.save(newUser);
+	}
+
+
+	@Override
+	public User queryUserByUserId(Long userId) {
+		return userRepositoryDao.findOne(userId);
 	}
 	
 	

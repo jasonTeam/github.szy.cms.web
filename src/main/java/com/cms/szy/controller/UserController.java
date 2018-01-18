@@ -1,8 +1,11 @@
 package com.cms.szy.controller;
 
+import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,6 +70,27 @@ public class UserController extends AbstractController{
 	public Ret userList(UserVO vo) {
 		Page<User> pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), "userId");
 		return Ret.ok().put("page", pageData);
+	}
+	
+	
+	/**
+	 * 
+	 *【根据用户ID查询用户信息，用于页面回显】 
+	 * @param userId
+	 * @return Ret返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月18日下午6:25:54
+	 * @throws 异常
+	 */
+	@RequestMapping("/info/{userId}")
+	@RequiresPermissions("sys:user:info")
+	public Ret info(@PathVariable("userId") Long userId){
+		
+		userService.queryUserByUserId(userId);
+		//获取用户所属的角色列表
+		
+		
+		return Ret.ok().put("user", null);
 	}
 	
 	

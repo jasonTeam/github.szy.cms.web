@@ -83,6 +83,16 @@ public interface UserService {
 	 */
 	void saveUser(User user);
 	
+	/**
+	 * 
+	 *【通过用户ID查询用户】 
+	 * @param userId
+	 * @return User返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月18日下午6:27:21
+	 * @throws 异常
+	 */
+	User queryUserByUserId(Long userId);
 	
 	
 	
