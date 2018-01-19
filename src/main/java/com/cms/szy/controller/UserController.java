@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;

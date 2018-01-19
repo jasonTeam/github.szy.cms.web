@@ -19,14 +19,17 @@ $(function () {
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
-            root: "page.list",
+            //root: "page.list",
+        	root: "page.content",
             page: "page.currPage",
             total: "page.totalPage",
             records: "page.totalCount"
         },
         prmNames : {
-            page:"page",
-            rows:"limit",
+            //page:"page",
+            //rows:"limit",
+        	page:"pageNo", 
+            rows:"pageSize", 
             order: "order"
         },
         gridComplete:function(){

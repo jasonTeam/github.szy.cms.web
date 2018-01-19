@@ -22,6 +22,16 @@ public interface DeptService {
 	 */
 	List<Dept> deptList();
 	
+	/**
+	 * 
+	 *【根据部门ID获取部门实体】 
+	 * @param deptId
+	 * @return Dept返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月19日上午11:40:08
+	 * @throws 异常
+	 */
+	Dept getDeptByDeptId(Long deptId);
 	
 	
 	

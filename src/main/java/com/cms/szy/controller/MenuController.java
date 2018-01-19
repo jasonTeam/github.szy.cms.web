@@ -42,14 +42,13 @@ public class MenuController extends AbstractController{
 	
 	/**
 	 * 
-	 * (查询所有菜单列表) 
-	 * @Title list 
-	 * @return RetResult返回类型   
+	 *【查询所有的菜单列表,功能权限也调用这个接口】 
+	 * @return List<Menu>返回类型   
 	 * @author ShenZiYang
-	 * @date 2018年1月6日下午1:28:19
-	 * @throws 查询失败
+	 * @date 2018年1月19日下午12:37:07
+	 * @throws 异常
 	 */
-	@RequestMapping(value = "/list",method = RequestMethod.POST)
+	@RequestMapping(value = "/list",method = RequestMethod.GET)
 	@RequiresPermissions("sys:menu:list")
 	public List<Menu> list(){
 		List<Menu> menuList = menuService.menuList();

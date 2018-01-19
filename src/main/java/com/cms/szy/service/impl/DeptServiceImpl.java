@@ -25,5 +25,10 @@ public class DeptServiceImpl implements DeptService{
 	public List<Dept> deptList() {
 		return deptRepositoryDao.deptList();
 	}
+
+	@Override
+	public Dept getDeptByDeptId(Long deptId) {
+		return deptRepositoryDao.findOne(deptId);
+	}
 	
 }
