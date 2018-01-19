@@ -23,28 +23,10 @@ public class DeptController {
 	
 	@Autowired
 	private DeptService deptService;
-	
-	
-	/**
-	 * 
-	 *【查询部门列表集合】 
-	 * @return List<Dept>返回类型   
-	 * @author ShenZiYang
-	 * @date 2018年1月19日上午11:14:14
-	 * @throws 异常
-	 */
-	@RequestMapping("/list")
-	@RequiresPermissions("sys:dept:list")
-	public List<Dept> deptList(){
-			
 		
-		return null;
-	}
-	
-	
 	/**
 	 * 
-	 *【新增查询所属部门列表】 
+	 *【新增查询所属部门列表 & 查询部门列表集合】 
 	 * @return List<Dept>返回类型   
 	 * @author ShenZiYang
 	 * @date 2018年1月17日下午3:08:25
@@ -56,12 +38,5 @@ public class DeptController {
 		List<Dept>  deptList = deptService.deptList();
 		return deptList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }
