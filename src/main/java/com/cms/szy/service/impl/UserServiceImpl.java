@@ -113,11 +113,12 @@ public class UserServiceImpl implements UserService{
 		newUser.setDeptId(1L); //所属部门
 		newUser.setEmail(user.getEmail()); //邮箱
 		newUser.setMobile(user.getMobile()); //手机号
-//		newUser.setStatus(user.getStatus()); //状态  0：禁用   1：正常
+		newUser.setStatus(user.getStatus()); //状态  0：禁用   1：正常
 		//sha256加密
 		String salt = RandomStringUtils.randomAlphanumeric(20);
 		newUser.setSalt(salt); 
 		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt())); //登录密码
+		newUser.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); //是否删除
 		newUser.setCreateTime(new Date()); //创建时间
 		userRepositoryDao.save(newUser);
 	}

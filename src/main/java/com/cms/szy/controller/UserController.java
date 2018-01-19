@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
 import com.cms.szy.enums.UserTypeEnum;
 import com.cms.szy.service.UserRoleService;
 import com.cms.szy.service.UserService;
+import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
 import com.cms.szy.tools.validator.Assert;
@@ -55,23 +58,32 @@ public class UserController extends AbstractController{
 		return Ret.ok().put("user", getUser());
 	}
 	
-	
 	/**
 	 * 
-	 * (分页查询所有用户列表) 
-	 * @Title userList 
+	 *【分页查询所有用户列表】 
 	 * @param vo
-	 * @param pageNo
-	 * @param pageSize
 	 * @return Ret返回类型   
 	 * @author ShenZiYang
-	 * @date 2018年1月8日下午4:07:14
+	 * @date 2018年1月19日上午10:32:31
 	 * @throws 异常
 	 */
 	@RequestMapping(value = "/list", method  = RequestMethod.GET)
 	@RequiresPermissions("sys:user:list")
 	public Ret userList(UserVO vo) {
-		Page<User> pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), "userId");
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("分页查询所有用户列表信息开始:code={},message={}",code,message);
+		
+		Page<User> pageData = null;
+		try{
+			pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), "userId");
+		}catch(Exception e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("分页查询所有用户列表信息异常:code={},message={},e={}", code, message, e);
+		}
+		
+		GwsLogger.info("分页查询所有用户列表信息结束,code={},message={}", code, message);
 		return Ret.ok().put("page", pageData);
 	}
 	
@@ -85,7 +97,7 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月18日下午6:25:54
 	 * @throws 异常
 	 */
-	@RequestMapping("/info/{userId}")
+	@RequestMapping(value = "/info/{userId}",method = RequestMethod.GET)
 	@RequiresPermissions("sys:user:info")
 	public Ret info(@PathVariable("userId") Long userId){
 		User user = userService.queryUserByUserId(userId);
@@ -170,7 +182,7 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月19日上午9:30:37
 	 * @throws 异常
 	 */
-	@RequestMapping("/delete")
+	@RequestMapping(value = "/delete",method  = RequestMethod.POST)
 	@RequiresPermissions("sys:user:delete")
 	public Ret delete(@RequestBody Long[] userIds) {
 		if (ArrayUtils.contains(userIds, UserTypeEnum.ADMIN.getVal())) {

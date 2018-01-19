@@ -75,7 +75,7 @@ public class TbUserController {
 		
 		if(null == userId || userId < 1){
 			GwsLogger.error("传入的用户ID为空:userId={}", userId);
-			return RetResult.setRetDate(CommConstant.GWSCOD0006, CommConstant.GWSMSG0006,null);
+			return RetResult.setRetDate(CommConstant.GWSCOD0001, CommConstant.GWSMSG0001,null);
 		}
 		
 		TbUser user = null;

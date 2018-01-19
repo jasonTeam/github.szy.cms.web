@@ -1,6 +1,5 @@
 package com.cms.szy.controller;
 
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.service.TbUserService;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
@@ -62,11 +62,9 @@ public class LoginController {
 	public @ResponseBody Ret login(String userName, String password) {
 
 		try {
-
 			Subject subject = ShiroUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 			subject.login(token);
-
 		} catch (UnknownAccountException e) {
 			return Ret.error(e.getMessage());
 		} catch (IncorrectCredentialsException e) {
@@ -79,6 +77,20 @@ public class LoginController {
 	}
 	
 	
+	/**
+	 * 
+	 *【退出登录】 
+	 * @return String返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月19日上午10:18:26
+	 * @throws 异常
+	 */
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout() {
+		ShiroUtils.logout();
+		GwsLogger.info("当前用户退出登录", "logout");
+		return "redirect:login.html";
+	}
 	
 	
 }	
