@@ -75,3 +75,6 @@
 [2018-01-19 17:12:51] INFO : Starting CMSApplication on jason-PC with PID 7264 (E:\jasonWorkSpace\szy_workspace\szy.cms.web\target\classes started by jason in E:\jasonWorkSpace\szy_workspace\szy.cms.web)
 [2018-01-19 17:12:51] INFO : The following profiles are active: dev
 [2018-01-19 17:13:05] INFO : Started CMSApplication in 14.36 seconds (JVM running for 14.982)
+[2018-01-19 17:16:47] INFO : Starting CMSApplication on jason-PC with PID 8228 (E:\jasonWorkSpace\szy_workspace\szy.cms.web\target\classes started by jason in E:\jasonWorkSpace\szy_workspace\szy.cms.web)
+[2018-01-19 17:16:47] INFO : The following profiles are active: dev
+[2018-01-19 17:17:02] INFO : Started CMSApplication in 14.714 seconds (JVM running for 15.337)

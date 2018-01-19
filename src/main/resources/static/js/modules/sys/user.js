@@ -103,6 +103,7 @@ var vm = new Vue({
             //加载部门树
             $.get(baseURL + "sys/dept/list", function(r){
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
+                console.log("r"+r)
                 var node = ztree.getNodeByParam("deptId", vm.user.deptId);
  
                 if(node != null){
