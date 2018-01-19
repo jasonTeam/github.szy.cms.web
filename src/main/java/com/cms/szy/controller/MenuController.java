@@ -42,7 +42,7 @@ public class MenuController extends AbstractController{
 	
 	/**
 	 * 
-	 *【查询所有的菜单列表,功能权限也调用这个接口】 
+	 *【查询所有的菜单列表】 
 	 * @return List<Menu>返回类型   
 	 * @author ShenZiYang
 	 * @date 2018年1月19日下午12:37:07
@@ -54,6 +54,27 @@ public class MenuController extends AbstractController{
 		List<Menu> menuList = menuService.menuList();
 		return menuList;
 	}
+	
+	/**
+	 * 选择菜单(添加、修改菜单)
+	 */
+	@RequestMapping("/select")
+	@RequiresPermissions("sys:menu:select")
+	public Ret select(){
+		//查询列表数据
+		List<Menu> menuList = menuService.menuList();
+		
+		//添加顶级菜单
+		Menu root = new Menu();
+		root.setMenuId(0L);
+		root.setMenuName("一级菜单");
+		root.setParentId(-1L);
+		root.setOpen(true);
+		menuList.add(root);
+		
+		return Ret.ok().put("menuList", menuList);
+	}
+	
 	
 	
 	

@@ -30,7 +30,7 @@ public class DeptController extends AbstractController{
 		
 	/**
 	 * 
-	 *【新增查询所属部门列表 & 查询部门列表集合】
+	 *【新增查询所属部门列表】
 	 * 数据权限树也调用此接口 
 	 * @return List<Dept>返回类型   
 	 * @author ShenZiYang
@@ -63,7 +63,27 @@ public class DeptController extends AbstractController{
 		}
 		return Ret.ok().put("deptId", deptId);
 	}
-
+	
+	
+	/**
+	 * 选择部门(添加、修改菜单)
+	 */
+	@RequestMapping("/select")
+	@RequiresPermissions("sys:dept:select")
+	public Ret select(){
+		List<Dept>  deptList = deptService.deptList();
+		//添加一级部门
+		if(getUserId() == Constant.SUPER_ADMIN){
+			Dept root = new Dept();
+			root.setDeptId(0L);
+			root.setDeptName("一级部门");
+			root.setParentId(-1L);
+			root.setOpen(true);
+			deptList.add(root);
+		}
+		return Ret.ok().put("deptList", deptList);
+	}
+	
 	
 	/**
 	 * 
