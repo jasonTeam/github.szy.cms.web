@@ -18,6 +18,9 @@ public class RoleQueryFilter extends BaseQuery{
 	
 	@QBindAttrField(fieldName = "roleName", where = Where.equal)
 	private String roleName;
+	
+	@QBindAttrField(fieldName = "isDelete", where = Where.equal)
+	private Short isDelete;
 
 	public String getRoleName() {
 		return roleName;
@@ -26,8 +29,14 @@ public class RoleQueryFilter extends BaseQuery{
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	
-	
+
+	public Short getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Short isDelete) {
+		this.isDelete = isDelete;
+	}
 	
 	
 }

@@ -53,6 +53,30 @@ public interface RoleService {
 	 */
 	Role queryByRoleId(Long roleId);
 	
+	/**
+	 * 
+	 *【修改用户角色数据】
+	 * @Title updateRole 
+	 * @param role void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月19日下午9:44:17
+	 * @throws  异常
+	 */
+	void updateRole(Role role);
+	
+	
+	/**
+	 * 
+	 *【批量删除角色数据】
+	 * @Title deleteRoleBatch 
+	 * @param roleIds void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月19日下午9:54:57
+	 * @throws  异常
+	 */
+	void deleteRoleBatch(Long[] roleIds);
+	
+	
 	
 	
 }

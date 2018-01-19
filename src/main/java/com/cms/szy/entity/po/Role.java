@@ -39,7 +39,10 @@ public class Role extends RoleDTO implements Serializable{
 
 	@Column(name = "remark")
 	private String remark;
-
+	
+	@Column(name = "is_delete")
+	private Short isDelete;
+	
 	@Column(name = "create_time")
 	private Date createTime;
 
@@ -82,8 +85,14 @@ public class Role extends RoleDTO implements Serializable{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
-	
+
+	public Short getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Short isDelete) {
+		this.isDelete = isDelete;
+	}
 	
 
 }

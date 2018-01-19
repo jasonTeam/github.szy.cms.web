@@ -17,6 +17,7 @@ import com.cms.szy.configuration.annotation.DataFilter;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.Role;
 import com.cms.szy.entity.vo.RoleVO;
+import com.cms.szy.enums.IsDeleteEnum;
 import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.repository.dao.RoleRepositoryDao;
 import com.cms.szy.repository.queryFilter.RoleQueryFilter;
@@ -25,7 +26,6 @@ import com.cms.szy.service.RoleService;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleService{
-
 	
 	@Autowired
 	private RoleRepositoryDao roleRepositoryDao;
@@ -41,6 +41,8 @@ public class RoleServiceImpl implements RoleService{
 			query.setRoleName(vo.getRoleName());
 		}
 		
+		//过滤掉是否删除字段
+		query.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());
 		//排序
 		Sort sort = new Sort(Direction.DESC,sortField);
 		//分页条件
@@ -62,7 +64,8 @@ public class RoleServiceImpl implements RoleService{
 	
 		return pageData;
 	}
-
+	
+	
 	@DataFilter(tableAlias = "r", user = false)
 	@Override
 	public List<Role> getRoleList() {
@@ -78,9 +81,33 @@ public class RoleServiceImpl implements RoleService{
 		return roleList;
 	}
 
+	
 	@Override
 	public Role queryByRoleId(Long roleId) {
 		return roleRepositoryDao.findOne(roleId);
 	}
+
+	
+	@Override
+	public void updateRole(Role role) {
+		Role roleBean = roleRepositoryDao.findOne(role.getRoleId()); //查询是否已经存在
+		if(null != roleBean){
+			roleBean.setRoleName(roleBean.getRoleName());  //角色名称
+			roleBean.setDeptId(roleBean.getDeptId()); //所属部门
+			roleBean.setRemark(roleBean.getRemark());  //备注
+		}
+	}
+
+
+	@Override
+	public void deleteRoleBatch(Long[] roleIds) {
+		if(null != roleIds && roleIds.length > 0){
+			for(int i = 0; i < roleIds.length; i++){
+				Role role = roleRepositoryDao.findOne(roleIds[i]);
+				role.setIsDelete(IsDeleteEnum.DELETE.getVal()); //标记为删除
+			}
+		}
+	}
+	
 
 }

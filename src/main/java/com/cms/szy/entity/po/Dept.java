@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -44,8 +42,11 @@ public class Dept extends DeptDTO implements Serializable{
 	@Column(name = "order_num")
 	private Integer orderNum;
 	
+	/**
+	 * 是否删除 1：正常，-1：已删除
+	 */
 	@Column(name = "is_delete")
-	private  Integer isDelete;
+	private  Short isDelete;
 
 
 	public Long getDeptId() {
@@ -80,11 +81,11 @@ public class Dept extends DeptDTO implements Serializable{
 		this.orderNum = orderNum;
 	}
 
-	public Integer getIsDelete() {
+	public Short getIsDelete() {
 		return isDelete;
 	}
 
-	public void setIsDelete(Integer isDelete) {
+	public void setIsDelete(Short isDelete) {
 		this.isDelete = isDelete;
 	}
 	
