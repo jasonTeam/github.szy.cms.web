@@ -29,7 +29,8 @@ $(function () {
         	root: "page.content",
             page: "page.currPage",
             total: "page.totalPage",
-            records: "page.totalCount"
+            //records: "page.totalCount"
+            records: "page.total"
         },
         prmNames : {
             //page:"page", 
@@ -101,11 +102,12 @@ var vm = new Vue({
         },
         getDept: function(){
             //加载部门树
-            $.get(baseURL + "sys/dept/list", function(r){
-                ztree = $.fn.zTree.init($("#deptTree"), setting, r);
+            $.get(baseURL + "sys/dept/list", function(deptLists){
+                ztree = $.fn.zTree.init($("#deptTree"), setting, deptLists);
                 var node = ztree.getNodeByParam("deptId", vm.user.deptId);
  
                 if(node != null){
+                	alert("执行了node里面了")
                     ztree.selectNode();
                     vm.user.deptName = node.name;
                 }
@@ -173,16 +175,16 @@ var vm = new Vue({
         
         //获取当前登录的用户信息
         getUser: function(userId){
-            $.get(baseURL + "sys/user/info/"+userId, function(r){
-                vm.user = r.user;
+            $.get(baseURL + "sys/user/info/"+userId, function(userInfo){
+                vm.user = userInfo.user;
                 vm.user.password = null;
                 vm.getDept();
             });
         },
         //
         getRoleList: function(){
-            $.get(baseURL + "sys/role/select", function(r){
-                vm.roleList = r.list;
+            $.get(baseURL + "sys/role/select", function(roleLists){
+                vm.roleList = roleLists.list;
             });
         },
         //部门树加载
@@ -213,7 +215,8 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
-                postData:{'username': vm.q.username},
+//                postData:{'username': vm.q.userame},
+            	postData:{'username': vm.q.userName},
                 page:page
             }).trigger("reloadGrid");
         }
