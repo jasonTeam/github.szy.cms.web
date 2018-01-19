@@ -48,9 +48,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public List<String> getPermsByUser(Long userId) {
-		
 		List<String> listPerms = userRepositoryDao.getPermsByUser(userId);
-		
 		return listPerms;
 	}
 
@@ -64,7 +62,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int updatePwd(Long userId, String oriPassword, String newPassword) {
-       
         User user = userRepositoryDao.findOne(userId);
         if(!user.getPassword().equals(oriPassword)){
         	throw new ImplException("1111", "原密码错误!");
@@ -83,6 +80,8 @@ public class UserServiceImpl implements UserService{
 		if(StringUtils.isEmpty(vo.getUserName())){
 			query.setUserName(vo.getUserName());
 		}
+		//过滤删除字段
+		query.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());
 		//排序
 		Sort sort = new Sort(Direction.ASC,sortField);
 		//分页条件
@@ -90,11 +89,13 @@ public class UserServiceImpl implements UserService{
 		//获取分页数据
 		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
 		List<User> userList = pageData.getContent();	
+		
 		//user实体和dept实体dept_id映射
 		Map<Long,Dept> userDeptMap  = new HashMap<>();
 		for(User u : userList){
 			userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
 		}
+		
 		//数据拼装
 		for(User u : userList){
 			u.setDeptName(userDeptMap.get(u.getDeptId()).getDeptName());//获取部门名称
@@ -102,6 +103,7 @@ public class UserServiceImpl implements UserService{
 		return pageData;
 	}
 
+	
 	@Override
 	public void saveUser(User user) {
 		User newUser = new User();
@@ -140,6 +142,18 @@ public class UserServiceImpl implements UserService{
 			userBean.setStatus(user.getStatus());     //用户状态
 			userBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); //是否删除
 			userRepositoryDao.save(userBean); //保存
+		}
+	}
+
+
+	@Override
+	public void deleteBatchUser(Long[] userIds) {
+		if(null != userIds && userIds.length > 0){
+			for(int i = 0; i < userIds.length; i++){
+				User userBean = userRepositoryDao.findOne(userIds[i]); //查询用户数据是否存在
+				userBean.setIsDelete(IsDeleteEnum.DELETE.getVal());
+				userRepositoryDao.save(userBean);
+			}
 		}
 	}
 	

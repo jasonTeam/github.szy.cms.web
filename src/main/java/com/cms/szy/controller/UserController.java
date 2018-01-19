@@ -2,6 +2,7 @@ package com.cms.szy.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
+import com.cms.szy.enums.UserTypeEnum;
 import com.cms.szy.service.UserRoleService;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.result.Ret;
@@ -155,10 +157,34 @@ public class UserController extends AbstractController{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return Ret.ok();
-
 	}
+	
+	
+	/**
+	 * 
+	 *【批量删除用户,逻辑删除】 
+	 * @param userIds
+	 * @return R返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月19日上午9:30:37
+	 * @throws 异常
+	 */
+	@RequestMapping("/delete")
+	@RequiresPermissions("sys:user:delete")
+	public Ret delete(@RequestBody Long[] userIds) {
+		if (ArrayUtils.contains(userIds, UserTypeEnum.ADMIN.getVal())) {
+			return Ret.error("系统管理员不能删除!");
+		}
+
+		if (ArrayUtils.contains(userIds, getUserId())) {
+			return Ret.error("当前用户不能删除!");
+		}
+
+		userService.deleteBatchUser(userIds);
+		return Ret.ok();
+	}
+	
 	
 //	@RequestMapping(value = "/getPermsByUser", method = RequestMethod.POST)
 //	public @ResponseBody RetResult getPermsByUser(Long userId){

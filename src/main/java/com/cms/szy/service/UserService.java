@@ -107,6 +107,16 @@ public interface UserService {
 	 */
 	void updateUser(User user);
 	
+	/**
+	 * 
+	 *【批量删除用户,逻辑删除】 
+	 * @param userId void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月19日上午9:37:35
+	 * @throws 异常
+	 */
+	void deleteBatchUser(Long[] userIds);
+	
 	
 	
 }

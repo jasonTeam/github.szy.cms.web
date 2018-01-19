@@ -18,6 +18,18 @@ public class UserQuery extends BaseQuery{
 	
 	@QBindAttrField(fieldName = "userName", where = Where.equal)
 	private String userName;
+	
+	@QBindAttrField(fieldName = "isDelete", where = Where.equal)
+	private Short isDelete;
+	
+	
+	public Short getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Short isDelete) {
+		this.isDelete = isDelete;
+	}
 
 	public String getUserName() {
 		return userName;
