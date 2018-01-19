@@ -1,6 +1,8 @@
 package com.cms.szy.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,16 +25,14 @@ public class DeptServiceImpl implements DeptService{
 	
 	@Override
 	public List<Dept> deptList() {
-		List<Dept> deptList = deptRepositoryDao.deptList();
-//		//根据parentId获取parentName
-//		for(Dept dept : deptList){
-//			if(0L == dept.getParentId()){
-//				dept.setParentName(null);
-//			}else{
-//				String parentName = deptRepositoryDao.getParentName(dept.getParentId());
-//				dept.setParentName(parentName);
-//			}
-//		}
+
+		List<Dept> deptList = deptRepositoryDao.findAll();
+		Map<Long, String> parentNameMap = new HashMap<>();
+		for (Dept dept : deptList) {
+			String parentName = deptRepositoryDao.getParentName(dept.getParentId());
+			parentNameMap.put(dept.getParentId(), parentName);
+			dept.setParentName(parentNameMap.get(dept.getParentId())); //获取父级部门名称
+		}
 		return deptList;
 	}
 

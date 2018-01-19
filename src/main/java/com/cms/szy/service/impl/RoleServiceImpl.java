@@ -75,11 +75,6 @@ public class RoleServiceImpl implements RoleService{
 			role.setDeptName(roleDeptMap.get(role.getDeptId()).getDeptName()); //获取部门名称
 		}
 		
-		//数据拼装
-		for(Role role : roleList){
-//			role.setDeptName(roleDeptMap.get(role.getDeptId()).getDeptName()); //部门名称
-		}
-		
 		return roleList;
 	}
 
