@@ -21,4 +21,9 @@ public interface DeptService {
 	 * @throws 异常
 	 */
 	List<Dept> deptList();
+	
+	
+	
+	
+	
 }
