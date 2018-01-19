@@ -103,7 +103,6 @@ var vm = new Vue({
             //加载部门树
             $.get(baseURL + "sys/dept/list", function(r){
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
-                console.log("r"+r)
                 var node = ztree.getNodeByParam("deptId", vm.user.deptId);
  
                 if(node != null){
@@ -122,8 +121,8 @@ var vm = new Vue({
             vm.title = "修改";
             
             vm.getUser(userId);
+            
             //获取角色信息
-            alert("修改")
             this.getRoleList();
         },
         
@@ -175,7 +174,6 @@ var vm = new Vue({
         //获取当前登录的用户信息
         getUser: function(userId){
             $.get(baseURL + "sys/user/info/"+userId, function(r){
-            	console.log("177:"+r)
                 vm.user = r.user;
                 vm.user.password = null;
                 vm.getDept();
@@ -183,14 +181,12 @@ var vm = new Vue({
         },
         //
         getRoleList: function(){
-        	alert("获取角色列表")
             $.get(baseURL + "sys/role/select", function(r){
                 vm.roleList = r.list;
             });
         },
         //部门树加载
         deptTree: function(){
-        	alert("部门树")
             layer.open({
                 type: 1,
                 offset: '50px',
