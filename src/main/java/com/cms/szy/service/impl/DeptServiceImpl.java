@@ -23,7 +23,17 @@ public class DeptServiceImpl implements DeptService{
 	
 	@Override
 	public List<Dept> deptList() {
-		return deptRepositoryDao.deptList();
+		List<Dept> deptList = deptRepositoryDao.deptList();
+//		//根据parentId获取parentName
+//		for(Dept dept : deptList){
+//			if(0L == dept.getParentId()){
+//				dept.setParentName(null);
+//			}else{
+//				String parentName = deptRepositoryDao.getParentName(dept.getParentId());
+//				dept.setParentName(parentName);
+//			}
+//		}
+		return deptList;
 	}
 
 	@Override

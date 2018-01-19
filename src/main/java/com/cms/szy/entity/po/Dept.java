@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cms.szy.entity.dto.DeptDTO;
+
 /**
  * 
  * (部门实体类) 
@@ -18,13 +20,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sys_dept") 
-public class Dept implements Serializable{
+public class Dept extends DeptDTO implements Serializable{
 	
 
 	private static final long serialVersionUID = -6974614561905608885L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "dept_id")
 	private Long deptId;
 	
@@ -46,7 +47,7 @@ public class Dept implements Serializable{
 	@Column(name = "is_delete")
 	private  Integer isDelete;
 
-	
+
 	public Long getDeptId() {
 		return deptId;
 	}

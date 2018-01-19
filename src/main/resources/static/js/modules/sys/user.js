@@ -45,6 +45,9 @@ $(function () {
         }
     });
 });
+
+
+
 var setting = {
     data: {
         simpleData: {
@@ -58,6 +61,7 @@ var setting = {
         }
     }
 };
+
 var ztree;
 
 var vm = new Vue({
@@ -76,10 +80,14 @@ var vm = new Vue({
             roleIdList:[]
         }
     },
+    
+    //方法
     methods: {
         query: function () {
             vm.reload();
         },
+        
+        //新增方法
         add: function(){
             vm.showList = false;
             vm.title = "新增";
@@ -95,8 +103,9 @@ var vm = new Vue({
             //加载部门树
             $.get(baseURL + "sys/dept/list", function(r){
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
+                console.log("r: "+r);
                 var node = ztree.getNodeByParam("deptId", vm.user.deptId);
-              
+                console.log("r: "+r);
                 if(node != null){
                     ztree.selectNode();
                     vm.user.deptName = node.name;
@@ -116,12 +125,13 @@ var vm = new Vue({
             //获取角色信息
             this.getRoleList();
         },
+        
+        //删除方法
         del: function () {
             var userIds = getSelectedRows();
             if(userIds == null){
                 return ;
             }
-
             confirm('确定要删除选中的记录？', function(){
                 $.ajax({
                     type: "POST",
@@ -140,6 +150,8 @@ var vm = new Vue({
                 });
             });
         },
+       
+        //修改或保存数据
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
             $.ajax({
@@ -158,18 +170,23 @@ var vm = new Vue({
                 }
             });
         },
+        
+        //获取当前登录的用户信息
         getUser: function(userId){
             $.get(baseURL + "sys/user/info/"+userId, function(r){
+            	console.log(r)
                 vm.user = r.user;
                 vm.user.password = null;
                 vm.getDept();
             });
         },
+        //
         getRoleList: function(){
             $.get(baseURL + "sys/role/select", function(r){
                 vm.roleList = r.list;
             });
         },
+        //部门树加载
         deptTree: function(){
             layer.open({
                 type: 1,
@@ -191,6 +208,8 @@ var vm = new Vue({
                 }
             });
         },
+        
+        //reload()用于重新加载当前文档。
         reload: function () {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
@@ -200,4 +219,5 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         }
     }
+    
 });
