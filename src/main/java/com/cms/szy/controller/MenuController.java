@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cms.szy.entity.po.Menu;
 import com.cms.szy.service.MenuService;
@@ -22,7 +22,7 @@ import com.cms.szy.tools.result.Ret;
  * @date 2018年1月6日 上午10:20:17
  */
 
-@Controller
+@RestController
 @RequestMapping("/sys/menu")
 public class MenuController extends AbstractController{
 	
