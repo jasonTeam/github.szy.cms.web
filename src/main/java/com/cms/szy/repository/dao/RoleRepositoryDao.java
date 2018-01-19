@@ -5,4 +5,8 @@ import com.cms.szy.entity.po.Role;
 
 public interface RoleRepositoryDao extends BaseRepository<Role, Long>{
 	
+	
+	
+	
+	
 }

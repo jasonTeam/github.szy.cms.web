@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.cms.szy.configuration.annotation.DataFilter;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.Role;
 import com.cms.szy.entity.vo.RoleVO;
@@ -20,6 +21,7 @@ import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.repository.dao.RoleRepositoryDao;
 import com.cms.szy.repository.queryFilter.RoleQueryFilter;
 import com.cms.szy.service.RoleService;
+
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleService{
@@ -61,9 +63,23 @@ public class RoleServiceImpl implements RoleService{
 		return pageData;
 	}
 
+	@DataFilter(tableAlias = "r", user = false)
 	@Override
 	public List<Role> getRoleList() {
 		List<Role> roleList = roleRepositoryDao.findAll();
+		
+		//Role与Dept映射
+		Map<Long,Dept> roleDeptMap = new HashMap<>();
+		for(Role role : roleList){
+			roleDeptMap.put(role.getDeptId(), deptRepositoryDao.findOne(role.getDeptId()));
+			role.setDeptName(roleDeptMap.get(role.getDeptId()).getDeptName()); //获取部门名称
+		}
+		
+		//数据拼装
+		for(Role role : roleList){
+//			role.setDeptName(roleDeptMap.get(role.getDeptId()).getDeptName()); //部门名称
+		}
+		
 		return roleList;
 	}
 
