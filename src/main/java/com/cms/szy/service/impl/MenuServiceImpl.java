@@ -1,7 +1,9 @@
 package com.cms.szy.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,16 @@ public class MenuServiceImpl implements MenuService{
 	
 	@Override
 	public List<Menu> menuList() {
-		List<Menu> menuList = menuRepositoryDao.menuList();
+//		List<Menu> menuList = menuRepositoryDao.menuList();
+		List<Menu> menuList = menuRepositoryDao.findAll(); //获取所有的菜单集合
+		
+		Map<Long,String> parentNameMap = new HashMap<>();
+		for(Menu menu : menuList){
+			parentNameMap.put(menu.getParentId(), menuRepositoryDao.getParentName(menu.getParentId())); //根据父ID获取父菜单
+			menu.setParentName(parentNameMap.get(menu.getParentId()));
+		}
+		
+		
 		return menuList;
 	}
 

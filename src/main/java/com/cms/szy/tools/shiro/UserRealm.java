@@ -55,7 +55,8 @@ public class UserRealm extends AuthorizingRealm {
 		List<String> permsList = null;
 		
 		if (userId == 1) {
-			List<Menu> menuList = menuRepositoryDao.menuList();
+//			List<Menu> menuList = menuRepositoryDao.menuList();
+			List<Menu> menuList = menuRepositoryDao.findAll();
 			permsList = new ArrayList<>(menuList.size());
 			for (Menu menu : menuList) {
 				permsList.add(menu.getPerms());

@@ -13,6 +13,8 @@ public class MenuDTO implements Serializable{
 	private Boolean open;
 	
 	private List<?> list;
+	
+	private String parentName; //父级菜单名称
 
 	public Boolean getOpen() {
 		return open;
@@ -29,8 +31,14 @@ public class MenuDTO implements Serializable{
 	public void setList(List<?> list) {
 		this.list = list;
 	}
-	
-	
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
 	
 	
 }

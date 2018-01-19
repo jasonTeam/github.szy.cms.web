@@ -26,8 +26,8 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	 * @date 2018年1月6日上午11:39:31
 	 * @throws 查询失败
 	 */
-	@Query(value = "SELECT m.*,(SELECT p.menu_name FROM sys_menu p WHERE p.menu_id = m.parent_id) AS parentName FROM sys_menu m",nativeQuery = true)
-	List<Menu> menuList();
+//	@Query(value = "SELECT m.*,(SELECT p.menu_name FROM sys_menu p WHERE p.menu_id = m.parent_id) AS parentName FROM sys_menu m",nativeQuery = true)
+//	List<Menu> menuList();
 	
 	
 	/**
@@ -42,6 +42,18 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	 */
 	@Query("SELECT m FROM Menu m WHERE m.parentId = ?1 ORDER BY m.sort ")
 	List<Menu> queryMenuByParentId(Long parentId);
+	
+	/**
+	 * 
+	 *【这里用一句话描述这个方法的作用】 
+	 * @param parentId
+	 * @return String返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月19日下午5:48:00
+	 * @throws 异常
+	 */
+	@Query("SELECT m.menuName FROM Menu m WHERE m.menuId = ?1")
+	String getParentName(Long parentId);
 	
 	
 	
