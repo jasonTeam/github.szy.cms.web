@@ -30,5 +30,16 @@ public interface UserRoleRepositoryDao extends BaseRepository<UserRole, Long>{
 	List<Long> queryRoleIdByUserId(Long userId);
 	
 	
+	/**
+	 * 
+	 *【根据用户Id获取用户角色实体】 
+	 * @return UserRole返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午2:25:20
+	 * @throws 异常
+	 */
+	@Query("SELECT ur FROM UserRole ur WHERE ur.userId = ?1 ")
+	UserRole queryUserRoleByUserId(Long userId);
+	
 	
 }

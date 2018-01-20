@@ -16,7 +16,7 @@ $(function () {
 			{ label: '创建时间', name: 'createTime', index: "create_time", width: 85}
         ],
 		viewrecords: true,
-        height: 450,
+        height: 385,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 
@@ -25,12 +25,11 @@ $(function () {
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
-           // root: "page.list",
+            //root: "page.list",
         	root: "page.content",
             page: "page.currPage",
             total: "page.totalPage",
-            //records: "page.totalCount"
-            records: "page.total"
+            records: "page.totalCount"
         },
         prmNames : {
             //page:"page", 
@@ -46,9 +45,6 @@ $(function () {
         }
     });
 });
-
-
-//树形结构的参数设置
 var setting = {
     data: {
         simpleData: {
@@ -62,16 +58,13 @@ var setting = {
         }
     }
 };
-
 var ztree;
-var zTree_Menu;
 
 var vm = new Vue({
     el:'#rrapp',
     data:{
         q:{
-            //username: null
-        	userName: null   //modify by szy
+            username: null
         },
         showList: true,
         title:null,
@@ -83,14 +76,10 @@ var vm = new Vue({
             roleIdList:[]
         }
     },
-    
-    //方法
     methods: {
         query: function () {
             vm.reload();
         },
-        
-        //新增方法
         add: function(){
             vm.showList = false;
             vm.title = "新增";
@@ -104,15 +93,13 @@ var vm = new Vue({
         },
         getDept: function(){
             //加载部门树
-            $.get(baseURL + "sys/dept/list", function(deptLists){
-            	console.log(deptLists)
-            	//第一个参数是<ul/>id选择的jquery对象,第二个参数是配置的setting,第三个参数是获取到的数据.
-                ztree = $.fn.zTree.init($("#deptTree"), setting, deptLists); //初始化ztree生成树 
-            	var node = ztree.getNodeByParam("deptId", vm.user.deptId);
+            $.get(baseURL + "sys/dept/list", function(r){
+                ztree = $.fn.zTree.init($("#deptTree"), setting, r);
+                console.log(r)
+                var node = ztree.getNodeByParam("deptId", vm.user.deptId);
                 if(node != null){
-                	alert("执行了node里面了")
-                	console.log("node:"+node)
-                    ztree.selectNode();
+                    ztree.selectNode(node);
+
                     vm.user.deptName = node.name;
                 }
             })
@@ -125,19 +112,17 @@ var vm = new Vue({
 
             vm.showList = false;
             vm.title = "修改";
-            
+
             vm.getUser(userId);
-            
             //获取角色信息
             this.getRoleList();
         },
-        
-        //删除方法
         del: function () {
             var userIds = getSelectedRows();
             if(userIds == null){
                 return ;
             }
+
             confirm('确定要删除选中的记录？', function(){
                 $.ajax({
                     type: "POST",
@@ -156,8 +141,6 @@ var vm = new Vue({
                 });
             });
         },
-       
-        //修改或保存数据
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
             $.ajax({
@@ -176,22 +159,19 @@ var vm = new Vue({
                 }
             });
         },
-        
-        //获取当前登录的用户信息
         getUser: function(userId){
-            $.get(baseURL + "sys/user/info/"+userId, function(userInfo){
-                vm.user = userInfo.user;
+            $.get(baseURL + "sys/user/info/"+userId, function(r){
+                vm.user = r.user;
                 vm.user.password = null;
+
                 vm.getDept();
             });
         },
-        //
         getRoleList: function(){
-            $.get(baseURL + "sys/role/select", function(roleLists){
-                vm.roleList = roleLists.list;
+            $.get(baseURL + "sys/role/select", function(r){
+                vm.roleList = r.list;
             });
         },
-        //部门树加载
         deptTree: function(){
             layer.open({
                 type: 1,
@@ -213,17 +193,13 @@ var vm = new Vue({
                 }
             });
         },
-        
-        //reload()用于重新加载当前文档。
         reload: function () {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
-//                postData:{'username': vm.q.userame},
-            	postData:{'userName': vm.q.userName},
+                postData:{'username': vm.q.username},
                 page:page
             }).trigger("reloadGrid");
         }
     }
-    
 });

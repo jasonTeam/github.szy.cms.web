@@ -19,11 +19,14 @@ import com.cms.szy.configuration.annotation.DataFilter;
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.User;
+import com.cms.szy.entity.po.UserRole;
 import com.cms.szy.entity.vo.UserVO;
 import com.cms.szy.enums.IsDeleteEnum;
 import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
+import com.cms.szy.repository.dao.UserRoleRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
+import com.cms.szy.service.UserRoleService;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.exception.ImplException;
 import com.cms.szy.tools.shiro.ShiroUtils;
@@ -43,6 +46,8 @@ public class UserServiceImpl implements UserService{
 	private UserRepositoryDao userRepositoryDao;
 	@Autowired
 	private DeptRepositoryDao deptRepositoryDao;
+	@Autowired
+	private UserRoleRepositoryDao userRoleRepositoryDao;
 	@Autowired
 	private IdGlobalGenerator idGlobalGenerator;
 	
@@ -73,7 +78,6 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	@DataFilter(tableAlias = "r", user = false)
 	public Page<User> findPageUser(UserVO vo, Integer pageNo, Integer pageSize, String sortField) {
 		//查询条件
 		UserQuery query = new UserQuery();
@@ -107,22 +111,33 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void saveUser(User user) {
 		User newUser = new User();
-		Long userId = idGlobalGenerator.getSeqId(User.class);
-		newUser.setUserId(userId); //用户ID
-		newUser.setUserName(user.getUserName()); //登录账号
-		newUser.setDeptId(1L); //所属部门
-		newUser.setEmail(user.getEmail()); //邮箱
-		newUser.setMobile(user.getMobile()); //手机号
-		newUser.setStatus(user.getStatus()); //状态  0：禁用   1：正常
-		//sha256加密
-		String salt = RandomStringUtils.randomAlphanumeric(20);
-		newUser.setSalt(salt); 
-		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt())); //登录密码
-		newUser.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); //是否删除
-		newUser.setCreateTime(new Date()); //创建时间
-		userRepositoryDao.save(newUser);
-	}
+		newUser.setUserId(idGlobalGenerator.getSeqId(User.class)); // 用户ID
+		newUser.setUserName(user.getUserName());  // 登录账号
+		newUser.setDeptId(user.getDeptId());  // 所属部门
+		newUser.setEmail(user.getEmail());    // 邮箱
+		newUser.setMobile(user.getMobile());  // 手机号
+		newUser.setStatus(user.getStatus());  // 状态 0：禁用 1：正常
+		newUser.setSalt(RandomStringUtils.randomAlphanumeric(20));  // 密码加盐
+		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt()));  // 登录密码（sha256加密）
+		newUser.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());  // 是否删除
+		newUser.setCreateTime(new Date());  // 创建时间
+		User userBean = userRepositoryDao.save(newUser);
 
+		/*
+		 * 保存用户与角色关系【用户 <——> 角色】
+		 * 再新增用户时同时将关系数据保存到用户角色关联表中
+		 */
+		UserRole newUserRole = new UserRole();
+		newUserRole.setId(idGlobalGenerator.getSeqId(UserRole.class));
+		newUserRole.setUserId(userBean.getUserId());
+		List<Long> roleIdList = user.getRoleIdList();
+		for(Long roleId : roleIdList){
+			//获取角色Id
+			newUserRole.setRoleId(roleId);
+		}
+		newUserRole.setCreateTime(new Date()); 
+		userRoleRepositoryDao.save(newUserRole);
+	}
 
 	@Override
 	public User queryUserByUserId(Long userId) {
@@ -132,17 +147,30 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void updateUser(User user) {
-		//先查询用户是否存在
+		// 先查询用户是否存在
 		User userBean = userRepositoryDao.findOne(user.getUserId());
-		if(null != userBean){
-			userBean.setUserName(user.getUserName()); //用户名
-			userBean.setDeptId(user.getDeptId());     //用户所属部门
-			userBean.setPassword(user.getPassword()); //登录密码
-			userBean.setEmail(user.getEmail());       //邮箱
-			userBean.setMobile(user.getMobile());     //手机号
-			userBean.setStatus(user.getStatus());     //用户状态
-			userBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); //是否删除
-			userRepositoryDao.save(userBean); //保存
+		if (null != userBean) {
+			userBean.setUserName(user.getUserName()); // 用户名
+			userBean.setDeptId(user.getDeptId()); // 用户所属部门
+			userBean.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt())); // 登录密码
+			userBean.setEmail(user.getEmail()); // 邮箱
+			userBean.setMobile(user.getMobile()); // 手机号
+			userBean.setStatus(user.getStatus()); // 用户状态
+			userBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); // 是否删除
+			userRepositoryDao.save(userBean); // 保存
+
+			/*
+			 * 更新用户与角色之间的关系【用户 <——> 角色】
+			 */
+			UserRole userRole = userRoleRepositoryDao.queryUserRoleByUserId(user.getUserId()); // 先查询是否记录已存在
+			if (null != userRole) {
+				List<Long> roleIdList = user.getRoleIdList();
+				for (Long roleId : roleIdList) {
+					// 更新角色Id
+					userRole.setRoleId(roleId);
+				}
+				userRoleRepositoryDao.save(userRole); //保存数据
+			}
 		}
 	}
 

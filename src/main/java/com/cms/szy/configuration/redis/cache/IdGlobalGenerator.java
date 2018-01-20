@@ -93,10 +93,9 @@ public  class IdGlobalGenerator {
 	 * @param prefix
 	 * @return
 	 */
-	private  Long getCacheSeqIncr(String prefix){
-		 counter = new RedisAtomicLong(CacheConstant.CACHE_ID_GEN+prefix,
-				 redisClient.getConnectionFactory());
-		 return counter.incrementAndGet();
+	private Long getCacheSeqIncr(String prefix) {
+		counter = new RedisAtomicLong(CacheConstant.CACHE_ID_GEN + prefix, redisClient.getConnectionFactory());
+		return counter.incrementAndGet();
 	}
 	
 

@@ -23,6 +23,7 @@ import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
 import com.cms.szy.tools.validator.Assert;
 import com.cms.szy.tools.validator.ValidatorUtils;
+import com.cms.szy.tools.validator.group.AddGroup;
 import com.cms.szy.tools.validator.group.UpdateGroup;
 
 
@@ -45,7 +46,7 @@ public class UserController extends AbstractController{
 
 	/**
 	 * 
-	 * (获取登录用户信息) 
+	 * (获取当前登录用户的信息) 
 	 * @Title userInfo 
 	 * @return Ret返回类型   
 	 * @author ShenZiYang
@@ -100,8 +101,7 @@ public class UserController extends AbstractController{
 	@RequiresPermissions("sys:user:info")
 	public Ret info(@PathVariable("userId") Long userId){
 		User user = userService.queryUserByUserId(userId);
-		//根据用户ID获取用户所属的角色ID列表
-		List<Long> roleIdList = userRoleService.queryRoleIdByUserId(userId);
+		List<Long> roleIdList = userRoleService.queryRoleIdByUserId(userId); //根据用户ID获取用户所属的角色ID列表
 		user.setRoleIdList(roleIdList);
 		return Ret.ok().put("user", user);
 	}
@@ -120,6 +120,7 @@ public class UserController extends AbstractController{
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@RequiresPermissions("sys:user:save")
 	public Ret saveUser(@RequestBody User user){
+		ValidatorUtils.validateEntity(user, AddGroup.class);
 		userService.saveUser(user);
 		return Ret.ok();
 	}

@@ -1,6 +1,7 @@
 package com.cms.szy.entity.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,13 +27,24 @@ public class UserRole implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
-
+	
+	/**
+	 * 用户ID
+	 */
 	@Column(name = "user_id")
 	private Long userId;
-
+	
+	/**
+	 * 角色ID
+	 */
 	@Column(name = "role_id")
 	private Long roleId;
-
+	
+	/**
+	 * 创建时间
+	 */
+	@Column(name = "create_time")
+	private Date createTime;
 	
 	public Long getId() {
 		return id;
@@ -57,7 +69,13 @@ public class UserRole implements Serializable{
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
-	
 
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 	
 }
