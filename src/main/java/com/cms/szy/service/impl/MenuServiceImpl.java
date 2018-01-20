@@ -115,6 +115,38 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 
+	@Override
+	public Menu queryMenuByMenuId(Long menuId) {
+		return menuRepositoryDao.findOne(menuId);
+	}
+
+
+	@Override
+	public void saveMenu(Menu menu) {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void updateMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteMenu(Long menuId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Menu queryChildMenuId(Long menuId) {
+		return menuRepositoryDao.findOne(menuId);
+	}
+
+
 
 	
 	

@@ -10,6 +10,7 @@
          <property name="prefix"  value="CACHE_ID_GEN_"/>
    		 <property name="key" value="User, 
    		 							Dept,
+   		 							Menu,
    		 							"
    		 /> 
     </bean>

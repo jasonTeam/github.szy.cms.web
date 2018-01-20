@@ -68,7 +68,62 @@ public interface MenuService {
 	List<Menu> queryListParentId(Long parentId, List<Long> menuIdList);
 	
 	
-
+	/**
+	 * 
+	 *【根据菜单Id获取菜单实体】 
+	 * @param menuId
+	 * @return Menu返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午5:03:46
+	 * @throws 异常
+	 */
+	Menu queryMenuByMenuId(Long menuId);
+	
+	
+	/**
+	 * 
+	 *【根据父级菜单获取子菜单ID】 
+	 * @param menuId
+	 * @return Menu返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午5:37:59
+	 * @throws 异常
+	 */
+	Menu queryChildMenuId(Long menuId);
+	
+	
+	/**
+	 * 
+	 *【新增菜单】 
+	 * @param menu void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午5:04:54
+	 * @throws 异常
+	 */
+	void saveMenu(Menu menu);
+	
+	
+	/**
+	 * 
+	 *【修改菜单】 
+	 * @param menu void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午5:05:20
+	 * @throws 异常
+	 */
+	void updateMenu(Menu menu);
+	
+	
+	/**
+	 * 
+	 *【删除菜单】 
+	 * @param menuId void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午5:05:49
+	 * @throws 异常
+	 */
+	void deleteMenu(Long menuId);
+	
 	
 	
 }

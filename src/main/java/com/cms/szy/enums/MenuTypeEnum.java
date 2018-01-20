@@ -8,25 +8,25 @@ package com.cms.szy.enums;
  */
 public enum MenuTypeEnum {
 	
-	CATALOG(1L,"目录"),
-	MENU(1L,"菜单"),
-	BUTTON(2L,"按钮"),
+	CATALOG(0,"目录"),
+	MENU(1,"菜单"),
+	BUTTON(2,"按钮"),
 	;
 	
 	//构造器
-	private MenuTypeEnum (Long val,String desc) {
+	private MenuTypeEnum (Integer val,String desc) {
 		this.val = val;
 		this.desc = desc;
 	}
 	
-	private Long val;
+	private Integer val;
 	private String desc;
 		
-	public Long getVal() {
+	public Integer getVal() {
 		return val;
 	}
 
-	public void setVal(Long val) {
+	public void setVal(Integer val) {
 		this.val = val;
 	}
 
