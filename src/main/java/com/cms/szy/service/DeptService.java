@@ -33,6 +33,48 @@ public interface DeptService {
 	 */
 	Dept getDeptByDeptId(Long deptId);
 	
+	/**
+	 * 
+	 *【新增部门】 
+	 * @param dept void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:19:53
+	 * @throws 异常
+	 */
+	void saveDept(Dept dept);
+	
+	/**
+	 * 
+	 *【修改部门】 
+	 * @param dept void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:20:19
+	 * @throws 异常
+	 */
+	void updateDept(Dept dept);
+	
+	/**
+	 * 
+	 *【删除部门;逻辑删除】 
+	 * @param deptId void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:30:56
+	 * @throws 异常
+	 */
+	void deleteDept(Long deptId);
+	
+	/**
+	 * 
+	 *【根据当前部门的ID查询子部门ID】
+	 * 注意：当前部门的ID就是下级部门的parentId 
+	 * @param deptId
+	 * @return List<Long>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:39:21
+	 * @throws 异常
+	 */
+	List<Long> getChildDeptId(Long deptId);
+	
 	
 	
 	

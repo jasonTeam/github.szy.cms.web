@@ -8,8 +8,8 @@
                         
     <bean id="initSeqId" class="com.cms.szy.configuration.redis.RedisValConfig">
          <property name="prefix"  value="CACHE_ID_GEN_"/>
-   		 <property name="key" value="AdminInfo, 
-   		 							User,
+   		 <property name="key" value="User, 
+   		 							Dept,
    		 							"
    		 /> 
     </bean>

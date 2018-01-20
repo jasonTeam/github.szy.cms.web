@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,7 +77,7 @@ public class DeptController extends AbstractController{
 		if(getUserId() == Constant.SUPER_ADMIN){
 			Dept root = new Dept();
 			root.setDeptId(0L);
-			root.setName("一级部门");
+			root.setName(Constant.LEVEL_DEPT);
 			root.setParentId(-1L);
 			root.setOpen(true);
 			deptList.add(root);
@@ -84,10 +85,27 @@ public class DeptController extends AbstractController{
 		return Ret.ok().put("deptList", deptList);
 	}
 	
+
+	/**
+	 * 
+	 *【新增部门】 
+	 * @param dept
+	 * @return Ret返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:15:56
+	 * @throws 异常
+	 */
+	@RequestMapping("/save")
+	@RequiresPermissions("sys:dept:save")
+	public Ret save(@RequestBody Dept dept){
+		deptService.saveDept(dept);
+		return Ret.ok();
+	}
+	
 	
 	/**
 	 * 
-	 *【部门信息】 
+	 *【部门信息;根据部门ID获取信息,用于修改页面回显】 
 	 * @param deptId
 	 * @return R返回类型   
 	 * @author ShenZiYang
@@ -101,5 +119,46 @@ public class DeptController extends AbstractController{
 		return Ret.ok().put("dept", dept);
 	}
 	
+	
+	/**
+	 * 
+	 *【修改部门】 
+	 * @param dept
+	 * @return R返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:16:37
+	 * @throws 异常
+	 */
+	@RequestMapping("/update")
+	@RequiresPermissions("sys:dept:update")
+	public Ret update(@RequestBody Dept dept){
+		deptService.updateDept(dept);
+		return Ret.ok();
+	}
+	
+
+	/**
+	 * 
+	 *【删除部门】 
+	 * @param deptId
+	 * @return R返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:16:51
+	 * @throws 异常
+	 */
+	@RequestMapping(value = "/delete",method  = RequestMethod.POST)
+	@RequiresPermissions("sys:dept:delete")
+	public Ret delete(long deptId){
+		//判断是否有子部门
+		List<Long> deptList = deptService.getChildDeptId(deptId);
+		if(null != deptList && deptList.size() > 0){
+			return Ret.error("请先删除子部门");
+		}
 		
+		deptService.deleteDept(deptId);
+		return Ret.ok();
+	}
+	
+	
+	
 }

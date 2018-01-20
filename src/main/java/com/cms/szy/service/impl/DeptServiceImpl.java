@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
+import com.cms.szy.enums.IsDeleteEnum;
 import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.service.DeptService;
 
@@ -22,6 +24,9 @@ public class DeptServiceImpl implements DeptService{
 	
 	@Autowired
 	private DeptRepositoryDao deptRepositoryDao;
+	@Autowired
+	private IdGlobalGenerator idGlobalGenerator;
+	
 	
 	@Override
 	public List<Dept> deptList() {
@@ -41,5 +46,49 @@ public class DeptServiceImpl implements DeptService{
 	public Dept getDeptByDeptId(Long deptId) {
 		return deptRepositoryDao.findOne(deptId);
 	}
+
+
+	@Override
+	public void saveDept(Dept dept) {
+		Dept newDept = new Dept();
+		newDept.setDeptId(idGlobalGenerator.getSeqId(Dept.class)); //部门ID
+		newDept.setName(dept.getName()); 		  //部门名称
+		newDept.setParentId(dept.getParentId());  //上级部门
+		newDept.setOrderNum(dept.getOrderNum());  //排序号
+		newDept.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); //是否删除
+		deptRepositoryDao.save(newDept);          //保存数据
+	}
+
+
+	@Override
+	public void updateDept(Dept dept) {
+		Dept oriDept = deptRepositoryDao.findOne(dept.getDeptId()); //先查询数据是否存在
+		if(null != oriDept){
+			oriDept.setName(dept.getName());  //部门名称
+			oriDept.setParentId(dept.getParentId());    //上级部门
+			oriDept.setOrderNum(dept.getOrderNum());  //排序号
+			deptRepositoryDao.save(oriDept);
+		}
+	}
+
+
+	@Override
+	public void deleteDept(Long deptId) {
+		Dept oriDept = deptRepositoryDao.findOne(deptId); //先查询数据是否存在
+		if(null != oriDept){
+			oriDept.setIsDelete(IsDeleteEnum.DELETE.getVal()); //删除部门
+			deptRepositoryDao.save(oriDept);
+		}
+	}
+
+
+	@Override
+	public List<Long> getChildDeptId(Long deptId) {
+		return deptRepositoryDao.getChildDeptId(deptId);
+	}
+
+
+
+	
 	
 }

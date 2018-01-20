@@ -40,5 +40,19 @@ public interface DeptRepositoryDao extends BaseRepository<Dept, Long>{
 	@Query("SELECT d.name FROM Dept d WHERE d.deptId = ?1")
 	String getParentName(Long parentId);
 	
+	/**
+	 * 
+	 *【查询当前部门的下级部门】
+	 * 注意：parentId 就等于当前部门的ID 
+	 * @param parentId
+	 * @return List<Long>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午3:42:31
+	 * @throws 异常
+	 */
+	@Query("SELECT d.deptId FROM Dept d WHERE d.parentId = ?1 AND d.isDelete = 1")
+	List<Long> getChildDeptId(Long parentId); 
+	
+	
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cms.szy.entity.po.Menu;
 import com.cms.szy.service.MenuService;
+import com.cms.szy.tools.constant.Constant;
 import com.cms.szy.tools.result.Ret;
 
 
@@ -67,7 +68,7 @@ public class MenuController extends AbstractController{
 		//添加顶级菜单
 		Menu root = new Menu();
 		root.setMenuId(0L);
-		root.setName("一级菜单");
+		root.setName(Constant.LEVEL_MENU);
 		root.setParentId(-1L);
 		root.setOpen(true);
 		menuList.add(root);

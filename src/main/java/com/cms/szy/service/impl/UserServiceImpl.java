@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.cms.szy.configuration.annotation.DataFilter;
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.User;
@@ -26,7 +25,6 @@ import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.dao.UserRoleRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
-import com.cms.szy.service.UserRoleService;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.exception.ImplException;
 import com.cms.szy.tools.shiro.ShiroUtils;

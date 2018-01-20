@@ -58,6 +58,7 @@ public class UserController extends AbstractController{
 		return Ret.ok().put("user", getUser());
 	}
 	
+	
 	/**
 	 * 
 	 *【分页查询所有用户列表】 

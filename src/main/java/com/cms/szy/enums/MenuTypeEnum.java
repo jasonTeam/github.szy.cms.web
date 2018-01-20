@@ -2,15 +2,15 @@ package com.cms.szy.enums;
 
 /**
  * 
- *【用户类型枚举类】  
+ *【菜单类型枚举类】  
  * @author ShenZiYang 
  * @date 2018年1月19日 上午9:53:08
  */
 public enum MenuTypeEnum {
 	
-	CATALOG(1L,"系统管理员"),
-	MENU(1L,"系统管理员"),
-	ADMIN(1L,"系统管理员"),
+	CATALOG(1L,"目录"),
+	MENU(1L,"菜单"),
+	BUTTON(2L,"按钮"),
 	;
 	
 	//构造器
