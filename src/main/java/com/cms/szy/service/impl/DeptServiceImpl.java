@@ -36,6 +36,7 @@ public class DeptServiceImpl implements DeptService{
 		return deptList;
 	}
 
+	
 	@Override
 	public Dept getDeptByDeptId(Long deptId) {
 		return deptRepositoryDao.findOne(deptId);

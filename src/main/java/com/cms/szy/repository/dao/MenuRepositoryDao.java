@@ -52,7 +52,7 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	 * @date 2018年1月19日下午5:48:00
 	 * @throws 异常
 	 */
-	@Query("SELECT m.menuName FROM Menu m WHERE m.menuId = ?1")
+	@Query("SELECT m.name FROM Menu m WHERE m.menuId = ?1")
 	String getParentName(Long parentId);
 	
 	

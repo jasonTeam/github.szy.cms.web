@@ -59,7 +59,7 @@ public class RoleServiceImpl implements RoleService{
 		
 		//数据拼装
 		for(Role role : roleList){
-			role.setDeptName(roleDeptMap.get(role.getDeptId()).getDeptName());
+			role.setDeptName(roleDeptMap.get(role.getDeptId()).getName());
 		}
 	
 		return pageData;
@@ -75,7 +75,7 @@ public class RoleServiceImpl implements RoleService{
 		Map<Long,Dept> roleDeptMap = new HashMap<>();
 		for(Role role : roleList){
 			roleDeptMap.put(role.getDeptId(), deptRepositoryDao.findOne(role.getDeptId()));
-			role.setDeptName(roleDeptMap.get(role.getDeptId()).getDeptName()); //获取部门名称
+			role.setDeptName(roleDeptMap.get(role.getDeptId()).getName()); //获取部门名称
 		}
 		
 		return roleList;

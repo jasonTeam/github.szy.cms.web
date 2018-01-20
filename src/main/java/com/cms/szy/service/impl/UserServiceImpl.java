@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService{
 		
 		//数据拼装
 		for(User u : userList){
-			u.setDeptName(userDeptMap.get(u.getDeptId()).getDeptName());//获取部门名称
+			u.setDeptName(userDeptMap.get(u.getDeptId()).getName());//获取部门名称
 		}
 		return pageData;
 	}

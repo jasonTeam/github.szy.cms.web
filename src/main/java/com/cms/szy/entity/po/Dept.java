@@ -36,8 +36,8 @@ public class Dept extends DeptDTO implements Serializable{
 	/**
 	 * 部门名称
 	 */
-	@Column(name = "dept_name")
-	private String deptName;
+	@Column(name = "name")
+	private String name;
 	
 	@Column(name = "order_num")
 	private Integer orderNum;
@@ -65,12 +65,12 @@ public class Dept extends DeptDTO implements Serializable{
 		this.parentId = parentId;
 	}
 
-	public String getDeptName() {
-		return deptName;
+	public String getName() {
+		return name;
 	}
 
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Integer getOrderNum() {

@@ -76,7 +76,7 @@ public class DeptController extends AbstractController{
 		if(getUserId() == Constant.SUPER_ADMIN){
 			Dept root = new Dept();
 			root.setDeptId(0L);
-			root.setDeptName("一级部门");
+			root.setName("一级部门");
 			root.setParentId(-1L);
 			root.setOpen(true);
 			deptList.add(root);

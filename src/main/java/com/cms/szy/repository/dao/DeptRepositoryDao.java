@@ -37,7 +37,7 @@ public interface DeptRepositoryDao extends BaseRepository<Dept, Long>{
 	 * @date 2018年1月19日下午2:08:28
 	 * @throws 异常
 	 */
-	@Query("SELECT d.deptName FROM Dept d WHERE d.deptId = ?1")
+	@Query("SELECT d.name FROM Dept d WHERE d.deptId = ?1")
 	String getParentName(Long parentId);
 	
 	

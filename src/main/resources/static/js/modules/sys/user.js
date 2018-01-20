@@ -48,7 +48,7 @@ $(function () {
 });
 
 
-
+//树形结构的参数设置
 var setting = {
     data: {
         simpleData: {
@@ -64,12 +64,14 @@ var setting = {
 };
 
 var ztree;
+var zTree_Menu;
 
 var vm = new Vue({
     el:'#rrapp',
     data:{
         q:{
-            userName: null
+            //username: null
+        	userName: null   //modify by szy
         },
         showList: true,
         title:null,
@@ -104,11 +106,12 @@ var vm = new Vue({
             //加载部门树
             $.get(baseURL + "sys/dept/list", function(deptLists){
             	console.log(deptLists)
-                ztree = $.fn.zTree.init($("#deptTree"), setting, deptLists);
-                var node = ztree.getNodeByParam("deptId", vm.user.deptId);
- 
+            	//第一个参数是<ul/>id选择的jquery对象,第二个参数是配置的setting,第三个参数是获取到的数据.
+                ztree = $.fn.zTree.init($("#deptTree"), setting, deptLists); //初始化ztree生成树 
+            	var node = ztree.getNodeByParam("deptId", vm.user.deptId);
                 if(node != null){
                 	alert("执行了node里面了")
+                	console.log("node:"+node)
                     ztree.selectNode();
                     vm.user.deptName = node.name;
                 }
@@ -217,7 +220,7 @@ var vm = new Vue({
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
 //                postData:{'username': vm.q.userame},
-            	postData:{'username': vm.q.userName},
+            	postData:{'userName': vm.q.userName},
                 page:page
             }).trigger("reloadGrid");
         }

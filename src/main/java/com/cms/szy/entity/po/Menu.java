@@ -35,8 +35,11 @@ public class Menu extends MenuDTO implements Serializable{
 	@Column(name = "parent_id")
 	private Long parentId;
 	
-	@Column(name = "menu_name")
-	private String menuName;
+	/**
+	 * 菜单名称
+	 */
+	@Column(name = "name")
+	private String name;
 	
 	@Column(name = "menu_url")
 	private String menuUrl;
@@ -78,12 +81,12 @@ public class Menu extends MenuDTO implements Serializable{
 		this.parentId = parentId;
 	}
 
-	public String getMenuName() {
-		return menuName;
+	public String getName() {
+		return name;
 	}
 
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getMenuUrl() {
