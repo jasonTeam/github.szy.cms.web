@@ -55,7 +55,7 @@ public interface RoleService {
 	
 	/**
 	 * 
-	 *【修改用户角色数据】
+	 *【修改角色】
 	 * @Title updateRole 
 	 * @param role void返回类型   
 	 * @author ShenZiYang
@@ -64,10 +64,20 @@ public interface RoleService {
 	 */
 	void updateRole(Role role);
 	
+	/**
+	 * 
+	 *【新增角色】
+	 * @Title saveRole 
+	 * @param role void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午10:33:20
+	 * @throws  异常
+	 */
+	void saveRole(Role role);
 	
 	/**
 	 * 
-	 *【批量删除角色数据】
+	 *【删除角色 -- 批量删】
 	 * @Title deleteRoleBatch 
 	 * @param roleIds void返回类型   
 	 * @author ShenZiYang

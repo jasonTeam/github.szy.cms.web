@@ -101,7 +101,7 @@ public class RoleController {
 
 	/**
 	 * 
-	 *【修改用户角色数据】
+	 *【修改角色】
 	 * @Title update 
 	 * @param role
 	 * @return Ret返回类型   
@@ -118,12 +118,28 @@ public class RoleController {
 	}
 	
 
-	//新增数据
+	/**
+	 * 
+	 *【新增角色】
+	 * @Title save 
+	 * @param role
+	 * @return R返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月20日下午10:30:15
+	 * @throws  异常
+	 */
+	@RequestMapping("/save")
+	@RequiresPermissions("sys:role:save")
+	public Ret save(@RequestBody Role role) {
+		ValidatorUtils.validateEntity(role);
+		roleService.saveRole(role);
+		return Ret.ok();
+	}
 	
 	
 	/**
 	 * 
-	 *【批量逻辑删除角色数据】
+	 *【删除角色--逻辑删除】
 	 * @Title delete 
 	 * @param roleIds
 	 * @return R返回类型   

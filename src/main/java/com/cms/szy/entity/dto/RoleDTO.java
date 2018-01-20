@@ -7,7 +7,8 @@ public class RoleDTO implements Serializable{
 	
 	private static final long serialVersionUID = -942135735152469564L;
 	
-	private String deptName; //部门名称
+	//部门名称
+	private String deptName; 
 	
 	// 菜单Id集合
 	private List<Long> menuIdList;
