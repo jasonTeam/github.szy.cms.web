@@ -1,5 +1,8 @@
 package com.cms.szy.tools.shiro;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -28,12 +31,13 @@ public class ShiroConfig {
                                          @Value("${szy.cms.shiro.redis}") boolean shiroRedis){
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         
-        //设置session过期时间为1小时(单位：毫秒)，默认为30分钟
-        sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
+        //设置全局session过期时间为1小时(单位：毫秒)，默认为30分钟
+        //sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
+        sessionManager.setGlobalSessionTimeout(60 * 1000 * 2);  //modify by szy 2分钟
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
 
-        //如果开启redis缓存且renren.shiro.redis=true，则shiro session存到redis里
+        //如果开启redis缓存且szy.cms.shiro.redis=true，则将shiro session存到redis里
         if(redisOpen && shiroRedis){
             sessionManager.setSessionDAO(redisShiroSessionDAO);
         }
@@ -56,6 +60,17 @@ public class ShiroConfig {
         shiroFilter.setSecurityManager(securityManager);
         shiroFilter.setLoginUrl("/login.html");
         shiroFilter.setUnauthorizedUrl("/");
+        
+        Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("/static/**", "anon");
+//        filterMap.put("/swagger/**", "anon");
+        filterMap.put("/login.html", "anon");
+        filterMap.put("/sys/login", "anon");
+        filterMap.put("/favicon.ico", "anon");
+//        filterMap.put("/captcha.jpg", "anon");
+        filterMap.put("/**", "authc");
+        shiroFilter.setFilterChainDefinitionMap(filterMap);
+        
         return shiroFilter;
     }
 
