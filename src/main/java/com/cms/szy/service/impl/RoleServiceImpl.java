@@ -1,5 +1,6 @@
 package com.cms.szy.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,11 +125,13 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public void saveRole(Role role) {
-		Role newRole = new Role();
-		newRole.setRoleName(role.getRoleName());  //角色名称
-		newRole.setDeptId(role.getDeptId());      //所属部门
-		newRole.setRemark(role.getRemark()); //备注
-		roleRepositoryDao.save(newRole);
+		Role roleBean = new Role();
+		roleBean.setRoleName(role.getRoleName());  //角色名称
+		roleBean.setDeptId(role.getDeptId());      //所属部门
+		roleBean.setRemark(role.getRemark()); //备注
+		roleBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); //是否删除
+		roleBean.setCreateTime(new Date());  //创建时间
+		Role newRole = roleRepositoryDao.save(roleBean);
 		
 		//保存菜单与角色的关系
 		List<Long> menuIdList = role.getMenuIdList();
@@ -137,20 +140,22 @@ public class RoleServiceImpl implements RoleService{
 				MenuRole newMenuRole = new MenuRole();
 				newMenuRole.setId(idGlobalGenerator.getSeqId(MenuRole.class));
 				newMenuRole.setMenuId(menuId); // 菜单ID
-				newMenuRole.setRoleId(newMenuRole.getRoleId()); // 角色ID
+				newMenuRole.setRoleId(newRole.getRoleId()); // 角色ID
 				menuRoleRepositoryDao.save(newMenuRole);
 			}
 		}
-		 
 		
 		//保存部门与角色的关系
-		role.getDeptIdList();
-		DeptRole newDeptRole = new DeptRole();
-		newDeptRole.setId(idGlobalGenerator.getSeqId(DeptRole.class));
-		//newDeptRole.setDeptId(deptId);  //部门ID
-		newDeptRole.setRoleId(newDeptRole.getRoleId());  //角色ID
-		deptRoleRepositoryDao.save(newDeptRole);
-		
+		List<Long> deptIdList = role.getDeptIdList();
+		if(null != deptIdList && deptIdList.size() > 0){
+			for(Long deptId : deptIdList){
+				DeptRole newDeptRole = new DeptRole();
+				newDeptRole.setId(idGlobalGenerator.getSeqId(DeptRole.class));
+				newDeptRole.setDeptId(deptId);  //部门ID
+				newDeptRole.setRoleId(newRole.getRoleId());  //角色ID
+				deptRoleRepositoryDao.save(newDeptRole);
+			}
+		}	
 	}
 	
 
