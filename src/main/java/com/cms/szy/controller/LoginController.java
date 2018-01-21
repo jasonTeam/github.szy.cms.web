@@ -66,13 +66,16 @@ public class LoginController {
 			UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 			subject.login(token);
 		} catch (UnknownAccountException e) {
+			GwsLogger.error(e.getMessage(), "");
 			return Ret.error(e.getMessage());
 		} catch (IncorrectCredentialsException e) {
+			GwsLogger.error("账号或密码不正确", "");
 			return Ret.error("账号或密码不正确");
 		} catch (LockedAccountException e) {
+			GwsLogger.error("账号已被锁定,请联系管理员", "");
 			return Ret.error("账号已被锁定,请联系管理员");
 		} 
-
+		GwsLogger.info("登录成功!", "");
 		return Ret.ok();
 	}
 	

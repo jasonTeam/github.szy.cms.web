@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2018-01-19 18:13:40
+Date: 2018-01-21 10:49:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,20 +22,21 @@ DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
   `dept_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `parent_id` bigint(20) DEFAULT NULL COMMENT '上级部门ID，一级部门为0',
-  `dept_name` varchar(50) DEFAULT NULL COMMENT '部门名称',
+  `name` varchar(50) DEFAULT NULL COMMENT '部门名称',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
-  `is_delete` tinyint(4) DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
+  `is_delete` smallint(4) DEFAULT '1' COMMENT '是否删除 1：正常，-1：已删除',
   PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='部门信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=1516456578456032 DEFAULT CHARSET=utf8 COMMENT='部门信息表';
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES ('1', '0', '人人开源集团', '0', '0');
-INSERT INTO `sys_dept` VALUES ('2', '1', '长沙分公司', '1', '0');
-INSERT INTO `sys_dept` VALUES ('3', '1', '上海分公司', '2', '0');
-INSERT INTO `sys_dept` VALUES ('4', '3', '技术部', '0', '0');
-INSERT INTO `sys_dept` VALUES ('5', '3', '销售部', '1', '0');
+INSERT INTO `sys_dept` VALUES ('1', '0', '人人开源集团', '0', '1');
+INSERT INTO `sys_dept` VALUES ('2', '1', '长沙分公司', '1', '1');
+INSERT INTO `sys_dept` VALUES ('3', '1', '上海分公司', '2', '1');
+INSERT INTO `sys_dept` VALUES ('4', '3', '技术部', '0', '1');
+INSERT INTO `sys_dept` VALUES ('5', '3', '销售部', '1', '1');
+INSERT INTO `sys_dept` VALUES ('1516456578456031', '3', '人事部', '2', '1');
 
 -- ----------------------------
 -- Table structure for sys_dept_role
@@ -46,11 +47,13 @@ CREATE TABLE `sys_dept_role` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门角色关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='部门角色关联表';
 
 -- ----------------------------
 -- Records of sys_dept_role
 -- ----------------------------
+INSERT INTO `sys_dept_role` VALUES ('1', null, '1516456578456031');
+INSERT INTO `sys_dept_role` VALUES ('2', '6', '1516456578456031');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -59,7 +62,7 @@ DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
   `menu_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父菜单ID，一级菜单为0',
-  `menu_name` varchar(50) DEFAULT NULL COMMENT '菜单名称',
+  `name` varchar(50) DEFAULT NULL COMMENT '菜单名称',
   `menu_url` varchar(200) DEFAULT NULL COMMENT '菜单URL',
   `perms` varchar(500) DEFAULT NULL COMMENT '授权(多个用逗号分隔，如：user:list,user:create)',
   `type` int(11) DEFAULT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
@@ -72,7 +75,7 @@ CREATE TABLE `sys_menu` (
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES ('1', '0', '系统管理', null, null, '0', 'fa fa-cog', '0');
-INSERT INTO `sys_menu` VALUES ('2', '1', '管理员管理', 'sys/user.html', null, '1', 'fa fa-user', '1');
+INSERT INTO `sys_menu` VALUES ('2', '1', '用户管理', 'sys/user.html', null, '1', 'fa fa-user', '1');
 INSERT INTO `sys_menu` VALUES ('3', '1', '角色管理', 'sys/role.html', null, '1', 'fa fa-user-secret', '2');
 INSERT INTO `sys_menu` VALUES ('4', '1', '菜单管理', 'sys/menu.html', null, '1', 'fa fa-th-list', '3');
 INSERT INTO `sys_menu` VALUES ('15', '2', '查看', null, 'sys:user:list,sys:user:info', '2', null, '0');
@@ -106,7 +109,7 @@ CREATE TABLE `sys_menu_role` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='菜单角色关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='菜单角色关联表';
 
 -- ----------------------------
 -- Records of sys_menu_role
@@ -119,60 +122,68 @@ INSERT INTO `sys_menu_role` VALUES ('16', '1', '7');
 INSERT INTO `sys_menu_role` VALUES ('17', '1', '8');
 INSERT INTO `sys_menu_role` VALUES ('18', '1', '14');
 INSERT INTO `sys_menu_role` VALUES ('19', '1', '28');
+INSERT INTO `sys_menu_role` VALUES ('20', null, '1');
+INSERT INTO `sys_menu_role` VALUES ('21', null, '31');
+INSERT INTO `sys_menu_role` VALUES ('22', null, '32');
+INSERT INTO `sys_menu_role` VALUES ('23', null, '33');
+INSERT INTO `sys_menu_role` VALUES ('24', null, '34');
+INSERT INTO `sys_menu_role` VALUES ('25', null, '35');
+INSERT INTO `sys_menu_role` VALUES ('26', '6', '1');
+INSERT INTO `sys_menu_role` VALUES ('27', '6', '31');
+INSERT INTO `sys_menu_role` VALUES ('28', '6', '32');
+INSERT INTO `sys_menu_role` VALUES ('29', '6', '33');
+INSERT INTO `sys_menu_role` VALUES ('30', '6', '34');
+INSERT INTO `sys_menu_role` VALUES ('31', '6', '35');
 
 -- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
-  `role_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(100) DEFAULT NULL COMMENT '角色名称',
-  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
+  `role_name` varchar(100) DEFAULT NULL COMMENT '角色名称',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `is_delete` smallint(4) DEFAULT '1' COMMENT '是否删除(1：正常，-1：删除)',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '开发', '这个一个测试', '4', '2018-01-04 15:01:44');
-INSERT INTO `sys_role` VALUES ('2', '销售专员', 'sell Top', '5', '2018-01-17 14:59:46');
-INSERT INTO `sys_role` VALUES ('3', '技术总监', '他是技术总监', '4', '2018-01-19 16:01:26');
+INSERT INTO `sys_role` VALUES ('1', '4', '开发', '2018-01-04 15:01:44', null, '这个一个测试', '1');
+INSERT INTO `sys_role` VALUES ('2', '5', '销售专员', '2018-01-17 14:59:46', null, 'sell Top', '1');
+INSERT INTO `sys_role` VALUES ('3', '4', '技术总监', '2018-01-19 16:01:26', null, '他是技术总监', '1');
+INSERT INTO `sys_role` VALUES ('5', '1516456578456031', '人事', null, null, null, '1');
+INSERT INTO `sys_role` VALUES ('6', '1516456578456031', '人事助理', '2018-01-21 10:31:28', null, '人事助理小MM', '1');
 
 -- ----------------------------
 -- Table structure for sys_user
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) NOT NULL COMMENT '用户名',
-  `password` varchar(100) DEFAULT NULL COMMENT '密码',
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
+  `user_name` varchar(50) DEFAULT NULL COMMENT '用户名',
   `salt` varchar(20) DEFAULT NULL COMMENT '盐',
-  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
+  `password` varchar(100) DEFAULT NULL COMMENT '密码',
   `mobile` varchar(100) DEFAULT NULL COMMENT '手机号',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
   `status` tinyint(4) DEFAULT NULL COMMENT '状态  0：禁用   1：正常',
-  `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `is_delete` smallint(6) DEFAULT '1' COMMENT '是否删除:（1：未删除，-1：删除）',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1516328306906804 DEFAULT CHARSET=utf8 COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=1516456578443912 DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', '1', '1', '2016-11-11 11:11:11', '1');
-INSERT INTO `sys_user` VALUES ('2', 'jason', 'df40cc739038c75fb9d2ebe617fa5f05b8bf5be0341bf533c61eaf037a58d060', 'd7GdTeUuoGGxuDoqTq2u', '2350327011@qq.com', '15267151846', '0', '4', '2018-01-04 15:06:28', '1');
-INSERT INTO `sys_user` VALUES ('3', 'Andy', '02dc7d844d5294d317b824feb4f31d3f22deb963c80c223f7b12006a96b1dcc7', 'wyD5P3UOSnpTHGmftAGy', '2350327011@qq.com', '15267151849', '1', '5', '2018-01-17 14:58:03', '1');
-INSERT INTO `sys_user` VALUES ('1516327556268878', 'jack', null, 'm5DicU3QAMnnpt2gDvYb', '2350327011@qq.com', '15267151846', '1', '1', '2018-01-19 10:10:33', '1');
-INSERT INTO `sys_user` VALUES ('1516328306906797', 'afdda', '3f32f24c745b5bd1b916d83b89b8b5e8e71dd187b8bfb16f5e34d92cf4183689', 'IXT7AAM5WdiA4MH8qOQM', 'adf', 'adf', '1', '1', '2018-01-19 10:20:21', '1');
-INSERT INTO `sys_user` VALUES ('1516328306906798', 'adfa', '96356cdd314711222cdd7284ae80c9bb95cb6983a0fc38acee1ef24667e37be7', 'Y3WLPyrTgGa6oSJ7XbJ5', 'asdfasf', 'afdadsfdasf', '1', '1', '2018-01-19 10:20:29', '1');
-INSERT INTO `sys_user` VALUES ('1516328306906799', '12eqe', '93bc288debb958380492163068f3cdc75e89b2217dbee97c51ea6f133c9f581f', '8rrkxbQdFsHhywHwRBYG', 'qewq', 'qeqw', '1', '1', '2018-01-19 10:20:39', '1');
-INSERT INTO `sys_user` VALUES ('1516328306906800', 'qeqweqw', 'c8fa17764053af9c87b2748f2b13c6cb6722f0fcf26a97f1f1c63a2860684d4f', 'JNvkqw6GvFnqUwmsMMMH', 'qweq', 'qweqweqwe', '1', '1', '2018-01-19 10:20:46', '1');
-INSERT INTO `sys_user` VALUES ('1516328306906801', 'fasfdqeqweqwe', '917b4b8ad860f444ed4ce49167e2bd0aadaf07adbc55bae79e71b8849ad435e5', 'Pc7ozc4odMAtqwvPlykq', 'qeqweqwe', 'qeqewwqe', '1', '1', '2018-01-19 10:20:56', '1');
-INSERT INTO `sys_user` VALUES ('1516328306906802', 'qeqwdasdas', 'ae94191dd5332171b1ab3ae81d33284787227a703c83e1c827440ea5206d89ff', 'r9u3lPypTOFQGmKXW4Uq', 'qewqeqw', 'qweqwe', '1', '1', '2018-01-19 10:21:04', '1');
-INSERT INTO `sys_user` VALUES ('1516328306906803', 'weqeqwe', 'ae94191dd5332171b1ab3ae81d33284787227a703c83e1c827440ea5206d89ff', 'teb6ZeormAKtWACftbEZ', 'qewqwewqe', 'qeqweqwe', '1', '1', '2018-01-19 10:21:15', '1');
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', 'YzcmCZNvbXocrsz9dm8e', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', '13612345678', 'root@renren.io', '1', '2016-11-11 11:11:11', '1');
+INSERT INTO `sys_user` VALUES ('2', '4', 'jason', 'd7GdTeUuoGGxuDoqTq2u', 'df40cc739038c75fb9d2ebe617fa5f05b8bf5be0341bf533c61eaf037a58d060', '15267151846', '2350327011@qq.com', '0', '2018-01-04 15:06:28', '1');
+INSERT INTO `sys_user` VALUES ('1516456578443911', '5', 'miffy', '8ipvpbhlmHwyUBJZH27H', '6beb4ba7a6b1ecd06257dbbfdba38bd72b4166d691fcebdd0b9dc84fd59890bd', '15267151846', '2350327011@qq.com', '1', '2018-01-20 22:18:01', '1');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -182,13 +193,15 @@ CREATE TABLE `sys_user_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
+  `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户角色关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户角色关联表';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES ('1', '2', '1');
+INSERT INTO `sys_user_role` VALUES ('1', '2', '1', '2018-01-18');
+INSERT INTO `sys_user_role` VALUES ('2', '1516456578443911', '3', '2018-01-20');
 
 -- ----------------------------
 -- Table structure for tb_menu

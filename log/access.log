@@ -171,3 +171,12 @@
 [2018-01-21 08:24:47] INFO : Starting CMSApplication on jasonYang with PID 1516 (D:\dev_workspace\dev_shiro_cms\szy.cms.web\target\classes started by jason in D:\dev_workspace\dev_shiro_cms\szy.cms.web)
 [2018-01-21 08:24:47] INFO : The following profiles are active: dev
 [2018-01-21 08:25:45] INFO : Started CMSApplication in 62.831 seconds (JVM running for 66.351)
+[2018-01-21 10:13:13] INFO : Starting CMSApplication on jasonYang with PID 5056 (D:\dev_workspace\dev_shiro_cms\szy.cms.web\target\classes started by jason in D:\dev_workspace\dev_shiro_cms\szy.cms.web)
+[2018-01-21 10:13:13] INFO : The following profiles are active: dev
+[2018-01-21 10:14:08] INFO : Started CMSApplication in 55.945 seconds (JVM running for 58.817)
+[2018-01-21 10:43:46] INFO : Starting CMSApplication on jasonYang with PID 4848 (D:\dev_workspace\dev_shiro_cms\szy.cms.web\target\classes started by jason in D:\dev_workspace\dev_shiro_cms\szy.cms.web)
+[2018-01-21 10:43:46] INFO : The following profiles are active: dev
+[2018-01-21 10:44:28] INFO : Started CMSApplication in 43.346 seconds (JVM running for 46.159)
+[2018-01-21 13:16:08] INFO : Starting CMSApplication on jasonYang with PID 3160 (D:\dev_workspace\dev_shiro_cms\szy.cms.web\target\classes started by jason in D:\dev_workspace\dev_shiro_cms\szy.cms.web)
+[2018-01-21 13:16:08] INFO : The following profiles are active: dev
+[2018-01-21 13:16:51] INFO : Started CMSApplication in 44.44 seconds (JVM running for 46.755)

@@ -28,4 +28,19 @@ public interface MenuRoleRepositoryDao extends BaseRepository<MenuRole, Long>{
 	@Query("SELECT mr.menuId FROM MenuRole mr WHERE mr.roleId = ?1")
 	List<Long> queryMenuByRoleId(Long roleId);
 	
+	/**
+	 * 
+	 *【根据角色id和菜单id获取菜单角色关系实体类】
+	 * @Title menuRoleList 
+	 * @param roleId
+	 * @param menuId
+	 * @return List<MenuRole>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月21日上午11:39:22
+	 * @throws  异常
+	 */
+	@Query("SELECT mr FROM MenuRole mr WHERE mr.roleId = ?1 AND mr.menuId =?2")
+	List<MenuRole> menuRoleList(Long roleId, Long menuId);
+	
+	
 }
