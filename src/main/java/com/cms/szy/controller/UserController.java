@@ -198,14 +198,4 @@ public class UserController extends AbstractController{
 		return Ret.ok();
 	}
 	
-	
-//	@RequestMapping(value = "/getPermsByUser", method = RequestMethod.POST)
-//	public @ResponseBody RetResult getPermsByUser(Long userId){
-//		
-//		List<String> listPerms = userService.getPermsByUser(userId);
-//		
-//		return RetResult.setRetDate("0000", "success", listPerms);
-//		
-//	}
-	
 }

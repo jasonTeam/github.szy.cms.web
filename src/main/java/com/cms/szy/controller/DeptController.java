@@ -58,7 +58,7 @@ public class DeptController extends AbstractController{
 	@RequiresPermissions("sys:dept:list")
 	public Ret info(){
 		long deptId = 0;
-		if(getUserId() != Constant.SUPER_ADMIN){
+		if(getUserId() != Constant.ADMIN){
 			Dept dept = deptService.getDeptByDeptId(getDeptId());
 			deptId = dept.getParentId();
 		}
@@ -74,7 +74,7 @@ public class DeptController extends AbstractController{
 	public Ret select(){
 		List<Dept>  deptList = deptService.deptList();
 		//添加一级部门
-		if(getUserId() == Constant.SUPER_ADMIN){
+		if(getUserId() == Constant.ADMIN){
 			Dept root = new Dept();
 			root.setDeptId(0L);
 			root.setName(Constant.LEVEL_DEPT);

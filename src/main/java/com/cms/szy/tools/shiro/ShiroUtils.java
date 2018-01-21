@@ -7,11 +7,11 @@ import org.apache.shiro.subject.Subject;
 import com.cms.szy.entity.po.User;
 
 /**
- * Shiro工具类
  * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年11月12日 上午9:49:19
+ *【Shiro工具类】
+ * @ClassName ShiroUtils 
+ * @author ShenZiYang 
+ * @date 2018年1月21日 下午3:47:43
  */
 public class ShiroUtils {
 	
@@ -24,19 +24,23 @@ public class ShiroUtils {
 	public static String sha256(String password, String salt) {
 		return new SimpleHash(hashAlgorithmName, password, salt, hashIterations).toString();
 	}
-
+	
+	//获取Session
 	public static Session getSession() {
 		return SecurityUtils.getSubject().getSession();
 	}
-
+	
+	//Shiro的subject实质上是当前执行用户的特定视图。
 	public static Subject getSubject() {
 		return SecurityUtils.getSubject();
 	}
-
+	
+	//获取用户实体对象
 	public static User getUserEntity() {
 		return (User)SecurityUtils.getSubject().getPrincipal();
 	}
-
+	
+	//获取登录用户ID
 	public static Long getUserId() {
 		return getUserEntity().getUserId();
 	}
@@ -48,11 +52,13 @@ public class ShiroUtils {
 	public static Object getSessionAttribute(Object key) {
 		return getSession().getAttribute(key);
 	}
-
+	
+	//是否登录
 	public static boolean isLogin() {
 		return SecurityUtils.getSubject().getPrincipal() != null;
 	}
-
+	
+	//登出
 	public static void logout() {
 		SecurityUtils.getSubject().logout();
 	}

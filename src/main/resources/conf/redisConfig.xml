@@ -11,8 +11,10 @@
    		 <property name="key" value="User, 
    		 							Dept,
    		 							Menu,
-   		 							MenuRole,
+   		 							Role,
+   		 							UserRole,
    		 							DeptRole,
+   		 							MenuRole,
    		 							"
    		 /> 
     </bean>

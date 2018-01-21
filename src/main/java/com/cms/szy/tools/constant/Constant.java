@@ -8,8 +8,8 @@ package com.cms.szy.tools.constant;
  */
 public class Constant {
 	
-	/** 超级管理员ID */
-	public static final int SUPER_ADMIN = 1;
+	/*** 系统管理员ID **/
+	public static final int ADMIN = 1;
 	
 	/** 一级菜单 */
 	public static final String  LEVEL_MENU = "一级菜单";

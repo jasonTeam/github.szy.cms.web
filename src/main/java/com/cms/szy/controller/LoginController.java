@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.service.TbUserService;
+import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
 
@@ -27,7 +28,7 @@ import com.cms.szy.tools.shiro.ShiroUtils;
  */
 
 @Controller
-public class LoginController {
+public class LoginController extends AbstractController{
 	
 	@Autowired
 	TbUserService tbUserServuce;
@@ -47,16 +48,16 @@ public class LoginController {
 	}
 	
 	
-	
 	/**
 	 * 
-	 * (登录) 
+	 *【用户登录】
 	 * @Title login 
-	 * @param vo
-	 * @return RetResult返回类型   
+	 * @param userName
+	 * @param password
+	 * @return Ret返回类型   
 	 * @author ShenZiYang
-	 * @date 2017年12月19日上午9:49:35
-	 * @throws 登录异常
+	 * @date 2018年1月21日下午3:48:25
+	 * @throws  异常
 	 */
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public @ResponseBody Ret login(String userName, String password) {
@@ -75,6 +76,7 @@ public class LoginController {
 			GwsLogger.error("账号已被锁定,请联系管理员", "");
 			return Ret.error("账号已被锁定,请联系管理员");
 		} 
+		
 		GwsLogger.info("登录成功!", "");
 		return Ret.ok();
 	}
@@ -90,9 +92,20 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout() {
-		ShiroUtils.logout();
-		GwsLogger.info("当前用户退出登录", "logout");
-		return "redirect:login.html";
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("退出系统开始:code={},message={}",code,message);
+		
+		try{
+			ShiroUtils.logout();
+		}catch(Exception e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("退出系统异常:code={},message={},e={}", code, message, e);
+		}
+		
+		GwsLogger.info("退出系统结束:code={},message={}",code,message);
+		return INDEX;
 	}
 	
 	

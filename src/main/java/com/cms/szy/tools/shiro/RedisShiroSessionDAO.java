@@ -18,9 +18,12 @@ import java.util.concurrent.TimeUnit;
  * @email sunlightcs@gmail.com
  * @date 2017/9/27 21:35
  */
+@SuppressWarnings("unchecked")
 @Component
 public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
-    @Autowired
+   
+	@SuppressWarnings("rawtypes")
+	@Autowired
     private RedisTemplate redisTemplate;
 
     //创建session
@@ -63,7 +66,8 @@ public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
         return (Session)redisTemplate.opsForValue().get(key);
     }
 
-    private void setShiroSession(String key, Session session){
+    
+	private void setShiroSession(String key, Session session){
         redisTemplate.opsForValue().set(key, session);
        
         //60分钟过期

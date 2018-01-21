@@ -17,6 +17,9 @@ import com.cms.szy.entity.po.User;
 public abstract class AbstractController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
+	/** 首页 */
+	public static final String INDEX = "redirect:login.html";
+	
 	//获取用户实体
 	protected User getUser() {
 		return (User) SecurityUtils.getSubject().getPrincipal();

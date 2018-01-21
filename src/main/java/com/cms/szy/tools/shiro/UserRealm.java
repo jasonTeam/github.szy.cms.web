@@ -28,6 +28,7 @@ import com.cms.szy.entity.po.Menu;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.repository.dao.MenuRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
+import com.cms.szy.tools.constant.Constant;
 
 
 
@@ -50,48 +51,51 @@ public class UserRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		
 		User user = (User)principals.getPrimaryPrincipal();
-		Long userId = user.getUserId();
+		Long userId = user.getUserId(); //获取用户ID
 		
+		//系统管理员，拥有最高权限
 		List<String> permsList = null;
-		
-		if (userId == 1) {
-//			List<Menu> menuList = menuRepositoryDao.menuList();
-			List<Menu> menuList = menuRepositoryDao.findAll();
-			permsList = new ArrayList<>(menuList.size());
+		if (userId == Constant.ADMIN) {
+			List<Menu> menuList = menuRepositoryDao.findAll(); //查询所有的菜单
+//			permsList = new ArrayList<>(menuList.size());
+			permsList = new ArrayList<>();
 			for (Menu menu : menuList) {
+				//遍历所有的菜单,存入到集合
 				permsList.add(menu.getPerms());
 			}
 			
 		}else{
+			//如果不是系统管理员,根据用户ID查询所拥有的菜单
 			permsList = userRepositoryDao.getPermsByUser(userId);
 		}
 		
-		// 用户权限列表
+		// 用户权限列表  （HashSet存value不能重复的对象)
 		Set<String> permsSet = new HashSet<String>();
 		for (String perms : permsList) {
 			if (StringUtils.isBlank(perms)) {
 				continue;
 			}
+			
+			//将集合中的数据按,号分割，并转成数组存入HashSet中
 			permsSet.addAll(Arrays.asList(perms.trim().split(",")));
 		}
-
+		
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		info.setStringPermissions(permsSet);
-		
 		return info;
 	}
 
 	
 	/**
 	 * 
-	 * (登录时调用) 
+	 *【登录时调用】 
 	 * @Title doGetAuthenticationInfo 
-	 * @param token
+	 * @param authcToken
 	 * @return
 	 * @throws AuthenticationException 返回类型   
 	 * @author ShenZiYang
-	 * @date 2018年1月6日下午12:49:47
-	 * @throws 异常
+	 * @date 2018年1月21日下午5:32:03
+	 * @throws  异常
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
@@ -106,7 +110,7 @@ public class UserRealm extends AuthorizingRealm {
         }
 		
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());
-        
+//        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), getName());
 		return info;
 	}
 	
