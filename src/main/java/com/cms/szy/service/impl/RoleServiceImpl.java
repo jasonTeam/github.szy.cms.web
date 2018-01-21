@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.cms.szy.configuration.annotation.DataFilter;
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.DeptRole;
@@ -79,7 +78,6 @@ public class RoleServiceImpl implements RoleService{
 	}
 	
 	
-	@DataFilter(tableAlias = "r", user = false)
 	@Override
 	public List<Role> getRoleList() {
 		List<Role> roleList = roleRepositoryDao.findAll();
@@ -103,11 +101,44 @@ public class RoleServiceImpl implements RoleService{
 	
 	@Override
 	public void updateRole(Role role) {
-		Role roleBean = roleRepositoryDao.findOne(role.getRoleId()); //查询是否已经存在
-		if(null != roleBean){
-			roleBean.setRoleName(roleBean.getRoleName());  //角色名称
-			roleBean.setDeptId(roleBean.getDeptId()); //所属部门
-			roleBean.setRemark(roleBean.getRemark());  //备注
+		Role roleBean = roleRepositoryDao.findOne(role.getRoleId()); // 查询是否已经存在
+		if (null != roleBean) {
+			roleBean.setRoleName(roleBean.getRoleName()); // 角色名称
+			roleBean.setDeptId(roleBean.getDeptId()); // 所属部门
+			roleBean.setRemark(roleBean.getRemark()); // 备注
+			roleBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); // 是否删除
+			roleBean.setCreateTime(new Date()); // 创建时间
+			Role newBean = roleRepositoryDao.save(roleBean); // 保存
+
+			// 保存菜单与角色的关系
+			MenuRole menuRole = menuRoleRepositoryDao.findOne(newBean.getRoleId()); // 先查询原来数据是否存在
+			if (null != menuRole) {
+				List<Long> menuIdList = role.getMenuIdList();
+				if (null != menuIdList && menuIdList.size() > 0) {
+					for (Long menuId : menuIdList) {
+						MenuRole newMenuRole = new MenuRole();
+						newMenuRole.setId(idGlobalGenerator.getSeqId(MenuRole.class));
+						newMenuRole.setMenuId(menuId); // 菜单ID
+						newMenuRole.setRoleId(newBean.getRoleId()); // 角色ID
+						menuRoleRepositoryDao.save(newMenuRole);
+					}
+				}
+			}
+
+			// 保存部门与角色的关系
+			DeptRole deptRole = deptRoleRepositoryDao.findOne(newBean.getRoleId()); // 先查询原来数据是否存在
+			if (null != deptRole) {
+				List<Long> deptIdList = role.getDeptIdList();
+				if (null != deptIdList && deptIdList.size() > 0) {
+					for (Long deptId : deptIdList) {
+						DeptRole newDeptRole = new DeptRole();
+						newDeptRole.setId(idGlobalGenerator.getSeqId(DeptRole.class));
+						newDeptRole.setDeptId(deptId); // 部门ID
+						newDeptRole.setRoleId(newBean.getRoleId()); // 角色ID
+						deptRoleRepositoryDao.save(newDeptRole);
+					}
+				}
+			}
 		}
 	}
 
