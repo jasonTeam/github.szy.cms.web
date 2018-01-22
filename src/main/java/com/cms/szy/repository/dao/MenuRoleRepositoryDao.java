@@ -2,6 +2,9 @@ package com.cms.szy.repository.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.cms.szy.configuration.query.core.BaseRepository;
@@ -41,6 +44,21 @@ public interface MenuRoleRepositoryDao extends BaseRepository<MenuRole, Long>{
 	 */
 	@Query("SELECT mr FROM MenuRole mr WHERE mr.roleId = ?1 AND mr.menuId =?2")
 	List<MenuRole> menuRoleList(Long roleId, Long menuId);
+	
+	
+	/**
+	 * 
+	 *【根据roleId删除 菜单与角色的对应关系 】 
+	 * @param roleId void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月22日下午4:24:56
+	 * @throws 异常
+	 */
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value = "delete from sys_menu_role WHERE role_id = ?1",nativeQuery = true)
+	void deleteMenuRole(Long roleId);
+	
 	
 	
 }

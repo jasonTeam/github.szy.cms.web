@@ -93,9 +93,11 @@ public class RoleServiceImpl implements RoleService {
 	public Role queryByRoleId(Long roleId) {
 		return roleRepositoryDao.findOne(roleId);
 	}
+	
 
 	@Override
 	public void updateRole(Role role) {
+		
 		Role oriRole = roleRepositoryDao.findOne(role.getRoleId()); // 查询是否已经存在
 		if (null != oriRole) {
 			oriRole.setRoleName(role.getRoleName()); // 角色名称
@@ -105,19 +107,41 @@ public class RoleServiceImpl implements RoleService {
 			oriRole.setUpdateTime(new Date()); //更新时间
 			Role newBean = roleRepositoryDao.save(oriRole); // 保存
 
-			// 更新菜单与角色的关系
-			List<Long> menuIdList = role.getMenuIdList(); //获取前端传入的菜单ID集合
-			for(Long menuId : menuIdList){
-				List<MenuRole> mrList = menuRoleRepositoryDao.menuRoleList(newBean.getRoleId(), menuId);
-				System.out.println(mrList);
+			/*
+			 * 修改角色数据时，更新菜单与角色的关系
+			 * 1.先删除原来的菜单与角色的对应关系，2.重新插入一遍
+			 */
+			menuRoleRepositoryDao.deleteMenuRole(role.getRoleId());
+//			menuRoleRepositoryDao.delete(role.getRoleId());
+			List<Long> menuIdList = role.getMenuIdList();
+			if (null != menuIdList && menuIdList.size() > 0) {
+				for (Long menuId : menuIdList) {
+					MenuRole newMenuRole = new MenuRole();
+					newMenuRole.setId(idGlobalGenerator.getSeqId(MenuRole.class));
+					newMenuRole.setMenuId(menuId); // 菜单ID
+					newMenuRole.setRoleId(newBean.getRoleId()); // 角色ID
+					menuRoleRepositoryDao.save(newMenuRole);
+				}
 			}
 			
-			// 更新部门与角色的关系
-			DeptRole deptRole = deptRoleRepositoryDao.findOne(newBean.getRoleId()); // 先查询原来数据是否存在
-			if (null != deptRole) {
-				
+			/*
+			 * 修改角色数据时，更新部门与角色的关系
+			 * 1.先删除原来的部门与角色的对应关系，2.重新插入一遍
+			 */
+			deptRoleRepositoryDao.deleteDeptRole(role.getRoleId());
+//			deptRoleRepositoryDao.delete(role.getRoleId());
+			List<Long> deptIdList = role.getDeptIdList();
+			if (null != deptIdList && deptIdList.size() > 0) {
+				for (Long deptId : deptIdList) {
+					DeptRole newDeptRole = new DeptRole();
+					newDeptRole.setId(idGlobalGenerator.getSeqId(DeptRole.class));
+					newDeptRole.setDeptId(deptId); // 部门ID
+					newDeptRole.setRoleId(newBean.getRoleId()); // 角色ID
+					deptRoleRepositoryDao.save(newDeptRole);
+				}
 			}
 		}
+		
 	}
 	
 

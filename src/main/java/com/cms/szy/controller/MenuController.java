@@ -146,7 +146,6 @@ public class MenuController extends AbstractController{
 		
 		verifyForm(menu); //数据校验
 		menuService.updateMenu(menu);
-		
 		return Ret.ok();
 	}
 	
@@ -189,6 +188,7 @@ public class MenuController extends AbstractController{
 		GwsLogger.info("删除菜单操作结束,code={},message={}", code, message);
 		return Ret.ok();
 	}
+	
 	
 	
 	/**

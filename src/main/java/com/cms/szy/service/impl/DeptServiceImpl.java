@@ -74,11 +74,7 @@ public class DeptServiceImpl implements DeptService{
 
 	@Override
 	public void deleteDept(Long deptId) {
-		Dept oriDept = deptRepositoryDao.findOne(deptId); //先查询数据是否存在
-		if(null != oriDept){
-			oriDept.setIsDelete(IsDeleteEnum.DELETE.getVal()); //删除部门
-			deptRepositoryDao.save(oriDept);
-		}
+		deptRepositoryDao.delete(deptId); //逻辑删除
 	}
 
 

@@ -126,8 +126,7 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public void saveMenu(Menu menu) {
 		Menu newMenu = new Menu();
-		Long menuId = idGlobalGenerator.getSeqId(Menu.class);
-		newMenu.setMenuId(menuId);  //生成菜单ID
+		newMenu.setMenuId(idGlobalGenerator.getSeqId(Menu.class));  //生成菜单ID
 		newMenu.setParentId(menu.getParentId()); //父菜单ID
 		newMenu.setName(menu.getName());  //菜单名称
 		newMenu.setMenuUrl(menu.getMenuUrl()); //菜单Url
@@ -141,7 +140,17 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public void updateMenu(Menu menu) {
-		// TODO Auto-generated method stub
+		Menu oriMenu = menuRepositoryDao.findOne(menu.getMenuId());  //1.先查询原来的数据是否存在
+		if(null != oriMenu){
+			oriMenu.setParentId(menu.getParentId()); //父菜单ID
+			oriMenu.setName(menu.getName());  //菜单名称
+			oriMenu.setMenuUrl(menu.getMenuUrl()); //菜单Url
+			oriMenu.setPerms(menu.getPerms()); //授权
+			oriMenu.setType(menu.getType()); //菜单类型 (类型   0：目录   1：菜单   2：按钮)
+			oriMenu.setIcon(menu.getIcon()); //菜单图标
+			oriMenu.setSort(menu.getSort()); //排序
+			menuRepositoryDao.save(menu);
+		}
 		
 	}
 
