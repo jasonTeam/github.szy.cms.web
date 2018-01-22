@@ -112,7 +112,6 @@ public class RoleServiceImpl implements RoleService {
 			 * 1.先删除原来的菜单与角色的对应关系，2.重新插入一遍
 			 */
 			menuRoleRepositoryDao.deleteMenuRole(role.getRoleId());
-//			menuRoleRepositoryDao.delete(role.getRoleId());
 			List<Long> menuIdList = role.getMenuIdList();
 			if (null != menuIdList && menuIdList.size() > 0) {
 				for (Long menuId : menuIdList) {
@@ -129,7 +128,6 @@ public class RoleServiceImpl implements RoleService {
 			 * 1.先删除原来的部门与角色的对应关系，2.重新插入一遍
 			 */
 			deptRoleRepositoryDao.deleteDeptRole(role.getRoleId());
-//			deptRoleRepositoryDao.delete(role.getRoleId());
 			List<Long> deptIdList = role.getDeptIdList();
 			if (null != deptIdList && deptIdList.size() > 0) {
 				for (Long deptId : deptIdList) {
