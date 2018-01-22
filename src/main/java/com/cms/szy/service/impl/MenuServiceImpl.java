@@ -8,7 +8,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Menu;
+import com.cms.szy.entity.po.User;
 import com.cms.szy.repository.dao.MenuRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.service.MenuService;
@@ -22,7 +24,8 @@ public class MenuServiceImpl implements MenuService{
 	private MenuRepositoryDao menuRepositoryDao;
 	@Autowired
 	private UserRepositoryDao userRepositoryDao;
-	
+	@Autowired
+	private IdGlobalGenerator idGlobalGenerator;
 	
 	@Override
 	public List<Menu> menuList() {
@@ -34,7 +37,6 @@ public class MenuServiceImpl implements MenuService{
 			parentNameMap.put(menu.getParentId(), menuRepositoryDao.getParentName(menu.getParentId())); //根据父ID获取父菜单
 			menu.setParentName(parentNameMap.get(menu.getParentId()));
 		}
-		
 		
 		return menuList;
 	}
@@ -123,7 +125,17 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public void saveMenu(Menu menu) {
-		// TODO Auto-generated method stub
+		Menu newMenu = new Menu();
+		Long menuId = idGlobalGenerator.getSeqId(Menu.class);
+		newMenu.setMenuId(menuId);  //生成菜单ID
+		newMenu.setParentId(menu.getParentId()); //父菜单ID
+		newMenu.setName(menu.getName());  //菜单名称
+		newMenu.setMenuUrl(menu.getMenuUrl()); //菜单Url
+		newMenu.setPerms(menu.getPerms()); //授权
+		newMenu.setType(menu.getType()); //菜单类型 (类型   0：目录   1：菜单   2：按钮)
+		newMenu.setIcon(menu.getIcon()); //菜单图标
+		newMenu.setSort(menu.getSort()); //排序
+		menuRepositoryDao.save(newMenu);  
 	}
 
 
@@ -135,9 +147,12 @@ public class MenuServiceImpl implements MenuService{
 
 
 	@Override
-	public void deleteMenu(Long menuId) {
-		// TODO Auto-generated method stub
-		
+	public void deleteMenuBatch(Long[] menuIds) {
+		if(null != menuIds && menuIds.length > 0){
+			for(int i = 0; i < menuIds.length; i++){
+				menuRepositoryDao.delete(menuIds[i]);
+			}
+		}
 	}
 
 

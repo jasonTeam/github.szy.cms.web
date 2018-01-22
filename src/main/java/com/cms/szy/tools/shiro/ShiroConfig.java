@@ -33,7 +33,7 @@ public class ShiroConfig {
         
         //设置全局session过期时间为1小时(单位：毫秒)，默认为30分钟
         //sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
-        sessionManager.setGlobalSessionTimeout(60 * 1000 * 2);  //modify by szy 2分钟
+        sessionManager.setGlobalSessionTimeout(60 * 1000 * 60);  //modify by szy 5分钟
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
 

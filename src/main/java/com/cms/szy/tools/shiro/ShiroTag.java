@@ -5,11 +5,10 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
 /**
- * Shiro权限标签
  * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年12月3日 下午11:32:47
+ *【Shiro权限标签】  
+ * @author ShenZiYang 
+ * @date 2018年1月22日 上午10:09:24
  */
 @Component
 public class ShiroTag {

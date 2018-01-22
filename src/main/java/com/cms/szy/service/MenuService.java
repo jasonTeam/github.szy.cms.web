@@ -122,7 +122,7 @@ public interface MenuService {
 	 * @date 2018年1月20日下午5:05:49
 	 * @throws 异常
 	 */
-	void deleteMenu(Long menuId);
+	void deleteMenuBatch(Long[] menuIds);
 	
 	
 	

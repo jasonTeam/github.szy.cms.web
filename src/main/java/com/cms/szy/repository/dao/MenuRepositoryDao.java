@@ -2,6 +2,8 @@ package com.cms.szy.repository.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.Query;
 
 import com.cms.szy.configuration.query.core.BaseRepository;
@@ -34,7 +36,7 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	 * 
 	 * (根据父菜单查询子菜单) 
 	 * @Title queryMenuByParentId 
-	 * @param parentId
+	 * @param parentId == 当前菜单id(menuId)
 	 * @return List<Menu>返回类型   
 	 * @author ShenZiYang
 	 * @date 2018年1月6日下午1:57:39
@@ -53,8 +55,6 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	 * @throws 异常
 	 */
 	@Query("SELECT m.name FROM Menu m WHERE m.menuId = ?1")
-	String getParentName(Long parentId);
-	
-	
+	String getParentName(Long parentId);	
 	
 }

@@ -133,9 +133,13 @@ var vm = new Vue({
             }
 
             //菜单
-            if(vm.menu.type === 1 && isBlank(vm.menu.url)){
-                alert("菜单URL不能为空");
-                return true;
+//            if(vm.menu.type === 1 && isBlank(vm.menu.url)){
+//                alert("菜单URL不能为空");
+//                return true;
+//            }
+            if(vm.menu.type === 1 && isBlank(vm.menu.menuUrl)){
+            	alert("菜单URL不能为空");
+            	return true; 
             }
         }
     }
@@ -172,7 +176,7 @@ Menu.initColumn = function () {
             }
         }},
         {title: '排序号', field: 'sort', align: 'center', valign: 'middle', sortable: true, width: '65px'},
-        {title: '菜单URL', field: 'url', align: 'center', valign: 'middle', sortable: true, width: '160px'},
+        {title: '菜单URL', field: 'menuUrl', align: 'center', valign: 'middle', sortable: true, width: '160px'},
         {title: '授权标识', field: 'perms', align: 'center', valign: 'middle', sortable: true}]
     return columns;
 };

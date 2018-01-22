@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.Menu;
 import com.cms.szy.enums.MenuTypeEnum;
 import com.cms.szy.service.MenuService;
+import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.constant.Constant;
 import com.cms.szy.tools.exception.RRException;
 import com.cms.szy.tools.result.Ret;
@@ -22,7 +24,7 @@ import com.cms.szy.tools.result.Ret;
 
 /**
  * 
- * (菜单控制类) 
+ * (菜单管理) 
  * @ClassName MenuController 
  * @author ShenZiYang 
  * @date 2018年1月6日 上午10:20:17
@@ -122,9 +124,9 @@ public class MenuController extends AbstractController{
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:menu:save")
 	public Ret save(@RequestBody Menu menu){
-		verifyForm(menu); //数据校验
+		//数据校验
+		verifyForm(menu); 
 		menuService.saveMenu(menu);
-		
 		return Ret.ok();
 	}
 	
@@ -161,18 +163,30 @@ public class MenuController extends AbstractController{
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:menu:delete")
 	public Ret delete(long menuId){
-//		if(menuId <= 31){
-//			return R.error("系统菜单，不能删除");
-//		}
-//
-//		//判断是否有子菜单或按钮
-//		List<SysMenuEntity> menuList = sysMenuService.queryListParentId(menuId);
-//		if(menuList.size() > 0){
-//			return R.error("请先删除子菜单或按钮");
-//		}
-//
-//		sysMenuService.deleteBatch(new Long[]{menuId});
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("删除菜单操作开始:code={},message={}",code,message);
 		
+		//参数校验
+		if(menuId <= 31){
+			return Ret.error("系统菜单，不能删除");
+		}
+		
+		//删除时判断是否还有子菜单或按钮
+		List<Menu> menuList = menuService.queryListParentId(menuId);
+		if(null != menuList && menuList.size() > 0){
+			return Ret.error("请先删除子菜单或按钮");
+		}
+		
+		try{
+			menuService.deleteMenuBatch(new Long[]{menuId});
+		}catch(Exception e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("删除菜单操作异常:code={},message={},e={}", code, message, e);
+		}
+		
+		GwsLogger.info("删除菜单操作结束,code={},message={}", code, message);
 		return Ret.ok();
 	}
 	

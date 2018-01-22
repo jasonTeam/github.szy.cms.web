@@ -8,10 +8,9 @@ package com.cms.szy.enums;
  */
 public enum MenuTypeEnum {
 	
-	CATALOG(0,"目录"),
-	MENU(1,"菜单"),
-	BUTTON(2,"按钮"),
-	;
+	CATALOG(0, "目录"), 
+	MENU(1, "菜单"), 
+	BUTTON(2, "按钮"),;
 	
 	//构造器
 	private MenuTypeEnum (Integer val,String desc) {
