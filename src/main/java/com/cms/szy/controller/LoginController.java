@@ -70,7 +70,7 @@ public class LoginController extends AbstractController{
 			GwsLogger.error(e.getMessage(), "");
 			return Ret.error(e.getMessage());
 		} catch (IncorrectCredentialsException e) {
-			GwsLogger.error("账号或密码不正确", "");
+			GwsLogger.error(e.getMessage(), "" );
 			return Ret.error("账号或密码不正确");
 		} catch (LockedAccountException e) {
 			GwsLogger.error("账号已被锁定,请联系管理员", "");

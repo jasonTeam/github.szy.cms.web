@@ -20,7 +20,7 @@ public class ShiroUtils {
 	
 	/**  循环次数 */
 	public final static int hashIterations = 16;
-
+			
 	public static String sha256(String password, String salt) {
 		return new SimpleHash(hashAlgorithmName, password, salt, hashIterations).toString();
 	}
