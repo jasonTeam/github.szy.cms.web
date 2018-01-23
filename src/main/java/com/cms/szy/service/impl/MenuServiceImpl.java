@@ -1,5 +1,6 @@
 package com.cms.szy.service.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Menu;
-import com.cms.szy.entity.po.User;
 import com.cms.szy.repository.dao.MenuRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.service.MenuService;
+import com.cms.szy.tools.constant.Constant;
 
 
 
@@ -45,13 +46,20 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public List<Menu> getUserMenuList(Long userId) {
 		// 系统管理员，拥有最高权限
-		if (userId == 1) {
+		if (userId == Constant.ADMIN) {
 			return getAllMenuList(null);
 		}
 		
 		//用户菜单列表
-		List<Long> menuIdList = userRepositoryDao.queryAllMenuId(userId);
-		return getAllMenuList(menuIdList);
+		List<BigInteger> menuIdList = userRepositoryDao.queryAllMenuId(userId);
+		
+		//将BigInteger转为Long,后面将用Long做匹配
+		List<Long> menuIdLists = new ArrayList<>();
+		for(BigInteger menuId : menuIdList){
+			menuIdLists.add(menuId.longValue());
+		}
+		
+		return getAllMenuList(menuIdLists);
 	}
 
 	
@@ -94,14 +102,14 @@ public class MenuServiceImpl implements MenuService{
 	public List<Menu> queryListParentId(Long parentId, List<Long> menuIdList) {
 		
 		List<Menu> menuList = queryListParentId(parentId);
-		
 		if(null == menuIdList){
 			return menuList;
 		}
 		
 		List<Menu> userMenuList = new ArrayList<>();
+		
 		for (Menu menu : menuList) {
-			if(userMenuList.contains(menu.getMenuId())){
+			if(menuIdList.contains(menu.getMenuId())){
 				userMenuList.add(menu);
 			}
 		}
@@ -151,7 +159,6 @@ public class MenuServiceImpl implements MenuService{
 			oriMenu.setSort(menu.getSort()); //排序
 			menuRepositoryDao.save(menu);
 		}
-		
 	}
 
 
@@ -170,10 +177,4 @@ public class MenuServiceImpl implements MenuService{
 		return menuRepositoryDao.findOne(menuId);
 	}
 
-
-
-	
-	
-	
-	
 }

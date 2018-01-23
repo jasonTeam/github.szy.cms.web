@@ -48,7 +48,7 @@ public class MenuController extends AbstractController{
 	 */
 	@RequestMapping(value = "/nav",method = RequestMethod.GET)
 	public @ResponseBody Ret nav(){
-		List<Menu> meunList = menuService.getUserMenuList(1L);
+		List<Menu> meunList = menuService.getUserMenuList(getUserId());
 		return Ret.ok().put("menuList", meunList);
 	}
 	

@@ -1,5 +1,6 @@
 package com.cms.szy.repository.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -56,7 +57,7 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	 * @throws 查询失败
 	 */
 	@Query(value = "select distinct rm.menu_id from sys_user_role ur LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
-	List<Long> queryAllMenuId(Long userId);
+	List<BigInteger> queryAllMenuId(Long userId);
 	
 	
 	/**
