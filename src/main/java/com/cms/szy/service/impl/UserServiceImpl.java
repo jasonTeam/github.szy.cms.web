@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService{
 		newUser.setEmail(user.getEmail());    // 邮箱
 		newUser.setMobile(user.getMobile());  // 手机号
 		newUser.setStatus(user.getStatus());  // 状态 0：禁用 1：正常
-		newUser.setSalt(RandomStringUtils.randomAlphanumeric(20));  // 密码加盐
-		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), user.getSalt()));  // 登录密码（sha256加密）
+		newUser.setSalt( RandomStringUtils.randomAlphanumeric(20)); // 密码加盐   
+		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), newUser.getSalt()));  // 登录密码（sha256加密）
 		newUser.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());  // 是否删除
 		newUser.setCreateTime(new Date());  // 创建时间
 		User userBean = userRepositoryDao.save(newUser);
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService{
 		List<Long> roleIdList = user.getRoleIdList();
 		for(Long roleId : roleIdList){
 			//获取角色Id
-			newUserRole.setRoleId(roleId);
+			newUserRole.setRoleId(roleId);	
 		}
 		newUserRole.setCreateTime(new Date()); 
 		userRoleRepositoryDao.save(newUserRole);

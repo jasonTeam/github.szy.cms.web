@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Menu;
+import com.cms.szy.enums.MenuTypeEnum;
 import com.cms.szy.repository.dao.MenuRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.service.MenuService;
@@ -89,7 +90,7 @@ public class MenuServiceImpl implements MenuService{
 	private List<Menu> getMenuTreeList(List<Menu> menuList, List<Long> menuIdList) {
 		List<Menu> subMenuList = new ArrayList<Menu>();
 		for (Menu menu : menuList) {
-			if (menu.getType() == 0) {// 目录
+			if (menu.getType() == MenuTypeEnum.CATALOG.getVal()) {  // 目录
 				menu.setList(getMenuTreeList(queryListParentId(menu.getMenuId(), menuIdList), menuIdList));
 			}
 			subMenuList.add(menu);

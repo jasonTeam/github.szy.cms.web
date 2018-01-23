@@ -19,6 +19,7 @@ import com.cms.szy.service.RoleService;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.validator.ValidatorUtils;
 
+
 /**
  * 
  * (角色管理) 
@@ -28,7 +29,7 @@ import com.cms.szy.tools.validator.ValidatorUtils;
  */
 @RestController
 @RequestMapping("/sys/role")
-public class RoleController {
+public class RoleController extends AbstractController{
 	
 	@Autowired
 	private RoleService roleService;
@@ -50,6 +51,12 @@ public class RoleController {
 	@RequestMapping(value = "/list",method = RequestMethod.GET)
 	@RequiresPermissions("sys:role:list")
 	public Ret roleList(RoleVO vo){
+		
+		// 如果不是管理员，则只查询自己创建的角色列表
+//		if (getUserId() != Constant.ADMIN) {
+//			
+//		}
+		
 		Page<Role> pageData = roleService.findPageRole(vo, vo.getPageNo()-1, vo.getPageSize(), "roleId");
 		return Ret.ok().put("page", pageData);
 	}
