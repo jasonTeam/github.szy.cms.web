@@ -156,6 +156,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public void saveRole(Role role) {
 		Role roleBean = new Role();
+		roleBean.setRoleId(idGlobalGenerator.getSeqId(Role.class)); //角色ID
 		roleBean.setRoleName(role.getRoleName()); // 角色名称
 		roleBean.setDeptId(role.getDeptId()); // 所属部门
 		roleBean.setRemark(role.getRemark()); // 备注

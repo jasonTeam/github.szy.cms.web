@@ -13,11 +13,21 @@ public class IpUtil {
 	 * @author liunan 2016年5月9日
 	 * @return
 	 */
+//	public static Long getSeq() {
+//		Long maxNum = System.currentTimeMillis();
+//		Long randNum = Math.round(Math.random() * 1000);
+//		return maxNum * 1000 + randNum;
+//	}
+	
+	//modify by szy 2018.1.23
+	//项目启动时Redis从这里获取表的id值初始值
 	public static Long getSeq() {
-		Long maxNum = System.currentTimeMillis();
-		Long randNum = Math.round(Math.random() * 1000);
-		return maxNum * 1000 + randNum;
+		//Long maxNum = System.currentTimeMillis();
+		Long maxNum = 1000L;
+		//Long randNum = Math.round(Math.random() * 1000);
+		return maxNum;
 	}
+	
 	
 	  public static String getIpAddr(HttpServletRequest request) {
 		    if (null == request) {

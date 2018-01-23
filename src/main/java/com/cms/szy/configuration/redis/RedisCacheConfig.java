@@ -68,7 +68,7 @@ public class RedisCacheConfig {
 	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory factory) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
 		template.setKeySerializer(keySerializer);
-		template.setValueSerializer(keySerializer);  //修改前redis setList不能存List
+		//template.setValueSerializer(keySerializer);  //修改前redis setList不能存List
 		template.setValueSerializer(valueSerializer);  //修改后
 		template.setDefaultSerializer(valueSerializer);
 		template.setHashValueSerializer(valueSerializer);

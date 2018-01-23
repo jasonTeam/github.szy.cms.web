@@ -66,11 +66,19 @@ public  class IdGlobalGenerator {
 		return incrNum;
 	}
 	
+//	private static Long getLocalCacheSeq(){
+//		Long maxNum = System.currentTimeMillis();
+//		Long randNum = getRandNum();
+//		return maxNum * 1000 + randNum;
+//	}
+	
+	//modify by szy 2018.1.23
 	private static Long getLocalCacheSeq(){
-		Long maxNum = System.currentTimeMillis();
-		Long randNum = getRandNum();
-		return maxNum * 1000 + randNum;
-	}
+	//Long maxNum = System.currentTimeMillis();
+	Long randNum = getRandNum();
+	return 1001 + randNum;
+}
+	
 	
 	/**
 	 * 

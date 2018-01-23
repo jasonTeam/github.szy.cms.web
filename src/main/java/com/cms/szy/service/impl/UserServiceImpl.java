@@ -96,12 +96,20 @@ public class UserServiceImpl implements UserService{
 		//user实体和dept实体dept_id映射
 		Map<Long,Dept> userDeptMap  = new HashMap<>();
 		for(User u : userList){
-			userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
+			if(null != u.getDeptId() || u.getDeptId() >= 0){
+				userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
+			}
+			
 		}
 		
 		//数据拼装
 		for(User u : userList){
-			u.setDeptName(userDeptMap.get(u.getDeptId()).getName());//获取部门名称
+			if(null != u.getDeptId() || u.getDeptId() >= 0){
+				u.setDeptName(userDeptMap.get(u.getDeptId()).getName());//获取部门名称
+			}else{
+				u.setDeptName("");
+			}
+			
 		}
 		return pageData;
 	}
