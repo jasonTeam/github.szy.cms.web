@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
@@ -49,6 +50,7 @@ public class DeptServiceImpl implements DeptService{
 
 
 	@Override
+	@Transactional  //添加事务
 	public void saveDept(Dept dept) {
 		Dept newDept = new Dept();
 		newDept.setDeptId(idGlobalGenerator.getSeqId(Dept.class)); //部门ID
@@ -61,6 +63,7 @@ public class DeptServiceImpl implements DeptService{
 
 
 	@Override
+	@Transactional  //添加事务
 	public void updateDept(Dept dept) {
 		Dept oriDept = deptRepositoryDao.findOne(dept.getDeptId()); //先查询数据是否存在
 		if(null != oriDept){
@@ -73,6 +76,7 @@ public class DeptServiceImpl implements DeptService{
 
 
 	@Override
+	@Transactional  //添加事务
 	public void deleteDept(Long deptId) {
 		deptRepositoryDao.delete(deptId); //逻辑删除
 	}

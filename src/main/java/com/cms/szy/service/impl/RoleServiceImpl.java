@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
@@ -96,6 +97,7 @@ public class RoleServiceImpl implements RoleService {
 	
 
 	@Override
+	@Transactional  //添加事务
 	public void updateRole(Role role) {
 		
 		Role oriRole = roleRepositoryDao.findOne(role.getRoleId()); // 查询是否已经存在
@@ -144,6 +146,7 @@ public class RoleServiceImpl implements RoleService {
 	
 
 	@Override
+	@Transactional  //添加事务
 	public void deleteRoleBatch(Long[] roleIds) {
 		if (null != roleIds && roleIds.length > 0) {
 			for (int i = 0; i < roleIds.length; i++) {
@@ -154,6 +157,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
+	@Transactional  //添加事务
 	public void saveRole(Role role) {
 		Role roleBean = new Role();
 		roleBean.setRoleId(idGlobalGenerator.getSeqId(Role.class)); //角色ID
