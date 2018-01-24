@@ -107,7 +107,7 @@ public class DeptController extends AbstractController{
 	 * 
 	 *【部门信息;根据部门ID获取信息,用于修改页面回显】 
 	 * @param deptId
-	 * @return R返回类型   
+	 * @return Ret返回类型   
 	 * @author ShenZiYang
 	 * @date 2018年1月19日上午11:38:36
 	 * @throws 异常

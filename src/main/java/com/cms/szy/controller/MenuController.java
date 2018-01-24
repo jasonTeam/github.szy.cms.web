@@ -46,9 +46,23 @@ public class MenuController extends AbstractController{
 	 * @date 2018年1月20日下午5:01:10
 	 * @throws 异常
 	 */
-	@RequestMapping(value = "/nav",method = RequestMethod.GET)
-	public @ResponseBody Ret nav(){
-		List<Menu> meunList = menuService.getUserMenuList(getUserId());
+	@RequestMapping(value = "/nav", method = RequestMethod.GET)
+	public @ResponseBody Ret nav() {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("菜单导航操作开始:code={},message={}", code, message);
+
+		List<Menu> meunList = null;
+		try {
+			meunList = menuService.getUserMenuList(getUserId());
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("菜单导航操作异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
+		}
+
+		GwsLogger.info("菜单导航操作结束:code={},message={}", code, message);
 		return Ret.ok().put("menuList", meunList);
 	}
 	
@@ -61,13 +75,25 @@ public class MenuController extends AbstractController{
 	 * @date 2018年1月19日下午12:37:07
 	 * @throws 异常
 	 */
-	@RequestMapping(value = "/list",method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@RequiresPermissions("sys:menu:list")
-	public List<Menu> list(){
-		List<Menu> menuList = menuService.menuList();
+	public List<Menu> list() {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("查询所有的菜单列表开始:code={},message={}", code, message);
+
+		List<Menu> menuList = null;
+		try {
+			menuList = menuService.menuList();
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("查询所有的菜单列表异常:code={},message={},e={}", code, message, e);
+		}
+
+		GwsLogger.info("查询所有的菜单列表结束:code={},message={}", code, message);
 		return menuList;
 	}
-	
 
 	/**
 	 * 
@@ -80,34 +106,60 @@ public class MenuController extends AbstractController{
 	@RequestMapping("/select")
 	@RequiresPermissions("sys:menu:select")
 	public Ret select(){
-		//查询列表数据
-		List<Menu> menuList = menuService.menuList();
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("新增菜单操作开始:code={},message={}",code,message);
 		
-		//添加顶级菜单
-		Menu root = new Menu();
-		root.setMenuId(0L);
-		root.setName(Constant.LEVEL_MENU);
-		root.setParentId(-1L);
-		root.setOpen(true);
-		menuList.add(root);
+		List<Menu> menuList = null;
+		try{
+			menuList = menuService.menuList(); //查询列表数据
+			//添加顶级菜单
+			Menu root = new Menu();
+			root.setMenuId(0L);
+			root.setName(Constant.LEVEL_MENU);
+			root.setParentId(Constant.TOP_MENU);
+			root.setOpen(true);
+			menuList.add(root);
+		}catch(Exception e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("新增菜单操作异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
+		}
 		
+		GwsLogger.info("新增菜单操作结束:code={},message={}",code,message);
 		return Ret.ok().put("menuList", menuList);
 	}
 	
 	
 	/**
 	 * 
-	 *【菜单信息,用户菜单修改页面回显】 
+	 * 【菜单信息,用户菜单修改页面回显】
+	 * 
 	 * @param menuId
-	 * @return R返回类型   
+	 * @return R返回类型
 	 * @author ShenZiYang
 	 * @date 2018年1月20日下午5:02:17
 	 * @throws 异常
 	 */
 	@RequestMapping("/info/{menuId}")
 	@RequiresPermissions("sys:menu:info")
-	public Ret info(@PathVariable("menuId") Long menuId){
-		Menu menu = menuService.queryMenuByMenuId(menuId);
+	public Ret info(@PathVariable("menuId") Long menuId) {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("用户菜单修改页面回显开始:code={},message={}", code, message);
+
+		Menu menu = null;
+		try {
+			menu = menuService.queryMenuByMenuId(menuId);
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("用户菜单修改页面回显异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
+		}
+
+		GwsLogger.info("用户菜单修改页面回显结束:code={},message={}", code, message);
 		return Ret.ok().put("menu", menu);
 	}
 	
@@ -124,9 +176,21 @@ public class MenuController extends AbstractController{
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:menu:save")
 	public Ret save(@RequestBody Menu menu){
-		//数据校验
-		verifyForm(menu); 
-		menuService.saveMenu(menu);
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("新增菜单操作开始:code={},message={}",code,message);
+		
+		try{
+			verifyForm(menu);  //数据校验
+			menuService.saveMenu(menu);
+		}catch(Exception e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("新增菜单操作异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
+		}
+		
+		GwsLogger.info("新增菜单操作结束:code={},message={}",code,message);
 		return Ret.ok();
 	}
 	
@@ -143,9 +207,21 @@ public class MenuController extends AbstractController{
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:menu:update")
 	public Ret update(@RequestBody Menu menu){
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		GwsLogger.info("修改菜单操作开始:code={},message={}",code,message);
 		
-		verifyForm(menu); //数据校验
-		menuService.updateMenu(menu);
+		try{
+			verifyForm(menu); //数据校验
+			menuService.updateMenu(menu);
+		}catch(RRException e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("修改菜单操作异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
+		}
+		
+		GwsLogger.info("修改菜单操作结束:code={},message={}",code,message);
 		return Ret.ok();
 	}
 	
@@ -179,7 +255,7 @@ public class MenuController extends AbstractController{
 		
 		try{
 			menuService.deleteMenuBatch(new Long[]{menuId});
-		}catch(Exception e){
+		}catch(RRException e){
 			code = CommConstant.GWSCOD0001;
 			message = CommConstant.GWSMSG0001;
 			GwsLogger.error("删除菜单操作异常:code={},message={},e={}", code, message, e);
@@ -221,7 +297,8 @@ public class MenuController extends AbstractController{
 		//目录、菜单
 		if(menu.getType() == MenuTypeEnum.CATALOG.getVal() || menu.getType() == MenuTypeEnum.CATALOG.getVal()){
 			if(parentType != MenuTypeEnum.CATALOG.getVal()){
-				throw new RRException("上级菜单只能为目录类型");
+				//throw new RRException("上级菜单只能为目录类型");
+				throw new RRException("菜单的上级只能为目录,请选目录");
 			}
 			return ;
 		}
@@ -229,7 +306,8 @@ public class MenuController extends AbstractController{
 		//按钮
 		if(menu.getType() == MenuTypeEnum.BUTTON.getVal()){
 			if(parentType != MenuTypeEnum.MENU.getVal()){
-				throw new RRException("上级菜单只能为菜单类型");
+				//throw new RRException("上级菜单只能为菜单类型");
+				throw new RRException("按钮的上级只能为菜单,请选菜单!");
 			}
 			return ;
 		}
