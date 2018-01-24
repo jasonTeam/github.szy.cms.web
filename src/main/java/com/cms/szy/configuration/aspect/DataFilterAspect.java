@@ -26,7 +26,7 @@ public class DataFilterAspect {
     @Autowired
     private DeptService deptService;
 
-    @Pointcut("@annotation(io.renren.common.annotation.DataFilter)")
+    @Pointcut("@annotation(com.cms.szy.configuration.annotation.DataFilter)")
     public void dataFilterCut() {
 
     }
