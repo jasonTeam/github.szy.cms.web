@@ -298,27 +298,26 @@ public class MenuController extends AbstractController{
 		}
 		
 		//目录
-		if(menu.getType() == MenuTypeEnum.CATALOG.getVal()){
-			if(parentType != 0){
+		if(MenuTypeEnum.CATALOG.getVal().equals(menu.getType())){
+			if(menu.getParentId() != 0){
 				throw new RRException("目录的上级只能为一级菜单,请选一级菜单");
 			}
 			return ;
 		}
 		
 		//菜单
-		if(menu.getType() == MenuTypeEnum.MENU.getVal()){
-			if(parentType != MenuTypeEnum.CATALOG.getVal()){
+		if (MenuTypeEnum.MENU.getVal().equals(menu.getType())) {
+			if (!MenuTypeEnum.CATALOG.getVal().equals(parentType)) {
 				throw new RRException("菜单的上级只能为目录,请选目录");
 			}
-			return ;
 		}
 		
-		//按钮
-		if(menu.getType() == MenuTypeEnum.BUTTON.getVal()){
-			if(parentType != MenuTypeEnum.MENU.getVal()){
+		// 按钮
+		if (MenuTypeEnum.BUTTON.getVal().equals(menu.getType())) {
+			if (parentType != MenuTypeEnum.MENU.getVal()) {
 				throw new RRException("按钮的上级只能为菜单,请选菜单!");
 			}
-			return ;
+			return;
 		}
 	}
 	
