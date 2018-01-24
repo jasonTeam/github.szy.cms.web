@@ -9,8 +9,19 @@ public class UserDTO implements Serializable{
 	
 	private String deptName; //部门名称
 	
+	private String roleName; //角色名称
+	
 	private List<Long> roleIdList; //角色ID列表
 	
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
 	public List<Long> getRoleIdList() {
 		return roleIdList;
 	}

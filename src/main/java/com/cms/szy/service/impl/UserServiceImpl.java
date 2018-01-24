@@ -23,6 +23,7 @@ import com.cms.szy.entity.po.UserRole;
 import com.cms.szy.entity.vo.UserVO;
 import com.cms.szy.enums.IsDeleteEnum;
 import com.cms.szy.repository.dao.DeptRepositoryDao;
+import com.cms.szy.repository.dao.RoleRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.dao.UserRoleRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
@@ -47,6 +48,8 @@ public class UserServiceImpl implements UserService{
 	private DeptRepositoryDao deptRepositoryDao;
 	@Autowired
 	private UserRoleRepositoryDao userRoleRepositoryDao;
+	@Autowired
+	private RoleRepositoryDao roleRepositoryDao;
 	@Autowired
 	private IdGlobalGenerator idGlobalGenerator;
 	
@@ -103,15 +106,25 @@ public class UserServiceImpl implements UserService{
 			
 		}
 		
-		//数据拼装
+		//user实体和userRole实体的userIdyin
+		Map<Long,UserRole> userRoleMap = new HashMap<>();
 		for(User u : userList){
-			if(null != u.getDeptId() || u.getDeptId() >= 0){
-				u.setDeptName(userDeptMap.get(u.getDeptId()).getName());//获取部门名称
-			}else{
-				u.setDeptName("");
-			}
+			userRoleMap.put(u.getUserId(), userRoleRepositoryDao.queryUserRoleByUserId(u.getUserId()));
 			
 		}
+		
+		
+		// 数据拼装
+		for (User u : userList) {
+			u.setDeptName(userDeptMap.get(u.getDeptId()).getName()); // 获取部门名称
+			if(u.getUserId() == 1){
+				u.setRoleName("管理员");
+			}else{
+				Long roleId = userRoleMap.get(u.getUserId()).getRoleId(); // 角色ID
+				u.setRoleName(roleRepositoryDao.findOne(roleId).getRoleName());
+			}
+		}
+			
 		return pageData;
 	}
 
