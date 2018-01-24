@@ -271,10 +271,12 @@ public class MenuController extends AbstractController{
 	 * 验证参数是否正确
 	 */
 	private void verifyForm(Menu menu){
+		//菜单名称
 		if(StringUtils.isBlank(menu.getName())){
 			throw new RRException("菜单名称不能为空");
 		}
 		
+		//上级菜单
 		if(menu.getParentId() == null){
 			throw new RRException("上级菜单不能为空");
 		}
@@ -286,18 +288,26 @@ public class MenuController extends AbstractController{
 			}
 		}
 		
-		//上级菜单类型
+
+		//获取上级菜单类型
 		int parentType = MenuTypeEnum.CATALOG.getVal();
-		if(menu.getParentId() != 0){
+		if(menu.getParentId() != 0L){
 			//根据上级菜单查询菜单实体
 			Menu parentMenu = menuService.queryChildMenuId(menu.getParentId());
 			parentType = parentMenu.getType();
 		}
 		
-		//目录、菜单
-		if(menu.getType() == MenuTypeEnum.CATALOG.getVal() || menu.getType() == MenuTypeEnum.CATALOG.getVal()){
+		//目录
+		if(menu.getType() == MenuTypeEnum.CATALOG.getVal()){
+			if(parentType != 0){
+				throw new RRException("目录的上级只能为一级菜单,请选一级菜单");
+			}
+			return ;
+		}
+		
+		//菜单
+		if(menu.getType() == MenuTypeEnum.MENU.getVal()){
 			if(parentType != MenuTypeEnum.CATALOG.getVal()){
-				//throw new RRException("上级菜单只能为目录类型");
 				throw new RRException("菜单的上级只能为目录,请选目录");
 			}
 			return ;
@@ -306,7 +316,6 @@ public class MenuController extends AbstractController{
 		//按钮
 		if(menu.getType() == MenuTypeEnum.BUTTON.getVal()){
 			if(parentType != MenuTypeEnum.MENU.getVal()){
-				//throw new RRException("上级菜单只能为菜单类型");
 				throw new RRException("按钮的上级只能为菜单,请选菜单!");
 			}
 			return ;

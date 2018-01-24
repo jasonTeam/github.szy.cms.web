@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 返回数据
  * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年10月27日 下午9:59:27
+ *【返回数据】  
+ * @date 2018年1月24日 下午2:01:23
  */
 public class Ret extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;

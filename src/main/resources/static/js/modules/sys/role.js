@@ -113,6 +113,10 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
+       
+        reset: function(){
+        	vm.query();
+        },
         add: function(){
             vm.showList = false;
             vm.title = "新增";

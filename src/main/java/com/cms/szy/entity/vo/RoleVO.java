@@ -17,7 +17,7 @@ public class RoleVO implements Serializable {
 	private Integer pageNo; // 当前页数
 	private Integer pageSize; // 每页条数
 	
-	private String roleName;
+	private String roleName; //角色名称
 	
 	public Integer getPageNo() {
 		return pageNo;

@@ -80,13 +80,14 @@ public class UserServiceImpl implements UserService{
 	public Page<User> findPageUser(UserVO vo, Integer pageNo, Integer pageSize, String sortField) {
 		//查询条件
 		UserQuery query = new UserQuery();
-		if(StringUtils.isEmpty(vo.getUserName())){
+		if(StringUtils.isNotEmpty(vo.getUserName())){
 			query.setUserName(vo.getUserName());
 		}
+
 		//过滤删除字段
 		query.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());
 		//排序
-		Sort sort = new Sort(Direction.ASC,sortField);
+		Sort sort = new Sort(Direction.ASC,"userId");
 		//分页条件
 		Pageable page = new PageRequest(pageNo, pageSize, sort);
 		//获取分页数据

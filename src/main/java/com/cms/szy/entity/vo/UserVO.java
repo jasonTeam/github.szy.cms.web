@@ -20,6 +20,26 @@ public class UserVO implements Serializable{
 	 
 	private int pageSize; //每页条数
 	
+	private String order; //排序
+	
+	private String sidx; //点击时传入的需要排序字段
+	
+
+	public String getSidx() {
+		return sidx;
+	}
+
+	public void setSidx(String sidx) {
+		this.sidx = sidx;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
 
 	public int getPageNo() {
 		return pageNo;

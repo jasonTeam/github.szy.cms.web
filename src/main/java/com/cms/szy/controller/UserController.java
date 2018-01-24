@@ -55,6 +55,7 @@ public class UserController extends AbstractController{
 	 */
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
 	public Ret userInfo(){
+		GwsLogger.info("获取当前登录用户的信息");
 		return Ret.ok().put("user", getUser());
 	}
 	
@@ -77,7 +78,7 @@ public class UserController extends AbstractController{
 		
 		Page<User> pageData = null;
 		try{
-			pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), "userId");
+			pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), vo.getSidx());
 		}catch(Exception e){
 			code = CommConstant.GWSCOD0001;
 			message = CommConstant.GWSMSG0001;
