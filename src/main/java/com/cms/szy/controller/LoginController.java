@@ -5,14 +5,12 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cms.szy.configuration.log.GwsLogger;
-import com.cms.szy.service.TbUserService;
 import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
@@ -30,8 +28,6 @@ import com.cms.szy.tools.shiro.ShiroUtils;
 @Controller
 public class LoginController extends AbstractController{
 	
-	@Autowired
-	TbUserService tbUserServuce;
 	
 	/**
 	 * 

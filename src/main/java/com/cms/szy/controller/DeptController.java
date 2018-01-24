@@ -41,7 +41,7 @@ public class DeptController extends AbstractController{
 	@RequestMapping(value = "/list", method  = RequestMethod.GET)
 	@RequiresPermissions("sys:dept:list")
 	public List<Dept> list(){
-		List<Dept>  deptList = deptService.deptList();
+		List<Dept> deptList = deptService.deptList();
 		return deptList;
 	}
 	
