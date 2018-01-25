@@ -47,7 +47,7 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	
 	/**
 	 * 
-	 *【这里用一句话描述这个方法的作用】 
+	 *【根据父ID获取菜单名称】 
 	 * @param parentId
 	 * @return String返回类型   
 	 * @author ShenZiYang
@@ -55,6 +55,19 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	 * @throws 异常
 	 */
 	@Query("SELECT m.name FROM Menu m WHERE m.menuId = ?1")
-	String getParentName(Long parentId);	
+	String getParentName(Long parentId);
+	
+	/**
+	 * 
+	 *【查询不含按钮的菜单列表】 
+	 * @return Menu返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月25日上午10:43:48
+	 * @throws 异常 
+	 */
+	@Query("SELECT m FROM Menu m WHERE type != 2 ORDER BY sort ASC")
+	List<Menu> queryNotButtonList();
+	
+	
 	
 }

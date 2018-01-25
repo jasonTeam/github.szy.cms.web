@@ -112,12 +112,12 @@ public class MenuController extends AbstractController{
 		
 		List<Menu> menuList = null;
 		try{
-			menuList = menuService.menuList(); //查询列表数据
+			menuList = menuService.queryNotButtonList(); //获取不含按钮的菜单列表
 			//添加顶级菜单
 			Menu root = new Menu();
 			root.setMenuId(0L);
-			root.setName(Constant.LEVEL_MENU);
-			root.setParentId(Constant.TOP_MENU);
+			root.setName("一级菜单");
+			root.setParentId(-1L);
 			root.setOpen(true);
 			menuList.add(root);
 		}catch(Exception e){
@@ -268,7 +268,7 @@ public class MenuController extends AbstractController{
 	
 	
 	/**
-	 * 验证参数是否正确
+	 * 验证表单提交的参数是否正确
 	 */
 	private void verifyForm(Menu menu){
 		//菜单名称
@@ -307,6 +307,10 @@ public class MenuController extends AbstractController{
 		
 		//菜单
 		if (MenuTypeEnum.MENU.getVal().equals(menu.getType())) {
+			//如果选中的是一级菜单 type设置为 -1
+			if(menu.getParentName().equals("一级菜单")){
+				parentType = -1;
+			}
 			if (!MenuTypeEnum.CATALOG.getVal().equals(parentType)) {
 				throw new RRException("菜单的上级只能为目录,请选目录");
 			}

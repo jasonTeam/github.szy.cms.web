@@ -182,4 +182,10 @@ public class MenuServiceImpl implements MenuService{
 		return menuRepositoryDao.findOne(menuId);
 	}
 
+
+	@Override
+	public List<Menu> queryNotButtonList() {
+		return menuRepositoryDao.queryNotButtonList();
+	}
+
 }

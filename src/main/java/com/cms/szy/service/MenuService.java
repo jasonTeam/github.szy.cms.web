@@ -124,6 +124,16 @@ public interface MenuService {
 	 */
 	void deleteMenuBatch(Long[] menuIds);
 	
+	/**
+	 * 
+	 *【查询不包含按钮的菜单列表】 
+	 * @return List<Menu>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年1月25日上午10:46:41
+	 * @throws 异常
+	 */
+	List<Menu> queryNotButtonList();
+	
 	
 	
 }

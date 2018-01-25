@@ -10,9 +10,7 @@ $(function () {
 			{ label: '邮箱', name: 'email', width: 90 },
 			{ label: '手机号', name: 'mobile', width: 100 },
 			{ label: '状态', name: 'status', width: 60, formatter: function(value, options, row){
-				return value === 0 ? 
-					'<span class="label label-danger">禁用</span>' : 
-					'<span class="label label-success">正常</span>';
+				return value === 0 ? '<span class="label label-danger">禁用</span>' : '<span class="label label-success">正常</span>';
 			}},
 			{ label: '创建时间', name: 'createTime', index: "create_time", width: 85}
         ],
