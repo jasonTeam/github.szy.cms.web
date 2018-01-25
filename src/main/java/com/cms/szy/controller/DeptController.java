@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.service.DeptService;
+import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.constant.Constant;
 import com.cms.szy.tools.result.Ret;
 
@@ -97,9 +99,25 @@ public class DeptController extends AbstractController{
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:dept:save")
-	public Ret save(@RequestBody Dept dept){
-		deptService.saveDept(dept);
+	public Ret save(@RequestBody Dept dept) {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("新增部门操作开始:code={},message={},startTime={}", code, message, startTime);
+		
+		try {
+			deptService.saveDept(dept);
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("新增部门操作异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("新增部门操作结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
+
 	}
 	
 	

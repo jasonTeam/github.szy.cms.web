@@ -178,7 +178,8 @@ public class MenuController extends AbstractController{
 	public Ret save(@RequestBody Menu menu){
 		String code = CommConstant.GWSCOD0000;
 		String message = CommConstant.GWSMSG0000;
-		GwsLogger.info("新增菜单操作开始:code={},message={}",code,message);
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("新增菜单操作开始:code={},message={},startTime={}",code,message,startTime);
 		
 		try{
 			verifyForm(menu);  //数据校验
@@ -190,7 +191,8 @@ public class MenuController extends AbstractController{
 			return Ret.error(e.getMessage());
 		}
 		
-		GwsLogger.info("新增菜单操作结束:code={},message={}",code,message);
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("新增菜单操作结束:code={},message={},endTime={}",code,message,endTime);
 		return Ret.ok();
 	}
 	

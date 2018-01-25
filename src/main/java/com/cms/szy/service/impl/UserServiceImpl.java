@@ -15,7 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cms.szy.configuration.annotation.DataFilter;
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.entity.po.User;
@@ -79,53 +81,106 @@ public class UserServiceImpl implements UserService{
 	}
 
 
+//	@Override
+//	@DataFilter(tableAlias = "u", user = false)
+//	public Page<User> findPageUser(UserVO vo, Integer pageNo, Integer pageSize, String sortField) {
+//		//查询条件
+//		UserQuery query = new UserQuery();
+//		if(StringUtils.isNotEmpty(vo.getUserName())){
+//			query.setUserName(vo.getUserName());
+//		}
+//
+//		//过滤删除字段
+//		query.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());
+//		//排序
+//		Sort sort = new Sort(Direction.ASC,"userId");
+//		//分页条件
+//		Pageable page = new PageRequest(pageNo, pageSize, sort);
+//		//获取分页数据
+//		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
+//		List<User> userList = pageData.getContent();	
+//		
+//		//user实体和dept实体dept_id映射
+//		Map<Long,Dept> userDeptMap  = new HashMap<>();
+//		for(User u : userList){
+//			if(null != u.getDeptId() || u.getDeptId() >= 0){
+//				userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
+//			}
+//			
+//		}
+//		
+//		//user实体和userRole实体的userIdyin
+//		Map<Long,UserRole> userRoleMap = new HashMap<>();
+//		for(User u : userList){
+//			userRoleMap.put(u.getUserId(), userRoleRepositoryDao.queryUserRoleByUserId(u.getUserId()));
+//			
+//		}
+//		
+//		
+//		// 数据拼装
+//		for (User u : userList) {
+//			u.setDeptName(userDeptMap.get(u.getDeptId()).getName()); // 获取部门名称
+//			if(u.getUserId() == 1){
+//				u.setRoleName("管理员");
+//			}else{
+//				Long roleId = userRoleMap.get(u.getUserId()).getRoleId(); // 角色ID
+//				u.setRoleName(roleRepositoryDao.findOne(roleId).getRoleName());
+//			}
+//		}
+//			
+//		return pageData;
+//	}
+	
+	
 	@Override
-	public Page<User> findPageUser(UserVO vo, Integer pageNo, Integer pageSize, String sortField) {
+	@DataFilter(tableAlias = "u", user = false)
+	public Page<User> findPageUser(Map<String, Object> params) {
 		//查询条件
 		UserQuery query = new UserQuery();
-		if(StringUtils.isNotEmpty(vo.getUserName())){
-			query.setUserName(vo.getUserName());
-		}
+//		if(StringUtils.isNotEmpty(vo.getUserName())){
+//			query.setUserName(vo.getUserName());
+//		}
 
 		//过滤删除字段
 		query.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());
 		//排序
 		Sort sort = new Sort(Direction.ASC,"userId");
 		//分页条件
-		Pageable page = new PageRequest(pageNo, pageSize, sort);
+//		Pageable page = new PageRequest(pageNo, pageSize, sort);
 		//获取分页数据
-		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
-		List<User> userList = pageData.getContent();	
+//		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
+//		List<User> userList = pageData.getContent();	
 		
 		//user实体和dept实体dept_id映射
-		Map<Long,Dept> userDeptMap  = new HashMap<>();
-		for(User u : userList){
-			if(null != u.getDeptId() || u.getDeptId() >= 0){
-				userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
-			}
+//		Map<Long,Dept> userDeptMap  = new HashMap<>();
+//		for(User u : userList){
+//			if(null != u.getDeptId() || u.getDeptId() >= 0){
+//				userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
+//			}
+//			
+//		}
+//		
+//		//user实体和userRole实体的userIdyin
+//		Map<Long,UserRole> userRoleMap = new HashMap<>();
+//		for(User u : userList){
+//			userRoleMap.put(u.getUserId(), userRoleRepositoryDao.queryUserRoleByUserId(u.getUserId()));
+//			
+//		}
+//		
+//		
+//		// 数据拼装
+//		for (User u : userList) {
+//			u.setDeptName(userDeptMap.get(u.getDeptId()).getName()); // 获取部门名称
+//			if(u.getUserId() == 1){
+//				u.setRoleName("管理员");
+//			}else{
+//				Long roleId = userRoleMap.get(u.getUserId()).getRoleId(); // 角色ID
+//				u.setRoleName(roleRepositoryDao.findOne(roleId).getRoleName());
+//			}
+//		}
 			
-		}
-		
-		//user实体和userRole实体的userIdyin
-		Map<Long,UserRole> userRoleMap = new HashMap<>();
-		for(User u : userList){
-			userRoleMap.put(u.getUserId(), userRoleRepositoryDao.queryUserRoleByUserId(u.getUserId()));
-			
-		}
-		
-		
-		// 数据拼装
-		for (User u : userList) {
-			u.setDeptName(userDeptMap.get(u.getDeptId()).getName()); // 获取部门名称
-			if(u.getUserId() == 1){
-				u.setRoleName("管理员");
-			}else{
-				Long roleId = userRoleMap.get(u.getUserId()).getRoleId(); // 角色ID
-				u.setRoleName(roleRepositoryDao.findOne(roleId).getRoleName());
-			}
-		}
-			
-		return pageData;
+//		return pageData;
+		return null;
 	}
 
 	

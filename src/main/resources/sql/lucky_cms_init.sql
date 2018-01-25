@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2018-01-22 16:42:29
+Date: 2018-01-25 16:20:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,44 +160,4 @@ CREATE TABLE `sys_user_role` (
 
 -- ----------------------------
 -- Records of sys_user_role
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_menu
--- ----------------------------
-DROP TABLE IF EXISTS `tb_menu`;
-CREATE TABLE `tb_menu` (
-  `menu_id` bigint(50) NOT NULL,
-  `menu_name` varchar(30) DEFAULT NULL,
-  `menu_url` varchar(50) DEFAULT NULL,
-  `parent_id` bigint(50) DEFAULT NULL,
-  `sort` int(4) DEFAULT NULL,
-  `ctime` int(20) DEFAULT NULL,
-  `utime` int(20) DEFAULT NULL,
-  `is_delete` smallint(4) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_menu
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_user
--- ----------------------------
-DROP TABLE IF EXISTS `tb_user`;
-CREATE TABLE `tb_user` (
-  `user_id` bigint(50) NOT NULL,
-  `user_name` varchar(25) DEFAULT NULL,
-  `user_pwd` varchar(31) DEFAULT NULL,
-  `role_id` int(30) DEFAULT NULL COMMENT '角色ID',
-  `user_status` smallint(2) DEFAULT '1' COMMENT '用户状态(1.正常；-1.冻结)',
-  `login_ip` varchar(255) DEFAULT NULL,
-  `ctime` int(11) DEFAULT NULL,
-  `utime` int(11) DEFAULT NULL,
-  `is_delete` smallint(6) DEFAULT '1' COMMENT '是否删除(1.正常，-1.删除)',
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_user
 -- ----------------------------

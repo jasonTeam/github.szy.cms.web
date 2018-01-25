@@ -27,23 +27,7 @@ import com.cms.szy.tools.shiro.ShiroUtils;
 
 @Controller
 public class LoginController extends AbstractController{
-	
-	
-	/**
-	 * 
-	 * (登录页面) 
-	 * @Title hello 
-	 * @return String返回类型   
-	 * @author ShenZiYang
-	 * @date 2018年1月6日下午5:28:26
-	 * @throws
-	 */
-	@RequestMapping("/login")
-	public String hello(){
-		return "login";
-	}
-	
-	
+		
 	/**
 	 * 
 	 *【用户登录】

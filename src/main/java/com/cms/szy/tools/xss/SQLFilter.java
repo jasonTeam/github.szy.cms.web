@@ -4,11 +4,11 @@ import org.apache.commons.lang.StringUtils;
 
 import com.cms.szy.tools.exception.RRException;
 
+
 /**
- * SQL过滤
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2017-04-01 16:16
+ * 
+ *【SQL过滤】  
+ * @date 2018年1月25日 下午6:20:43
  */
 public class SQLFilter {
 

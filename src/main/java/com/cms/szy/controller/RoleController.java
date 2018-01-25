@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.Role;
 import com.cms.szy.entity.vo.RoleVO;
 import com.cms.szy.service.DeptRoleService;
 import com.cms.szy.service.MenuRoleService;
 import com.cms.szy.service.RoleService;
+import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.validator.ValidatorUtils;
 
@@ -138,8 +140,35 @@ public class RoleController extends AbstractController{
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:role:save")
 	public Ret save(@RequestBody Role role) {
-		ValidatorUtils.validateEntity(role);
-		roleService.saveRole(role);
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("新增角色操作开始:code={},message={},startTime={}", code, message, startTime);
+		
+		//功能权限为空判断
+		if(null == role.getMenuIdList() || role.getMenuIdList().size() == 0){
+			GwsLogger.error("功能权限菜单ID为空:menuIdList={}",role.getMenuIdList().size());
+			return Ret.error("功能权限未选择!");
+		}
+		
+		//数据权限为空判断
+		if(null == role.getDeptIdList() || role.getDeptIdList().size() == 0){
+			GwsLogger.error("数据权限部门ID为空:deptIdList={}",role.getMenuIdList().size());
+			return Ret.error("数据权限未选择!");
+		}
+		
+		try {
+			ValidatorUtils.validateEntity(role);
+			roleService.saveRole(role);
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("新增角色操作异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("新增角色操作结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
 	}
 	
