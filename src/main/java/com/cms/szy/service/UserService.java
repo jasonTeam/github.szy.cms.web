@@ -31,8 +31,8 @@ public interface UserService {
 	 * @date 2018年1月8日下午3:56:05
 	 * @throws 异常
 	 */
-//	Page<User> findPageUser(UserVO vo ,Integer pageNo,Integer pageSize,String sortField);
-	Page<User> findPageUser(@RequestParam Map<String, Object> params);
+	Page<User> findPageUser(UserVO vo ,Integer pageNo,Integer pageSize,String sortField);
+//	Page<User> findPageUser(@RequestParam Map<String, Object> params);
 	
 	
 	/**

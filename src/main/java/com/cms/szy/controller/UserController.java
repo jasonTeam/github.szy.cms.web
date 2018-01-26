@@ -1,7 +1,6 @@
 package com.cms.szy.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -11,14 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
 import com.cms.szy.enums.UserTypeEnum;
-import com.cms.szy.repository.queryFilter.Query;
 import com.cms.szy.service.UserRoleService;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.constant.CommConstant;
@@ -72,32 +69,9 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月19日上午10:32:31
 	 * @throws 异常
 	 */
-//	@RequestMapping(value = "/list", method  = RequestMethod.GET)
-//	@RequiresPermissions("sys:user:list")
-//	public Ret userList(UserVO vo) {
-//		String code = CommConstant.GWSCOD0000;
-//		String message = CommConstant.GWSMSG0000;
-//		Long startTime = System.currentTimeMillis();
-//		GwsLogger.info("分页查询所有用户列表信息开始:code={},message={},startTime={}",code,message,startTime);
-//		
-//		Page<User> pageData = null;
-//		try{
-//			pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), vo.getSidx());
-//		}catch(Exception e){
-//			code = CommConstant.GWSCOD0001;
-//			message = CommConstant.GWSMSG0001;
-//			GwsLogger.error("分页查询所有用户列表信息异常:code={},message={},e={}", code, message, e);
-//		}
-//		
-//		Long endTime = System.currentTimeMillis() - startTime;
-//		GwsLogger.info("分页查询所有用户列表信息结束,code={},message={},endTime={}", code, message,endTime);
-//		return Ret.ok().put("page", pageData);
-//	}
-	
-	
 	@RequestMapping(value = "/list", method  = RequestMethod.GET)
 	@RequiresPermissions("sys:user:list")
-	public Ret userList(@RequestParam Map<String, Object> params) {
+	public Ret userList(UserVO vo) {
 		String code = CommConstant.GWSCOD0000;
 		String message = CommConstant.GWSMSG0000;
 		Long startTime = System.currentTimeMillis();
@@ -105,8 +79,7 @@ public class UserController extends AbstractController{
 		
 		Page<User> pageData = null;
 		try{
-			Query query = new Query(params);
-			pageData = userService.findPageUser(query);
+			pageData = userService.findPageUser(vo, vo.getPageNo()-1, vo.getPageSize(), vo.getSidx());
 		}catch(Exception e){
 			code = CommConstant.GWSCOD0001;
 			message = CommConstant.GWSMSG0001;

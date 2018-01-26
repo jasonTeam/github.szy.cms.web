@@ -55,7 +55,7 @@ public class UserRealm extends AuthorizingRealm {
 		
 		//系统管理员，拥有最高权限
 		List<String> permsList = null;
-		if (userId == Constant.ADMIN) {
+		if (userId == Constant.SUPER_ADMIN) {
 			List<Menu> menuList = menuRepositoryDao.findAll(); //查询所有的菜单
 //			permsList = new ArrayList<>(menuList.size());
 			permsList = new ArrayList<>();

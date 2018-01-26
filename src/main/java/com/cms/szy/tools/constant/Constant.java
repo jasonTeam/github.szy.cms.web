@@ -9,7 +9,7 @@ package com.cms.szy.tools.constant;
 public class Constant {
 	
 	/*** 系统管理员ID **/
-	public static final int ADMIN = 1;
+	public static final int SUPER_ADMIN = 1;
 	
 	/*** 顶级菜单 **/
 	public static final Long TOP_MENU = -1L;

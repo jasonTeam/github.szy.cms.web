@@ -42,7 +42,7 @@ public class DataFilterAspect {
             User user = ShiroUtils.getUserEntity();
 
             //如果不是超级管理员，则只能查询本部门及子部门数据
-            if(user.getUserId() != Constant.ADMIN){
+            if(user.getUserId() != Constant.SUPER_ADMIN){
                 Map map = (Map)params;
                 map.put("filterSql", getFilterSQL(user, point)); //getFilterSQL(user, point) 最后取出的是sql语句
             }

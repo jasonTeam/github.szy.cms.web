@@ -10,6 +10,12 @@ public final class StringTool {
 			System.out.println(ss.trim());
 		}
 		
+		String ss = "nickNameDsdsf（主播anchorId）存在竞猜异常！请立即核对。";
+		String sss = ss.replace("nickName", "沈字样");
+		System.out.println(sss);
+		
+		
+		
 	}
 	
 	

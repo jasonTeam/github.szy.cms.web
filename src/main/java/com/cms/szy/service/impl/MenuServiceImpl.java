@@ -48,7 +48,7 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public List<Menu> getUserMenuList(Long userId) {
 		// 系统管理员，拥有最高权限
-		if (userId == Constant.ADMIN) {
+		if (userId == Constant.SUPER_ADMIN) {
 			return getAllMenuList(null);
 		}
 		
