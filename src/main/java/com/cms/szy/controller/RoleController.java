@@ -21,13 +21,12 @@ import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.validator.ValidatorUtils;
 
-
 /**
  * 
- * (角色管理) 
+ *【角色管理】
  * @ClassName RoleController 
  * @author ShenZiYang 
- * @date 2018年1月11日 下午4:36:28
+ * @date 2018年1月27日 下午11:19:15
  */
 @RestController
 @RequestMapping("/sys/role")
@@ -50,33 +49,62 @@ public class RoleController extends AbstractController{
 	 * @date 2018年1月11日下午5:57:09
 	 * @throws
 	 */
-	@RequestMapping(value = "/list",method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@RequiresPermissions("sys:role:list")
-	public Ret roleList(RoleVO vo){
+	public Ret roleList(RoleVO vo) {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("分页查询角色信息开始:code={},message={},startTime={}", code, message, startTime);
 		
 		// 如果不是管理员，则只查询自己创建的角色列表
-//		if (getUserId() != Constant.ADMIN) {
-//			
-//		}
+		// if (getUserId() != Constant.ADMIN) {
+		//
+		// }
 		
-		Page<Role> pageData = roleService.findPageRole(vo, vo.getPageNo()-1, vo.getPageSize(), "roleId");
+		Page<Role> pageData = null;
+		try {
+			pageData = roleService.findPageRole(vo, vo.getPageNo() - 1, vo.getPageSize(), "roleId");
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("分页查询角色信息异常:code={},message={},e={}", code, message, e);
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("分页查询角色信息结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok().put("page", pageData);
 	}
 	
 	
 	/**
 	 * 
-	 *(获取所有角色列表集合) 
+	 *【获取所有角色列表集合】
 	 * @Title selectRoleList 
 	 * @return Ret返回类型   
 	 * @author ShenZiYang
-	 * @date 2018年1月13日下午4:20:50
-	 * @throws 异常
+	 * @date 2018年1月27日下午11:21:55
+	 * @throws  异常
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("sys:role:select")
-	public Ret selectRoleList(){
-		List<Role> roleList = roleService.getRoleList();
+	public Ret selectRoleList() {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("获取所有角色列表信息开始:code={},message={},startTime={}", code, message, startTime);
+		
+		List<Role> roleList = null;
+		try {
+			 roleList = roleService.getRoleList();
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("获取所有角色列表信息异常:code={},message={},e={}", code, message, e);
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("获取所有角色列表信息结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok().put("list", roleList);
 	}
 	
@@ -95,11 +123,9 @@ public class RoleController extends AbstractController{
 	public Ret roleInfo(@PathVariable("roleId") Long roleId){
 		//根据角色ID获取角色实体
 		Role role = roleService.queryByRoleId(roleId);
-		
 		//查询角色对应的菜单
 		List<Long> menuIdList = menuRoleService.queryMenuByRoleId(roleId);
 		role.setMenuIdList(menuIdList);
-	
 		//查询角色对应的部门
 		List<Long> deptIdList = DeptRoleService.queryDeptByRoleId(roleId);
 		role.setDeptIdList(deptIdList);

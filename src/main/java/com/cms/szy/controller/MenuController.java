@@ -17,7 +17,6 @@ import com.cms.szy.entity.po.Menu;
 import com.cms.szy.enums.MenuTypeEnum;
 import com.cms.szy.service.MenuService;
 import com.cms.szy.tools.constant.CommConstant;
-import com.cms.szy.tools.constant.Constant;
 import com.cms.szy.tools.exception.RRException;
 import com.cms.szy.tools.result.Ret;
 

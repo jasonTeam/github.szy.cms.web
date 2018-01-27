@@ -11,7 +11,7 @@ public class Constant {
 	/*** 系统管理员ID **/
 	public static final int SUPER_ADMIN = 1;
 	
-	/*** 顶级菜单 **/
+	/*** 一级菜单ID **/
 	public static final Long TOP_MENU = -1L;
 	
 	/** 一级菜单 */
