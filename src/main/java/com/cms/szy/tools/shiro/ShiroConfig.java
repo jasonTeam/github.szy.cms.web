@@ -49,7 +49,6 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm);
         securityManager.setSessionManager(sessionManager);
-
         return securityManager;
     }
 
@@ -63,11 +62,11 @@ public class ShiroConfig {
         
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/static/**", "anon");
-//        filterMap.put("/swagger/**", "anon");
+        filterMap.put("/swagger/**", "anon");
         filterMap.put("/login.html", "anon");
         filterMap.put("/sys/login", "anon");
         filterMap.put("/favicon.ico", "anon");
-//        filterMap.put("/captcha.jpg", "anon");
+        filterMap.put("/captcha.jpg", "anon");
         filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         

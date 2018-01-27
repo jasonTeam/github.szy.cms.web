@@ -12,11 +12,11 @@ import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * shiro session dao
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2017/9/27 21:35
+ * 
+ *【shiro session dao】
+ * @ClassName RedisShiroSessionDAO 
+ * @author ShenZiYang 
+ * @date 2018年1月27日 下午9:07:04
  */
 @SuppressWarnings("unchecked")
 @Component
@@ -69,7 +69,6 @@ public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
     
 	private void setShiroSession(String key, Session session){
         redisTemplate.opsForValue().set(key, session);
-       
         redisTemplate.expire(key, 60, TimeUnit.MINUTES);  //60分钟过期
     }
 

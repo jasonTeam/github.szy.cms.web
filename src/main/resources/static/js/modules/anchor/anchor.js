@@ -110,17 +110,17 @@ var vm = new Vue({
             this.getRoleList();
         },
         del: function () {
-            var userIds = getSelectedRows();
-            if(userIds == null){
+            var ids = getSelectedRows();
+            if(ids == null){
                 return ;
             }
 
             confirm('确定要删除选中的记录？', function(){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + "sys/user/delete",
+                    url: baseURL + "anchor/info/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(userIds),
+                    data: JSON.stringify(ids),
                     success: function(r){
                         if(r.code == 0){
                             alert('操作成功', function(){
