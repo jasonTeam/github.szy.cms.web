@@ -57,7 +57,12 @@ public class User extends UserDTO implements Serializable {
 	
 	@Column(name = "create_time")
 	private Date createTime;
-
+	
+	
+	/*-------------------------------------------
+    |  A C C E S S O R S / M O D I F I E R S    |
+    ============================================*/
+	
 	public Long getUserId() {
 		return userId;
 	}

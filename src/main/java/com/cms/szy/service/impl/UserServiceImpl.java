@@ -76,7 +76,6 @@ public class UserServiceImpl implements UserService{
         	throw new ImplException("1111", "原密码错误!");
         }
         int res = userRepositoryDao.updatePwd(newPassword, userId);
-        
         return res;
 	}
 
@@ -88,7 +87,6 @@ public class UserServiceImpl implements UserService{
 		if(StringUtils.isNotEmpty(vo.getUserName())){
 			query.setUserName(vo.getUserName());
 		}
-
 		//过滤删除字段
 		query.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());
 		//排序
@@ -105,7 +103,6 @@ public class UserServiceImpl implements UserService{
 			if(null != u.getDeptId() || u.getDeptId() >= 0){
 				userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
 			}
-			
 		}
 		
 		//user实体和userRole实体的userIdyin
@@ -113,7 +110,6 @@ public class UserServiceImpl implements UserService{
 		for(User u : userList){
 			userRoleMap.put(u.getUserId(), userRoleRepositoryDao.queryUserRoleByUserId(u.getUserId()));
 		}
-		
 		
 		// 数据拼装
 		for (User u : userList) {
@@ -129,59 +125,7 @@ public class UserServiceImpl implements UserService{
 		return pageData;
 	}
 	
-	
-//	@Override
-//	@DataFilter(tableAlias = "u", user = false)
-//	public Page<User> findPageUser(Map<String, Object> params) {
-		//查询条件
-		UserQuery query = new UserQuery();
-//		if(StringUtils.isNotEmpty(vo.getUserName())){
-//			query.setUserName(vo.getUserName());
-//		}
 
-		//过滤删除字段
-//		query.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());
-		//排序
-//		Sort sort = new Sort(Direction.ASC,"userId");
-		//分页条件
-//		Pageable page = new PageRequest(pageNo, pageSize, sort);
-		//获取分页数据
-//		Page<User> pageData =  userRepositoryDao.findAll(query, page);	
-//		List<User> userList = pageData.getContent();	
-		
-		//user实体和dept实体dept_id映射
-//		Map<Long,Dept> userDeptMap  = new HashMap<>();
-//		for(User u : userList){
-//			if(null != u.getDeptId() || u.getDeptId() >= 0){
-//				userDeptMap.put(u.getDeptId(), deptRepositoryDao.findOne(u.getDeptId()));
-//			}
-//			
-//		}
-//		
-//		//user实体和userRole实体的userIdyin
-//		Map<Long,UserRole> userRoleMap = new HashMap<>();
-//		for(User u : userList){
-//			userRoleMap.put(u.getUserId(), userRoleRepositoryDao.queryUserRoleByUserId(u.getUserId()));
-//			
-//		}
-//		
-//		
-//		// 数据拼装
-//		for (User u : userList) {
-//			u.setDeptName(userDeptMap.get(u.getDeptId()).getName()); // 获取部门名称
-//			if(u.getUserId() == 1){
-//				u.setRoleName("管理员");
-//			}else{
-//				Long roleId = userRoleMap.get(u.getUserId()).getRoleId(); // 角色ID
-//				u.setRoleName(roleRepositoryDao.findOne(roleId).getRoleName());
-//			}
-//		}
-			
-//		return pageData;
-//		return null;
-//	}
-
-	
 	@Override
 	@Transactional  //添加事务
 	public void saveUser(User user) {
@@ -263,7 +207,5 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
-	
-	
-	
+
 }

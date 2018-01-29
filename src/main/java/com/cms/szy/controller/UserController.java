@@ -101,13 +101,34 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月18日下午6:25:54
 	 * @throws 异常
 	 */
-	@RequestMapping(value = "/info/{userId}",method = RequestMethod.GET)
+	@RequestMapping(value = "/info/{userId}", method = RequestMethod.GET)
 	@RequiresPermissions("sys:user:info")
-	public Ret info(@PathVariable("userId") Long userId){
-		User user = userService.queryUserByUserId(userId);
-		List<Long> roleIdList = userRoleService.queryRoleIdByUserId(userId); //根据用户ID获取用户所属的角色ID列表
-		user.setRoleIdList(roleIdList);
+	public Ret info(@PathVariable("userId") Long userId) {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("根据用户ID查询用户信息开始:code={},message={},startTime={}", code, message, startTime);
+		
+		//参数校验
+		if(null != userId || userId <= 0){
+			return Ret.error("用户ID不能为空!");
+		}
+		
+		User user = null;
+		try {
+			user = userService.queryUserByUserId(userId);
+			List<Long> roleIdList = userRoleService.queryRoleIdByUserId(userId); // 根据用户ID获取用户所属的角色ID列表
+			user.setRoleIdList(roleIdList);
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("根据用户ID查询用户信息异常:code={},message={},e={}", code, message, e);
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("根据用户ID查询用户信息结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok().put("user", user);
+
 	}
 	
 	
@@ -123,9 +144,23 @@ public class UserController extends AbstractController{
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@RequiresPermissions("sys:user:save")
-	public Ret saveUser(@RequestBody User user){
-		ValidatorUtils.validateEntity(user, AddGroup.class);
-		userService.saveUser(user);
+	public Ret saveUser(@RequestBody User user) {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("新增用户操作开始:code={},message={},startTime={}", code, message, startTime);
+
+		try {
+			ValidatorUtils.validateEntity(user, AddGroup.class);
+			userService.saveUser(user);
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("新增用户操作异常:code={},message={},e={}", code, message, e);
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("新增用户操作结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
 	}
 	
@@ -142,9 +177,23 @@ public class UserController extends AbstractController{
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@RequiresPermissions("sys:user:update")
-	public Ret update(@RequestBody User user){
-		ValidatorUtils.validateEntity(user, UpdateGroup.class);
-		userService.updateUser(user);
+	public Ret update(@RequestBody User user) {
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("修改用户信息操作开始:code={},message={},startTime={}", code, message, startTime);
+
+		try {
+			ValidatorUtils.validateEntity(user, UpdateGroup.class);
+			userService.updateUser(user);
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("修改用户信息操作异常:code={},message={},e={}", code, message, e);
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("修改用户信息操作结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
 	}
 	
@@ -186,9 +235,15 @@ public class UserController extends AbstractController{
 	 * @date 2018年1月19日上午9:30:37
 	 * @throws 异常
 	 */
-	@RequestMapping(value = "/delete",method  = RequestMethod.POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@RequiresPermissions("sys:user:delete")
 	public Ret delete(@RequestBody Long[] userIds) {
+
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("删除用户操作开始:code={},message={},startTime={}", code, message, startTime);
+
 		if (ArrayUtils.contains(userIds, UserTypeEnum.ADMIN.getVal())) {
 			return Ret.error("系统管理员不能删除!");
 		}
@@ -197,8 +252,17 @@ public class UserController extends AbstractController{
 			return Ret.error("当前用户不能删除!");
 		}
 
-		userService.deleteBatchUser(userIds);
+		try {
+			userService.deleteBatchUser(userIds);
+		} catch (Exception e) {
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("删除用户操作异常:code={},message={},e={}", code, message, e);
+		}
+
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("删除用户操作结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
 	}
-	
+
 }

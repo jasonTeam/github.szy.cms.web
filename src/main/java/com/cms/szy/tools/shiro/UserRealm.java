@@ -99,9 +99,7 @@ public class UserRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
-		
 		UsernamePasswordToken token = (UsernamePasswordToken)authcToken;
-		
 		User user = userRepositoryDao.queryByUserName(token.getUsername()); //获取用户信息
 		
 		//账号不存在
@@ -109,7 +107,6 @@ public class UserRealm extends AuthorizingRealm {
             throw new UnknownAccountException("账号或密码不正确");
         }
 		
-//        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());
 		return info;
 	}

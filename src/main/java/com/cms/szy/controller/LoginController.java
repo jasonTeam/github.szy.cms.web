@@ -47,7 +47,7 @@ public class LoginController extends AbstractController {
 		GwsLogger.info("用户登录开始:code={},message={},startTime={}", code, message, startTime);
 
 		try {
-			Subject subject = ShiroUtils.getSubject();
+			Subject subject = ShiroUtils.getSubject(); //获取当前正在执行的用户的特定的安全视图
 			UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 			subject.login(token);
 		} catch (UnknownAccountException e) {

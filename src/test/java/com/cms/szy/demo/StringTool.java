@@ -14,7 +14,11 @@ public final class StringTool {
 		String sss = ss.replace("nickName", "沈字样");
 		System.out.println(sss);
 		
-		
+		String password = "admin";
+		char[] charArr = password.toCharArray(); //将字符串转为字符数组
+		for(int i=0; i < charArr.length; i++){
+			System.out.println(charArr[i]);
+		}
 		
 	}
 	

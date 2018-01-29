@@ -37,6 +37,6 @@ public class ValidatorUtils {
         	ConstraintViolation<Object> constraint = (ConstraintViolation<Object>)constraintViolations.iterator().next();
             throw new RRException(constraint.getMessage());
         }
-        
     }
+    
 }
