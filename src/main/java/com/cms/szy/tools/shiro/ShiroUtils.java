@@ -37,7 +37,7 @@ public class ShiroUtils {
 	
 	//获取用户实体对象
 	public static User getUserEntity() {
-		return (User)SecurityUtils.getSubject().getPrincipal();
+		return (User)SecurityUtils.getSubject().getPrincipal(); 
 	}
 	
 	//获取登录用户ID
