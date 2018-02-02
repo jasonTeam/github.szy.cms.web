@@ -9,6 +9,13 @@ package com.cms.szy.learn.collections;
  */
 public class Queues {
 	
+	/*
+	 * ArrayDeque:基于数组实现的尾插队列（包含head,tail头尾指针）.
+	 * PriorityQueue:基于数组的自排序优先级队列（基于数组实现存储的二叉树堆排）
+	 */
+	public static void main(String[] args){
+		
+	}
 	
 	
 }
