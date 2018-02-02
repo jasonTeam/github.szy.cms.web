@@ -22,7 +22,10 @@ public class Dept extends DeptDTO implements Serializable{
 	
 
 	private static final long serialVersionUID = -6974614561905608885L;
-
+	
+	/**
+	 * 部门ID,作为主键
+	 */
 	@Id
 	@Column(name = "dept_id")
 	private Long deptId;
@@ -39,6 +42,9 @@ public class Dept extends DeptDTO implements Serializable{
 	@Column(name = "name")
 	private String name;
 	
+	/**
+	 * 排序
+	 */
 	@Column(name = "order_num")
 	private Integer orderNum;
 	

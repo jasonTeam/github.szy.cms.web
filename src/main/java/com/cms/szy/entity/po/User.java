@@ -23,29 +23,53 @@ import com.cms.szy.entity.dto.UserDTO;
 public class User extends UserDTO implements Serializable {
 
 	private static final long serialVersionUID = -6910527803052728069L;
-
+	
+	/**
+	 * 用户ID主键
+	 */
 	@Id
 	@Column(name = "user_id")
 	private Long userId;
-
+	
+	/**
+	 * 用户名
+	 */
 	@Column(name = "user_name")
 	private String userName;
-
+	
+	/**
+	 * 密码
+	 */
 	@Column(name = "password")
 	private String password;
-
+	
+	/**
+	 * 盐
+	 */
 	@Column(name = "salt")
 	private String salt;
 
+	/**
+	 * 邮箱
+	 */
 	@Column(name = "email")
 	private String email;
-
+	
+	/**
+	 * 手机
+	 */
 	@Column(name = "mobile")
 	private String mobile;
-
+	
+	/**
+	 * 用户状态(0：禁用 , 1：正常)
+	 */
 	@Column(name = "status")
 	private Short status;
-
+	
+	/**
+	 * 部门ID
+	 */
 	@Column(name = "dept_id")
 	private Long deptId;
 	
@@ -55,6 +79,9 @@ public class User extends UserDTO implements Serializable {
 	@Column(name = "is_delete")
 	private Short isDelete;
 	
+	/**
+	 * 创建时间
+	 */
 	@Column(name = "create_time")
 	private Date createTime;
 	

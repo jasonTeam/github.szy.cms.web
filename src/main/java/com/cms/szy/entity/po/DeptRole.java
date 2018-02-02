@@ -22,7 +22,10 @@ import javax.persistence.Table;
 public class DeptRole implements Serializable{
 
 	private static final long serialVersionUID = -2378294478809222090L;
-
+	
+	/**
+	 * 关联表主键ID
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")

@@ -19,5 +19,10 @@ public class Constant {
 	
 	/** 一级部门 */
 	public static final String LEVEL_DEPT = "一级部门";
+	
+	
+	
+	
+	
     
 }

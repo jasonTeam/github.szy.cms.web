@@ -242,11 +242,11 @@
        </dependency>
        
         <!-- shiro+redis缓存插件 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.crazycake</groupId>
 			<artifactId>shiro-redis</artifactId>
 			<version>2.4.2.1-RELEASE</version>
-		</dependency>
+		</dependency> -->
 		<!-- 导入 shiro 组件 end  -->
 		
 	</dependencies>

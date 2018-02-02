@@ -23,15 +23,24 @@ import javax.persistence.Table;
 public class MenuRole implements Serializable {
 
 	private static final long serialVersionUID = 1319457408415187048L;
-
+	
+	/**
+	 * 关联表ID
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
-
+	
+	/**
+	 * 角色ID
+	 */
 	@Column(name = "role_id")
 	private Long roleId;
-
+	
+	/**
+	 * 菜单ID
+	 */
 	@Column(name = "menu_id")
 	private Long menuId;
 

@@ -48,7 +48,7 @@ public class Role extends RoleDTO implements Serializable{
 	@Column(name = "update_time")
 	private Date updateTime;
 	
-	/*** 角色ID，作为主键*/
+	/*** 备注 */
 	@Column(name = "remark")
 	private String remark;
 	

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.Role;
 import com.cms.szy.entity.vo.RoleVO;
@@ -147,8 +148,22 @@ public class RoleController extends AbstractController{
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:role:update")
 	public Ret update(@RequestBody Role role){
-		ValidatorUtils.validateEntity(role);
-		roleService.updateRole(role);
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("修改角色信息开始:code={},message={},role={},startTime={}", code, message,JSON.toJSONString(role),startTime);
+		
+		try{
+			ValidatorUtils.validateEntity(role);
+			roleService.updateRole(role);
+		}catch(Exception e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("修改角色信息异常:code={},message={},e={}", code, message, e);
+		}
+		
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("修改角色信息结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
 	}
 	
@@ -169,7 +184,7 @@ public class RoleController extends AbstractController{
 		String code = CommConstant.GWSCOD0000;
 		String message = CommConstant.GWSMSG0000;
 		Long startTime = System.currentTimeMillis();
-		GwsLogger.info("新增角色操作开始:code={},message={},startTime={}", code, message, startTime);
+		GwsLogger.info("新增角色操作开始:code={},message={},role={},startTime={}", code, message,JSON.toJSONString(role),startTime);
 		
 		//功能权限为空判断
 		if(null == role.getMenuIdList() || role.getMenuIdList().size() == 0){
@@ -212,7 +227,21 @@ public class RoleController extends AbstractController{
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:role:delete")
 	public Ret delete(@RequestBody Long[] roleIds){
-		roleService.deleteRoleBatch(roleIds);
+		String code = CommConstant.GWSCOD0000;
+		String message = CommConstant.GWSMSG0000;
+		Long startTime = System.currentTimeMillis();
+		GwsLogger.info("删除角色操作开始:code={},message={},role={},startTime={}", code, message,JSON.toJSONString(roleIds),startTime);
+		
+		try{
+			roleService.deleteRoleBatch(roleIds);
+		}catch(Exception e){
+			code = CommConstant.GWSCOD0001;
+			message = CommConstant.GWSMSG0001;
+			GwsLogger.error("删除角色信息异常:code={},message={},e={}", code, message, e);
+		}
+		
+		Long endTime = System.currentTimeMillis() - startTime;
+		GwsLogger.info("删除角色操作结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
 	}
 	

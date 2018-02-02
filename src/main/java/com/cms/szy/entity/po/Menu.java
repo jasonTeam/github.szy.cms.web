@@ -23,7 +23,10 @@ import com.cms.szy.entity.dto.MenuDTO;
 public class Menu extends MenuDTO implements Serializable{
 	
 	private static final long serialVersionUID = -900324715261758027L;
-
+	
+	/**
+	 * 菜单ID主键
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "menu_id")
@@ -56,15 +59,19 @@ public class Menu extends MenuDTO implements Serializable{
 	@Column(name = "type")
 	private Integer type;
 	
+	/**
+	 * 图标
+	 */
 	@Column(name = "icon")
 	private String icon;
 	
+	/**
+	 * 排序
+	 */
 	@Column(name = "sort")
 	private Integer sort;
 	
-	
 
-	
 	public Long getMenuId() {
 		return menuId;
 	}

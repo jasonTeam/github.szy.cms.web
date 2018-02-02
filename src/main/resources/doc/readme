@@ -1,1 +1,3 @@
 1.服务启动时要先启动Redis
+2.权限系统数据库表有：部门表(dept),菜单表(menu),角色表(role),用户表(user);
+    其中关联表有:用户角色关联表(UserRole),菜单角色关联表(MenuRole),部门角色关联表(DeptRole)
