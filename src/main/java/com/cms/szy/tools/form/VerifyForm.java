@@ -1,11 +1,14 @@
 package com.cms.szy.tools.form;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.tools.exception.RRException;
+import com.cms.szy.tools.regexUtil.Verify;
+import com.cms.szy.tools.result.Ret;
 
 
 /**
@@ -36,6 +39,25 @@ public class VerifyForm {
 			GwsLogger.error("新增用户参数为空:user={}",JSON.toJSON(user));
 			throw new RRException("必要参数不能为空");
 		}
+		
+		//角色校验
+		if (CollectionUtils.isEmpty(user.getRoleIdList())) {
+			GwsLogger.error("新增用户角色ID为空:roleList={}", JSON.toJSON(user.getRoleIdList()));
+			throw new RRException("角色不能为空!");
+		}
+		
+		//邮箱格式校验
+		if (!Verify.isEmail(user.getEmail())) {
+			GwsLogger.error("新增用户邮箱格式错误:email={}", JSON.toJSON(user.getEmail()));
+			throw new RRException("邮箱格式不正确!");
+		}
+		
+		//手机号格式校验
+		if(!Verify.isPhone(user.getMobile())){
+			GwsLogger.error("新增用户手机格式错误:mobile={}",JSON.toJSON(user.getMobile()));
+			throw new RRException("手机格式不正确!");
+		}
+		
 	}
 	
 	
