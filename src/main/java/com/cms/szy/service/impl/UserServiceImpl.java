@@ -128,9 +128,8 @@ public class UserServiceImpl implements UserService{
 	
 	
 	@Override
-	@Transactional  //添加事务
 	public void saveUser(User user) {
-		User newUser = new User();
+ 		User newUser = new User();
 		newUser.setUserId(idGlobalGenerator.getSeqId(User.class)); // 通过redis生成用户ID
 		newUser.setUserName(user.getUserName());  // 登录账号
 		newUser.setDeptId(user.getDeptId());  // 所属部门
@@ -166,7 +165,6 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	@Transactional  //添加事务
 	public void updateUser(User user) {
 		// 先查询用户是否存在
 		User userBean = userRepositoryDao.findOne(user.getUserId());
@@ -197,7 +195,6 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	@Transactional  //添加事务
 	public void deleteBatchUser(Long[] userIds) {
 		if(null != userIds && userIds.length > 0){
 			for(int i = 0; i < userIds.length; i++){

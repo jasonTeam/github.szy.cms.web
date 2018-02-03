@@ -134,7 +134,6 @@ public class MenuServiceImpl implements MenuService{
 
 
 	@Override
-	@Transactional  //添加事务
 	public void saveMenu(Menu menu) {
 		Menu newMenu = new Menu();
 		newMenu.setMenuId(idGlobalGenerator.getSeqId(Menu.class));  //生成菜单ID
@@ -150,7 +149,6 @@ public class MenuServiceImpl implements MenuService{
 
 
 	@Override
-	@Transactional  //添加事务
 	public void updateMenu(Menu menu) {
 		Menu oriMenu = menuRepositoryDao.findOne(menu.getMenuId());  //1.先查询原来的数据是否存在
 		if(null != oriMenu){
@@ -167,7 +165,6 @@ public class MenuServiceImpl implements MenuService{
 
 
 	@Override
-	@Transactional  //添加事务
 	public void deleteMenuBatch(Long[] menuIds) {
 		if(null != menuIds && menuIds.length > 0){
 			for(int i = 0; i < menuIds.length; i++){

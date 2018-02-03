@@ -137,7 +137,6 @@ public class RoleServiceImpl implements RoleService {
 	
 
 	@Override
-	@Transactional  //添加事务
 	public void deleteRoleBatch(Long[] roleIds) {
 		if (null != roleIds && roleIds.length > 0) {
 			for (int i = 0; i < roleIds.length; i++) {

@@ -164,7 +164,6 @@ var vm = new Vue({
             $.get(baseURL + "sys/user/info/"+userId, function(r){
                 vm.user = r.user;
                 vm.user.password = null;
-
                 vm.getDept();
             });
         },

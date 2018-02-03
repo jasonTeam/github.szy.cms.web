@@ -241,13 +241,15 @@
            <version>1.2.2</version>
        </dependency>
        
-        <!-- shiro+redis缓存插件 -->
-		<!-- <dependency>
-			<groupId>org.crazycake</groupId>
-			<artifactId>shiro-redis</artifactId>
-			<version>2.4.2.1-RELEASE</version>
-		</dependency> -->
-		<!-- 导入 shiro 组件 end  -->
+       <!-- shiro 单点登录 cas组件 beg -->
+       <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-cas</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+       <!-- shiro 单点登录 cas组件 end -->
+       
+	   <!-- 导入 shiro 组件 end  -->
 		
 	</dependencies>
 	

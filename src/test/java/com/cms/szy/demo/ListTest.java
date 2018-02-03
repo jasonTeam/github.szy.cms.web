@@ -44,6 +44,14 @@ public class ListTest {
 				System.out.println(str);
 			}
 		}
+		
+		Long maxNum = System.currentTimeMillis();
+		System.out.println("maxNum="+maxNum);
+		
+		Long randNum = Math.round(Math.random() * 10);
+		System.out.println("randNum="+randNum);
+		
+		
 	}
 	
 	

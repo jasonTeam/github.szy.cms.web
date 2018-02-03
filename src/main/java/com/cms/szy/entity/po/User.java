@@ -8,7 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.cms.szy.entity.dto.UserDTO;
+import com.cms.szy.tools.validator.group.AddGroup;
+import com.cms.szy.tools.validator.group.UpdateGroup;
+
 
 /**
  * 
@@ -31,15 +37,11 @@ public class User extends UserDTO implements Serializable {
 	@Column(name = "user_id")
 	private Long userId;
 	
-	/**
-	 * 用户名
-	 */
+	/*** 用户名 */
 	@Column(name = "user_name")
 	private String userName;
 	
-	/**
-	 * 密码
-	 */
+	/*** 密码 */
 	@Column(name = "password")
 	private String password;
 	
@@ -49,12 +51,10 @@ public class User extends UserDTO implements Serializable {
 	@Column(name = "salt")
 	private String salt;
 
-	/**
-	 * 邮箱
-	 */
+	/*** 邮箱 */
 	@Column(name = "email")
 	private String email;
-	
+
 	/**
 	 * 手机
 	 */

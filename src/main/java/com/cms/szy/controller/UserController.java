@@ -2,7 +2,11 @@ package com.cms.szy.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
@@ -19,6 +24,8 @@ import com.cms.szy.enums.UserTypeEnum;
 import com.cms.szy.service.UserRoleService;
 import com.cms.szy.service.UserService;
 import com.cms.szy.tools.constant.CommConstant;
+import com.cms.szy.tools.form.VerifyForm;
+import com.cms.szy.tools.regexUtil.Verify;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.shiro.ShiroUtils;
 import com.cms.szy.tools.validator.Assert;
@@ -110,7 +117,7 @@ public class UserController extends AbstractController{
 		GwsLogger.info("根据用户ID查询用户信息开始:code={},message={},startTime={}", code, message, startTime);
 		
 		//参数校验
-		if(null != userId || userId <= 0){
+		if(null == userId || userId <= 0){
 			return Ret.error("用户ID不能为空!");
 		}
 		
@@ -148,10 +155,39 @@ public class UserController extends AbstractController{
 		String code = CommConstant.GWSCOD0000;
 		String message = CommConstant.GWSMSG0000;
 		Long startTime = System.currentTimeMillis();
-		GwsLogger.info("新增用户操作开始:code={},message={},startTime={}", code, message, startTime);
-
+		GwsLogger.info("新增用户操作开始:code={},message={},startTime={}", code, message,startTime);
+		
+		//参数校验
+		boolean isTrue = null == user.getDeptId() || StringUtils.isBlank(user.getUserName())
+												  || StringUtils.isBlank(user.getPassword()) 
+												  || StringUtils.isBlank(user.getEmail())
+												  || StringUtils.isBlank(user.getMobile());
+		if(isTrue){
+			GwsLogger.error("新增用户参数为空:user={}",JSON.toJSON(user));
+			return Ret.error("必须参数不能为空!");
+		}
+		
+		//角色校验
+		if(CollectionUtils.isEmpty(user.getRoleIdList())){
+			GwsLogger.error("新增用户角色ID为空:roleList={}",JSON.toJSON(user.getRoleIdList()));
+			return Ret.error("角色不能为空!");
+		}
+		
+		//邮箱格式校验
+		if(!Verify.isEmail(user.getEmail())){
+			GwsLogger.error("新增用户邮箱格式错误:email={}",JSON.toJSON(user.getEmail()));
+			return Ret.error("邮箱格式不正确!");
+		}
+		
+		
+		//手机号格式校验
+		if(!Verify.isPhone(user.getMobile())){
+			GwsLogger.error("新增用户手机格式错误:mobile={}",JSON.toJSON(user.getMobile()));
+			return Ret.error("手机格式不正确!");
+		}
+		
 		try {
-			ValidatorUtils.validateEntity(user, AddGroup.class);
+			//ValidatorUtils.validateEntity(user, AddGroup.class);
 			userService.saveUser(user);
 		} catch (Exception e) {
 			code = CommConstant.GWSCOD0001;
@@ -182,14 +218,15 @@ public class UserController extends AbstractController{
 		String message = CommConstant.GWSMSG0000;
 		Long startTime = System.currentTimeMillis();
 		GwsLogger.info("修改用户信息操作开始:code={},message={},startTime={}", code, message, startTime);
-
+		
 		try {
-			ValidatorUtils.validateEntity(user, UpdateGroup.class);
+			VerifyForm.isNull(user);
 			userService.updateUser(user);
 		} catch (Exception e) {
 			code = CommConstant.GWSCOD0001;
 			message = CommConstant.GWSMSG0001;
 			GwsLogger.error("修改用户信息操作异常:code={},message={},e={}", code, message, e);
+			return Ret.error(e.getMessage());
 		}
 
 		Long endTime = System.currentTimeMillis() - startTime;

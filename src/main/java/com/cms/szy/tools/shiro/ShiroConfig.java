@@ -3,6 +3,7 @@ package com.cms.szy.tools.shiro;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.shiro.cas.CasFilter;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -26,15 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ShiroConfig {
 	
-	@Value("${spring.redis.host}")
-	private String host;
-
-	@Value("${spring.redis.port}")
-	private int port;
-	
-	@Value("${spring.redis.timeout}")
-    private int timeout;
-	
+	private static final String casFilterUrlPattern = "/shiro-cas";
 	
     @Bean("sessionManager")
     public SessionManager sessionManager(RedisShiroSessionDAO redisShiroSessionDAO,
@@ -84,6 +77,18 @@ public class ShiroConfig {
         return shiroFilter;
     }
 
+    
+    //单点登录  CAS Filter  modify by szy 2018.1.3
+    @Bean("casFilter")
+    public CasFilter getCasFilter(@Value("${shiro.cas}") String casServerUrlPrefix,@Value("{shiro.server}") String shiroServerUrlPrefix){
+    	CasFilter casFilter = new CasFilter();
+    	casFilter.setName("casFilter");
+    	casFilter.setEnabled(true);
+		String loginUrl = casServerUrlPrefix + "/login?service=" + shiroServerUrlPrefix + casFilterUrlPattern;
+		casFilter.setFailureUrl(loginUrl);
+    	return casFilter;
+    }
+    
     @Bean("lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();

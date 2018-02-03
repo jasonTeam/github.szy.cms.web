@@ -6,6 +6,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import com.cms.szy.tools.exception.RRException;
+import com.cms.szy.tools.result.Ret;
 
 import java.util.Set;
 

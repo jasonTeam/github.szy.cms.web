@@ -22,10 +22,8 @@ public class IpUtil {
 	//modify by szy 2018.1.23
 	//项目启动时Redis从这里获取表的id值初始值
 	public static Long getSeq() {
-		//Long maxNum = System.currentTimeMillis();
-		Long maxNum = 1000L;
-		//Long randNum = Math.round(Math.random() * 1000);
-		return maxNum;
+		Long initNum = 10001L;
+		return initNum;
 	}
 	
 	
