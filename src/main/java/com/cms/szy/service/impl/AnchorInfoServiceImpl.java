@@ -76,7 +76,7 @@ public class AnchorInfoServiceImpl implements AnchorInfoService{
 
 	@Override
 	public void deleteBatchAnchor(Long[] ids) {
-		if(null != ids || ids.length > 0){
+		if(ids.length > 0){
 			for(Long id : ids){
 				anchorInfoRepositoryDao.delete(id);
 			}

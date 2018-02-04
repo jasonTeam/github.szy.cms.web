@@ -56,7 +56,8 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	 * @date 2018年1月6日下午2:18:14
 	 * @throws 查询失败
 	 */
-	@Query(value = "select distinct rm.menu_id from sys_user_role ur LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
+	@Query(value = "select distinct rm.menu_id from sys_user_role ur "
+			+ "LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
 	List<BigInteger> queryAllMenuId(Long userId);
 	
 	
