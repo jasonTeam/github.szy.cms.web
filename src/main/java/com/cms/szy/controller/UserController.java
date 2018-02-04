@@ -264,5 +264,29 @@ public class UserController extends AbstractController{
 		GwsLogger.info("删除用户操作结束:code={},message={},endTime={}", code, message, endTime);
 		return Ret.ok();
 	}
-
+	
+	
+	/**
+	 * 
+	 *【修改密码】
+	 * @Title password 
+	 * @param password
+	 * @param newPassword
+	 * @return Ret返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月4日下午8:56:20
+	 * @throws  异常
+	 */
+	@RequestMapping("/password")
+	public Ret password(String password,String newPassword){
+		//原密码
+		password = ShiroUtils.sha256(password, getUser().getSalt());
+		//新密码
+		newPassword = ShiroUtils.sha256(newPassword, getUser().getSalt());
+		
+		return Ret.ok();
+	}
+	
+	
+	
 }
