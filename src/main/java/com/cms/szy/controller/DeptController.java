@@ -2,6 +2,7 @@ package com.cms.szy.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.cms.szy.configuration.log.GwsLogger;
 import com.cms.szy.entity.po.Dept;
 import com.cms.szy.service.DeptService;
@@ -157,7 +159,13 @@ public class DeptController extends AbstractController {
 		String message = CommConstant.GWSMSG0000;
 		Long startTime = System.currentTimeMillis();
 		GwsLogger.info("新增部门操作开始:code={},message={},startTime={}", code, message, startTime);
-
+		
+		//参数校验
+		if(StringUtils.isEmpty(dept.getName())){
+			GwsLogger.error("新增部门时部门名称为空:deptName={}",JSON.toJSON(dept.getName()));
+			return Ret.error("部门名称不能为空!");
+		}
+		
 		try {
 			deptService.saveDept(dept);
 		} catch (Exception e) {
@@ -228,7 +236,13 @@ public class DeptController extends AbstractController {
 		String message = CommConstant.GWSMSG0000;
 		Long startTime = System.currentTimeMillis();
 		GwsLogger.info("修改部门信息开始:code={},message={},startTime={}", code, message, startTime);
-
+		
+		//参数校验
+		if(StringUtils.isEmpty(dept.getName())){
+			GwsLogger.error("修改部门时部门名称为空:deptName={}",JSON.toJSON(dept.getName()));
+			return Ret.error("部门名称不能为空!");
+		}
+		
 		try {
 			deptService.updateDept(dept);
 		} catch (Exception e) {

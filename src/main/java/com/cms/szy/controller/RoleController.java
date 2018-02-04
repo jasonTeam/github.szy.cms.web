@@ -2,6 +2,7 @@ package com.cms.szy.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import com.cms.szy.service.DeptRoleService;
 import com.cms.szy.service.MenuRoleService;
 import com.cms.szy.service.RoleService;
 import com.cms.szy.tools.constant.CommConstant;
+import com.cms.szy.tools.form.VerifyForm;
 import com.cms.szy.tools.result.Ret;
 import com.cms.szy.tools.validator.ValidatorUtils;
 
@@ -154,7 +156,7 @@ public class RoleController extends AbstractController{
 		GwsLogger.info("修改角色信息开始:code={},message={},role={},startTime={}", code, message,JSON.toJSONString(role),startTime);
 		
 		try{
-			ValidatorUtils.validateEntity(role);
+			VerifyForm.isRoleNull(role);
 			roleService.updateRole(role);
 		}catch(Exception e){
 			code = CommConstant.GWSCOD0001;
@@ -186,20 +188,8 @@ public class RoleController extends AbstractController{
 		Long startTime = System.currentTimeMillis();
 		GwsLogger.info("新增角色操作开始:code={},message={},role={},startTime={}", code, message,JSON.toJSONString(role),startTime);
 		
-		//功能权限为空判断
-		if(null == role.getMenuIdList() || role.getMenuIdList().size() == 0){
-			GwsLogger.error("功能权限菜单ID为空:menuIdList={}",role.getMenuIdList().size());
-			return Ret.error("功能权限未选择!");
-		}
-		
-		//数据权限为空判断
-		if(null == role.getDeptIdList() || role.getDeptIdList().size() == 0){
-			GwsLogger.error("数据权限部门ID为空:deptIdList={}",role.getMenuIdList().size());
-			return Ret.error("数据权限未选择!");
-		}
-		
 		try {
-			ValidatorUtils.validateEntity(role);
+			VerifyForm.isRoleNull(role);
 			roleService.saveRole(role);
 		} catch (Exception e) {
 			code = CommConstant.GWSCOD0001;

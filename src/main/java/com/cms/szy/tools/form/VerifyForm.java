@@ -5,10 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.cms.szy.configuration.log.GwsLogger;
+import com.cms.szy.entity.po.Role;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.tools.exception.RRException;
 import com.cms.szy.tools.regexUtil.Verify;
-import com.cms.szy.tools.result.Ret;
 
 
 /**
@@ -23,14 +23,14 @@ public class VerifyForm {
 	
 	/**
 	 * 
-	 *【表单提交校验】 
+	 *【用户表单提交校验】 
 	 * @param user
 	 * @return Ret返回类型   
 	 * @author ShenZiYang
 	 * @date 2018年2月3日下午4:39:43
 	 * @throws 异常
 	 */
-	public static void isNull(User user){
+	public static void isUserNull(User user){
 		boolean isTrue = null == user.getDeptId() || StringUtils.isBlank(user.getUserName())
 				  								  || StringUtils.isBlank(user.getPassword()) 
 				  								  || StringUtils.isBlank(user.getEmail())
@@ -60,6 +60,42 @@ public class VerifyForm {
 		
 	}
 	
+	
+	/**
+	 * 
+	 *【添加、修改角色表单校验】
+	 * @Title isRoleNull 
+	 * @param role void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月4日下午8:35:42
+	 * @throws  异常
+	 */
+	public static void isRoleNull(Role role){
+		//角色名是否为空
+		if(StringUtils.isBlank(role.getRoleName())){
+			GwsLogger.error("修改角色时角色名为空:roleName={}",JSON.toJSON(role.getRoleName()));
+			throw new RRException("角色名不能为空!");
+		}
+		
+		//所属部门是否为空
+		if (null == role.getDeptId() || role.getDeptId() < 0) {
+			GwsLogger.error("修改角色时部门名为空:deptName={}",JSON.toJSON(role.getDeptId()));
+			throw new RRException("部门名称不能为空!");
+		}
+		
+		// 功能权限为空判断
+		if (null == role.getMenuIdList() || role.getMenuIdList().size() == 0) {
+			GwsLogger.error("功能权限菜单ID为空:menuIdList={}",JSON.toJSON(role.getDeptIdList()));
+			throw new RRException("功能权限未选择!");
+		}
+
+		// 数据权限为空判断
+		if (null == role.getDeptIdList() || role.getDeptIdList().size() == 0) {
+			GwsLogger.error("数据权限部门ID为空:deptIdList={}", JSON.toJSON(role.getDeptIdList()));
+			throw new RRException("数据权限未选择!");
+		}
+		
+	}
 	
 	
 }
