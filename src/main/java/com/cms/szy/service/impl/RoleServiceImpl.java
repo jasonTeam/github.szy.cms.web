@@ -151,6 +151,7 @@ public class RoleServiceImpl implements RoleService {
 		roleBean.setRoleId(idGlobalGenerator.getSeqId(Role.class)); //角色ID
 		roleBean.setRoleName(role.getRoleName()); // 角色名称
 		roleBean.setDeptId(role.getDeptId()); // 所属部门
+		roleBean.setCreateUserId(role.getCreateUserId()); //创建者ID
 		roleBean.setRemark(role.getRemark()); // 备注
 		roleBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); // 是否删除
 		roleBean.setCreateTime(new Date()); // 创建时间

@@ -8,12 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
 import com.cms.szy.entity.dto.UserDTO;
-import com.cms.szy.tools.validator.group.AddGroup;
-import com.cms.szy.tools.validator.group.UpdateGroup;
 
 
 /**
@@ -66,6 +61,12 @@ public class User extends UserDTO implements Serializable {
 	 */
 	@Column(name = "status")
 	private Short status;
+	
+	/**
+	 * 创建者ID
+	 */
+	@Column(name = "create_user_id")
+	private Long createUserId;
 	
 	/**
 	 * 部门ID
@@ -169,5 +170,16 @@ public class User extends UserDTO implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
+	public Long getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(Long createUserId) {
+		this.createUserId = createUserId;
+	}
+	
+	
+	
 
 }

@@ -53,7 +53,7 @@ public class MenuController extends AbstractController{
 
 		List<Menu> meunList = null;
 		try {
-			meunList = menuService.getUserMenuList(getUserId());
+			meunList = menuService.getUserMenuList(getCurrentLoginUserId());
 		} catch (Exception e) {
 			code = CommConstant.GWSCOD0001;
 			message = CommConstant.GWSMSG0001;

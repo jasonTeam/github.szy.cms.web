@@ -186,8 +186,11 @@ CREATE TABLE `sys_role` (
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
   `is_delete` smallint(4) DEFAULT '1' COMMENT '是否删除(1：正常，-1：删除)',
+  `create_user_id` bigint(20) DEFAULT '0' COMMENT '创建者ID',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='角色表';
+
+
 
 -- ----------------------------
 -- Records of sys_role
@@ -213,9 +216,11 @@ CREATE TABLE `sys_user` (
   `status` tinyint(4) DEFAULT NULL COMMENT '状态  0：禁用   1：正常',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `is_delete` smallint(6) DEFAULT '1' COMMENT '是否删除:（1：未删除，-1：删除）',
+  `create_user_id` bigint(20) DEFAULT '0' COMMENT '创建者ID',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1005 DEFAULT CHARSET=utf8 COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8 COMMENT='系统用户';
+
 
 -- ----------------------------
 -- Records of sys_user

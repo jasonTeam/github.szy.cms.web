@@ -26,7 +26,7 @@ public abstract class AbstractController {
 	}
 	
 	//获取用户Id
-	protected Long getUserId() {
+	protected Long getCurrentLoginUserId() {
 		return getUser().getUserId();
 	}
 	

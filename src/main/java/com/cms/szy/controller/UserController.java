@@ -150,6 +150,7 @@ public class UserController extends AbstractController{
 		
 		try {
 			VerifyForm.isUserNull(user);
+			user.setCreateUserId(getCurrentLoginUserId()); //获取创建者ID
 			userService.saveUser(user);
 		} catch (Exception e) {
 			code = CommConstant.GWSCOD0001;
@@ -215,7 +216,7 @@ public class UserController extends AbstractController{
 		oriPassword = ShiroUtils.sha256(oriPassword, getUser().getSalt()); // 原密码
 		newPassword = ShiroUtils.sha256(newPassword, getUser().getSalt()); // 新密码
 		try {
-			int res = userService.updatePwd(getUserId(), oriPassword, newPassword);
+			int res = userService.updatePwd(getCurrentLoginUserId(), oriPassword, newPassword);
 			if (res < 1) {
 				return Ret.error("密码修改失败!");
 			}
@@ -248,7 +249,7 @@ public class UserController extends AbstractController{
 			return Ret.error("系统管理员不能删除!");
 		}
 
-		if (ArrayUtils.contains(userIds, getUserId())) {
+		if (ArrayUtils.contains(userIds, getCurrentLoginUserId())) {
 			return Ret.error("当前用户不能删除!");
 		}
 

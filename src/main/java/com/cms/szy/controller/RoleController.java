@@ -2,7 +2,6 @@ package com.cms.szy.controller;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,6 @@ import com.cms.szy.service.RoleService;
 import com.cms.szy.tools.constant.CommConstant;
 import com.cms.szy.tools.form.VerifyForm;
 import com.cms.szy.tools.result.Ret;
-import com.cms.szy.tools.validator.ValidatorUtils;
 
 /**
  * 
@@ -190,6 +188,7 @@ public class RoleController extends AbstractController{
 		
 		try {
 			VerifyForm.isRoleNull(role);
+			role.setCreateUserId(getCurrentLoginUserId()); //保存创建者ID
 			roleService.saveRole(role);
 		} catch (Exception e) {
 			code = CommConstant.GWSCOD0001;

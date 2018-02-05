@@ -86,7 +86,7 @@ public class DeptController extends AbstractController {
 
 		long deptId = 0;
 		try {
-			if (getUserId() != Constant.SUPER_ADMIN) {
+			if (getCurrentLoginUserId() != Constant.SUPER_ADMIN) {
 				deptId = deptService.getDeptByDeptId(getDeptId()).getParentId();
 				GwsLogger.info("上级部门ParentId：deptId={}", deptId);
 			}
@@ -123,7 +123,7 @@ public class DeptController extends AbstractController {
 		try {
 			deptList = deptService.deptList();
 			// 添加一级部门
-			if (getUserId() == Constant.SUPER_ADMIN) {
+			if (getCurrentLoginUserId() == Constant.SUPER_ADMIN) {
 				Dept root = new Dept();
 				root.setDeptId(0L);
 				root.setName(Constant.LEVEL_DEPT);

@@ -132,6 +132,7 @@ public class UserServiceImpl implements UserService{
 		newUser.setDeptId(user.getDeptId());  // 所属部门
 		newUser.setEmail(user.getEmail());    // 邮箱
 		newUser.setMobile(user.getMobile());  // 手机号
+		newUser.setCreateUserId(user.getCreateUserId()); //创建者ID
 		newUser.setStatus(user.getStatus());  // 状态 0：禁用 1：正常
 		newUser.setSalt( RandomStringUtils.randomAlphanumeric(20)); // 密码加盐   
 		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), newUser.getSalt()));  // 登录密码（sha256加密）

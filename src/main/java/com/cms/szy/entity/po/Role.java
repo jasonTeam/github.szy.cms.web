@@ -40,6 +40,12 @@ public class Role extends RoleDTO implements Serializable{
 	@Column(name = "role_name")
 	private String roleName;
 	
+	/**
+	 * 创建者ID
+	 */
+	@Column(name = "create_user_id")
+	private Long createUserId;
+	
 	/*** 创建时间 */
 	@Column(name = "create_time")
 	private Date createTime;
@@ -112,6 +118,14 @@ public class Role extends RoleDTO implements Serializable{
 	public void setIsDelete(Short isDelete) {
 		this.isDelete = isDelete;
 	}
-	
 
+	public Long getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(Long createUserId) {
+		this.createUserId = createUserId;
+	}
+	
+	
 }
