@@ -55,6 +55,18 @@ public interface RoleService {
 	
 	/**
 	 * 
+	 *【根据创建者ID查询角色ID集合】 
+	 * @param createUserId
+	 * @return List<Long>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月5日下午2:26:47
+	 * @throws 异常
+	 */
+	List<Long> queryRoleIdList(Long createUserId);
+	
+	
+	/**
+	 * 
 	 *【修改角色】
 	 * @Title updateRole 
 	 * @param role void返回类型   

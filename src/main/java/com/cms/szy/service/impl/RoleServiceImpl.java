@@ -1,5 +1,7 @@
 package com.cms.szy.service.impl;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +27,11 @@ import com.cms.szy.repository.dao.DeptRepositoryDao;
 import com.cms.szy.repository.dao.DeptRoleRepositoryDao;
 import com.cms.szy.repository.dao.MenuRoleRepositoryDao;
 import com.cms.szy.repository.dao.RoleRepositoryDao;
+import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.queryFilter.RoleQueryFilter;
 import com.cms.szy.service.RoleService;
+import com.cms.szy.tools.constant.Constant;
+import com.cms.szy.tools.exception.RRException;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
@@ -37,6 +42,8 @@ public class RoleServiceImpl implements RoleService {
 	private RoleRepositoryDao roleRepositoryDao;
 	@Autowired
 	private DeptRepositoryDao deptRepositoryDao;
+	@Autowired
+	private UserRepositoryDao userRepositoryDao;
 	@Autowired
 	private DeptRoleRepositoryDao deptRoleRepositoryDao; // 部门 <-> 角色
 	@Autowired
@@ -107,7 +114,10 @@ public class RoleServiceImpl implements RoleService {
 			oriRole.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); // 是否删除
 			oriRole.setUpdateTime(new Date()); //更新时间
 			Role newBean = roleRepositoryDao.save(oriRole); // 保存
-
+			
+			//检查权限是否越权
+			checkPrems(role);
+			
 			/*
 			 * 修改角色数据时，更新菜单与角色的关系
 			 * 1.先删除原来的菜单与角色的对应关系，2.重新插入一遍
@@ -156,7 +166,10 @@ public class RoleServiceImpl implements RoleService {
 		roleBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); // 是否删除
 		roleBean.setCreateTime(new Date()); // 创建时间
 		Role newRole = roleRepositoryDao.save(roleBean);
-
+		
+		//检查权限是否越权
+		checkPrems(role);
+		
 		// 保存菜单与角色的关系
 		List<Long> menuIdList = role.getMenuIdList();
 		if (null != menuIdList && menuIdList.size() > 0) {
@@ -192,7 +205,41 @@ public class RoleServiceImpl implements RoleService {
 		newMenuRole.setRoleId(newBean.getRoleId()); // 角色ID
 		menuRoleRepositoryDao.save(newMenuRole);	
 	}
+
+
+	@Override
+	public List<Long> queryRoleIdList(Long createUserId) {
+		return roleRepositoryDao.queryRoleIdList(createUserId);
+	}
 	
 	
+	/**
+	 * 
+	 *【检查权限是否越权】 
+	 * @param role void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月5日下午2:40:55
+	 * @throws 异常
+	 */
+	private void checkPrems(Role role) {
+		//如果不是超级管理员，则需要判断角色的权限是否超过自己的权限
+		if(role.getCreateUserId() == Constant.SUPER_ADMIN){
+			return ;
+		}
+		
+		//查询用户所拥有的菜单列表
+		List<BigInteger> menuIds = userRepositoryDao.queryAllMenuId(role.getCreateUserId());
+		//将BigInteger 转为 Long
+		List<Long> menuIdList = new ArrayList<>();
+		for(BigInteger menuId : menuIds){
+			menuIdList.add(menuId.longValue());
+		}
+		
+		//判断是否越权
+		if(!menuIdList.containsAll(role.getMenuIdList())){
+			throw new RRException("新增角色的权限，已超出你的权限范围");
+		}
+		
+	}
 
 }

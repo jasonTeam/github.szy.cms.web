@@ -27,8 +27,11 @@ import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.dao.UserRoleRepositoryDao;
 import com.cms.szy.repository.queryFilter.UserQuery;
 import com.cms.szy.service.UserService;
+import com.cms.szy.tools.constant.Constant;
 import com.cms.szy.tools.exception.ImplException;
+import com.cms.szy.tools.exception.RRException;
 import com.cms.szy.tools.shiro.ShiroUtils;
+
 
 /**
  * 
@@ -139,7 +142,10 @@ public class UserServiceImpl implements UserService{
 		newUser.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());  // 是否删除
 		newUser.setCreateTime(new Date());  // 创建时间
 		User userBean = userRepositoryDao.save(newUser);
-
+		
+		//检查角色是否越权
+		checkRole(user);
+		
 		/*
 		 * 保存用户与角色关系【用户 <——> 角色】
 		 * 再新增用户时同时将关系数据保存到用户角色关联表中
@@ -155,6 +161,7 @@ public class UserServiceImpl implements UserService{
 		newUserRole.setCreateTime(new Date()); 
 		userRoleRepositoryDao.save(newUserRole);
 	}
+
 
 	@Override
 	public User queryUserByUserId(Long userId) {
@@ -175,7 +182,10 @@ public class UserServiceImpl implements UserService{
 			userBean.setStatus(user.getStatus()); // 用户状态
 			userBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); // 是否删除
 			userRepositoryDao.save(userBean); // 保存
-
+			
+			//检查角色是否越权
+			checkRole(user);
+			
 			/*
 			 * 更新用户与角色之间的关系【用户 <——> 角色】
 			 */
@@ -203,5 +213,32 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	/**
+	 * 
+	 *【检查角色是否越权】 
+	 * @param user void返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月5日下午2:30:32
+	 * @throws 异常
+	 */
+	private void checkRole(User user) {
+		if(user.getRoleIdList() == null || user.getRoleIdList().size() == 0){
+			return;
+		}
+		
+		//如果不是超级管理员，则需要判断用户的角色是否自己创建
+		if(user.getCreateUserId() == Constant.SUPER_ADMIN){
+			return ;
+		}
+		
+		//查询用户创建的角色列表
+		List<Long> roleIdList = roleRepositoryDao.queryRoleIdList(user.getCreateUserId());
 
+		//判断是否越权
+		if(!roleIdList.containsAll(user.getRoleIdList())){
+			throw new RRException("新增用户所选角色，不是本人创建");
+		}
+	}
+	
+	
 }
