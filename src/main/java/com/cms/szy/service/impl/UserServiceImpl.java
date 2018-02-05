@@ -141,10 +141,11 @@ public class UserServiceImpl implements UserService{
 		newUser.setPassword(ShiroUtils.sha256(user.getPassword(), newUser.getSalt()));  // 登录密码（sha256加密）
 		newUser.setIsDelete(IsDeleteEnum.UN_DELETE.getVal());  // 是否删除
 		newUser.setCreateTime(new Date());  // 创建时间
-		User userBean = userRepositoryDao.save(newUser);
 		
 		//检查角色是否越权
 		checkRole(user);
+		
+		User userBean = userRepositoryDao.save(newUser);
 		
 		/*
 		 * 保存用户与角色关系【用户 <——> 角色】
@@ -181,10 +182,11 @@ public class UserServiceImpl implements UserService{
 			userBean.setMobile(user.getMobile()); // 手机号
 			userBean.setStatus(user.getStatus()); // 用户状态
 			userBean.setIsDelete(IsDeleteEnum.UN_DELETE.getVal()); // 是否删除
-			userRepositoryDao.save(userBean); // 保存
 			
 			//检查角色是否越权
 			checkRole(user);
+			
+			userRepositoryDao.save(userBean); // 保存
 			
 			/*
 			 * 更新用户与角色之间的关系【用户 <——> 角色】
