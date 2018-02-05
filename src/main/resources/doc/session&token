@@ -1,0 +1,20 @@
+1.现在的javaWeb开发必定会涉及到通讯协议。
+2.目前大多数通讯协议使用的都是http,且http是无状态的协议。
+3.使用session和cookie管理客户端和服务端的会话状态。session存于服务端，cookie存于客户端。
+4.在客户端访问服务端时服务端会生成session信息，并将sessionID返回到客户端。
+5.客户端下次请求时带着sessionID请求服务端。
+6.服务端验证客户端的sessionID是否正确，是否时同一个用户的请求。
+
+所以：
+session和cookie是有状态的会话管理。目的是解决http协议无状态的设计。
+服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，
+只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，
+就会使用内存中与之对应的session为之服务
+
+使用session时需要引入servlet-api.jar
+HttpSession是不能new出来的,HttpSession是不能new出来的,HttpSession是不能new出来的.
+HttpSession session = request.getSession();
+session.setAttribute("变量名", 值对象);
+session.getAttribute("变量名"); //此时取出来的是Object, 一般需要强转.
+
+
