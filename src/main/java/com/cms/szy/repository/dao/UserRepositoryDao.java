@@ -26,10 +26,10 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	 * @date 2018年1月6日下午12:26:07
 	 * @throws
 	 */
-	@Query(value = "SELECT m.perms FROM sys_user_role ur "
-			+ "LEFT JOIN sys_menu_role rm ON ur.role_id = rm.role_id "
-			+ "LEFT JOIN sys_menu m ON rm.menu_id = m.menu_id WHERE ur.user_id = ?1",nativeQuery = true)
-	List<String> getPermsByUser(Long userId);
+//	@Query(value = "SELECT m.perms FROM sys_user_role ur "
+//			+ "LEFT JOIN sys_menu_role rm ON ur.role_id = rm.role_id "
+//			+ "LEFT JOIN sys_menu m ON rm.menu_id = m.menu_id WHERE ur.user_id = ?1",nativeQuery = true)
+//	List<String> getPermsByUser(Long userId);
 	
 	
 	/**
@@ -56,9 +56,9 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	 * @date 2018年1月6日下午2:18:14
 	 * @throws 查询失败
 	 */
-	@Query(value = "select distinct rm.menu_id from sys_user_role ur "
-			+ "LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
-	List<BigInteger> queryAllMenuId(Long userId);
+//	@Query(value = "select distinct rm.menu_id from sys_user_role ur "
+//			+ "LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
+//	List<BigInteger> queryAllMenuId(Long userId);
 	
 
 	/**

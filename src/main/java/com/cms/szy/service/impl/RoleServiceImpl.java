@@ -29,6 +29,7 @@ import com.cms.szy.repository.dao.MenuRoleRepositoryDao;
 import com.cms.szy.repository.dao.RoleRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.repository.queryFilter.RoleQueryFilter;
+import com.cms.szy.service.MenuService;
 import com.cms.szy.service.RoleService;
 import com.cms.szy.tools.constant.Constant;
 import com.cms.szy.tools.exception.RRException;
@@ -48,7 +49,9 @@ public class RoleServiceImpl implements RoleService {
 	private DeptRoleRepositoryDao deptRoleRepositoryDao; // 部门 <-> 角色
 	@Autowired
 	private MenuRoleRepositoryDao menuRoleRepositoryDao; // 菜单 <-> 角色
-
+	@Autowired
+	private MenuService menuService;
+	
 	@Override
 	public Page<Role> findPageRole(RoleVO vo, Integer pageNo, Integer pageSize, String sortField) {
 
@@ -227,13 +230,16 @@ public class RoleServiceImpl implements RoleService {
 			return ;
 		}
 		
-		//查询用户所拥有的菜单列表
-		List<BigInteger> menuIds = userRepositoryDao.queryAllMenuId(role.getCreateUserId());
+		
+		//List<BigInteger> menuIds = userRepositoryDao.queryAllMenuId(role.getCreateUserId());
 		//将BigInteger 转为 Long
-		List<Long> menuIdList = new ArrayList<>();
-		for(BigInteger menuId : menuIds){
-			menuIdList.add(menuId.longValue());
-		}
+//		List<Long> menuIdList = new ArrayList<>();
+//		for(BigInteger menuId : menuIds){
+//			menuIdList.add(menuId.longValue());
+//		}
+		
+		//查询用户所拥有的菜单列表
+		List<Long> menuIdList = menuService.findAllMenu(role.getCreateUserId());
 		
 		//判断是否越权
 		if(!menuIdList.containsAll(role.getMenuIdList())){

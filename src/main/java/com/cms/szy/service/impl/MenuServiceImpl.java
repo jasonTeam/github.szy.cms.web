@@ -62,7 +62,6 @@ public class MenuServiceImpl implements MenuService{
 		
 		//用户菜单列表
 		//List<BigInteger> menuIdList = userRepositoryDao.queryAllMenuId(userId);
-		
 		//将BigInteger转为Long,后面将用Long做匹配
 //		List<Long> menuIdLists = new ArrayList<>();
 //		for(BigInteger menuId : menuIdList){
@@ -159,15 +158,15 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public void updateMenu(Menu menu) {
-		Menu oriMenu = menuRepositoryDao.findOne(menu.getMenuId());  //1.先查询原来的数据是否存在
-		if(null != oriMenu){
-			oriMenu.setParentId(menu.getParentId()); //父菜单ID
-			oriMenu.setName(menu.getName());  //菜单名称
-			oriMenu.setMenuUrl(menu.getMenuUrl()); //菜单Url
-			oriMenu.setPerms(menu.getPerms()); //授权
-			oriMenu.setType(menu.getType()); //菜单类型 (类型   0：目录   1：菜单   2：按钮)
-			oriMenu.setIcon(menu.getIcon()); //菜单图标
-			oriMenu.setSort(menu.getSort()); //排序
+		Menu oriMenu = menuRepositoryDao.findOne(menu.getMenuId()); // 1.先查询原来的数据是否存在
+		if (null != oriMenu) {
+			oriMenu.setParentId(menu.getParentId()); // 父菜单ID
+			oriMenu.setName(menu.getName()); // 菜单名称
+			oriMenu.setMenuUrl(menu.getMenuUrl()); // 菜单Url
+			oriMenu.setPerms(menu.getPerms()); // 授权
+			oriMenu.setType(menu.getType()); // 菜单类型 (类型 0：目录 1：菜单 2：按钮)
+			oriMenu.setIcon(menu.getIcon()); // 菜单图标
+			oriMenu.setSort(menu.getSort()); // 排序
 			menuRepositoryDao.save(menu);
 		}
 	}
@@ -197,7 +196,9 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public List<Long> findAllMenu(Long userId) {
-		//用户角色 ；菜单角色
+		/*
+		 * 查询时会涉及到用户角色关联表，菜单角色关联表 
+		 */
 		UserRole userRole = userRoleRepositoryDao.queryUserRoleByUserId(userId);
 		List<MenuRole> menuRole = menuRoleRepositoryDao.queryMenuRoleByRoleId(userRole.getRoleId());
 		List<Long> menuId = new ArrayList<>();
@@ -210,7 +211,9 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public List<String> getPermsByUserId(Long userId) {
-		//用户角色，菜单角色，菜单
+		/*
+		 * 查询时会涉及到用户角色关联表，菜单角色关联表，菜单表
+		 */
 		UserRole userRole = userRoleRepositoryDao.queryUserRoleByUserId(userId);
 		List<MenuRole> menuRole = menuRoleRepositoryDao.queryMenuRoleByRoleId(userRole.getRoleId());
 		

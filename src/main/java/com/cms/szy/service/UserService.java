@@ -42,7 +42,7 @@ public interface UserService {
 	 * @date 2018年1月6日下午12:28:02
 	 * @throws 查询失败
 	 */
-	List<String> getPermsByUser(Long userId);
+	//List<String> getPermsByUser(Long userId);
 		
 	/**
 	 * 

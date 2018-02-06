@@ -55,11 +55,11 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private IdGlobalGenerator idGlobalGenerator;
 	
-	@Override
-	public List<String> getPermsByUser(Long userId) {
-		List<String> listPerms = userRepositoryDao.getPermsByUser(userId);
-		return listPerms;
-	}
+//	@Override
+//	public List<String> getPermsByUser(Long userId) {
+//		List<String> listPerms = userRepositoryDao.getPermsByUser(userId);
+//		return listPerms;
+//	}
 
 	
 	@Override
