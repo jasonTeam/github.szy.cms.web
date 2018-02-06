@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.cms.szy.configuration.query.core.BaseRepository;
 import com.cms.szy.entity.po.User;
+import com.cms.szy.entity.po.UserRole;
 
 
 public interface UserRepositoryDao extends BaseRepository<User, Long>{
@@ -29,6 +30,9 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 			+ "LEFT JOIN sys_menu_role rm ON ur.role_id = rm.role_id "
 			+ "LEFT JOIN sys_menu m ON rm.menu_id = m.menu_id WHERE ur.user_id = ?1",nativeQuery = true)
 	List<String> getPermsByUser(Long userId);
+	
+	
+	
 	
 	
 
@@ -60,7 +64,7 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 			+ "LEFT JOIN sys_menu_role rm on ur.role_id = rm.role_id where ur.user_id = ?1", nativeQuery = true)
 	List<BigInteger> queryAllMenuId(Long userId);
 	
-	
+
 	/**
 	 * 
 	 * (修改用户密码) 

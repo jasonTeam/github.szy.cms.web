@@ -41,5 +41,4 @@ public interface UserRoleRepositoryDao extends BaseRepository<UserRole, Long>{
 	@Query("SELECT ur FROM UserRole ur WHERE ur.userId = ?1 ")
 	UserRole queryUserRoleByUserId(Long userId);
 	
-	
 }

@@ -10,10 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cms.szy.configuration.redis.cache.IdGlobalGenerator;
+import com.cms.szy.entity.dto.PerDTO;
 import com.cms.szy.entity.po.Menu;
+import com.cms.szy.entity.po.MenuRole;
+import com.cms.szy.entity.po.UserRole;
 import com.cms.szy.enums.MenuTypeEnum;
 import com.cms.szy.repository.dao.MenuRepositoryDao;
+import com.cms.szy.repository.dao.MenuRoleRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
+import com.cms.szy.repository.dao.UserRoleRepositoryDao;
 import com.cms.szy.service.MenuService;
 import com.cms.szy.tools.constant.Constant;
 
@@ -26,6 +31,10 @@ public class MenuServiceImpl implements MenuService{
 	private MenuRepositoryDao menuRepositoryDao;
 	@Autowired
 	private UserRepositoryDao userRepositoryDao;
+	@Autowired
+	private UserRoleRepositoryDao userRoleRepositoryDao;
+	@Autowired
+	private MenuRoleRepositoryDao menuRoleRepositoryDao;
 	@Autowired
 	private IdGlobalGenerator idGlobalGenerator;
 	
@@ -52,15 +61,16 @@ public class MenuServiceImpl implements MenuService{
 		}
 		
 		//用户菜单列表
-		List<BigInteger> menuIdList = userRepositoryDao.queryAllMenuId(userId);
+		//List<BigInteger> menuIdList = userRepositoryDao.queryAllMenuId(userId);
 		
 		//将BigInteger转为Long,后面将用Long做匹配
-		List<Long> menuIdLists = new ArrayList<>();
-		for(BigInteger menuId : menuIdList){
-			menuIdLists.add(menuId.longValue());
-		}
+//		List<Long> menuIdLists = new ArrayList<>();
+//		for(BigInteger menuId : menuIdList){
+//			menuIdLists.add(menuId.longValue());
+//		}
+		List<Long> menuIdList = findAllMenu(userId);
 		
-		return getAllMenuList(menuIdLists);
+		return getAllMenuList(menuIdList);
 	}
 
 	
@@ -184,4 +194,18 @@ public class MenuServiceImpl implements MenuService{
 		return menuRepositoryDao.queryNotButtonList();
 	}
 
+
+	@Override
+	public List<Long> findAllMenu(Long userId) {
+		//用户角色 ；菜单角色
+		UserRole userRole = userRoleRepositoryDao.queryUserRoleByUserId(userId);
+		List<MenuRole> menuRole = menuRoleRepositoryDao.queryMenuRoleByRoleId(userRole.getRoleId());
+		List<Long> menuId = new ArrayList<>();
+		for(MenuRole mr : menuRole){
+			menuId.add(mr.getMenuId());
+		}
+		return menuId;
+	}
+
+	
 }

@@ -2,6 +2,7 @@ package com.cms.szy.service;
 
 import java.util.List;
 
+import com.cms.szy.entity.dto.PerDTO;
 import com.cms.szy.entity.po.Menu;
 
 
@@ -37,6 +38,17 @@ public interface MenuService {
 	 * @throws 查询失败
 	 */
 	List<Menu> getUserMenuList(Long userId);
+	
+	/**
+	 * JPA 实现代码查询
+	 *【根据用户ID获取菜单ID,角色ID,用户ID相关的实体类】 
+	 * @param userId  
+	 * @return List<PerDTO>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月6日上午11:53:09
+	 * @throws 异常
+	 */
+	List<Long> findAllMenu(Long userId);
 	
 	
 	/**

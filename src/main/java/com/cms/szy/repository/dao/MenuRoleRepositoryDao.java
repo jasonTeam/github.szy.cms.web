@@ -60,5 +60,16 @@ public interface MenuRoleRepositoryDao extends BaseRepository<MenuRole, Long>{
 	void deleteMenuRole(Long roleId);
 	
 	
+	/**
+	 * 
+	 *【根据角色ID获取菜单角色关联表实体】 
+	 * @param roleId
+	 * @return MenuRole返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月6日下午12:53:43
+	 * @throws 异常
+	 */
+	@Query("SELECT mr FROM MenuRole mr WHERE mr.roleId = ?1")
+	List<MenuRole> queryMenuRoleByRoleId(Long roleId);
 	
 }
