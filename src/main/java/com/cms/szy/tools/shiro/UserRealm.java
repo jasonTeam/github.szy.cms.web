@@ -28,6 +28,8 @@ import com.cms.szy.entity.po.Menu;
 import com.cms.szy.entity.po.User;
 import com.cms.szy.repository.dao.MenuRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
+import com.cms.szy.service.MenuService;
+import com.cms.szy.service.UserService;
 import com.cms.szy.tools.constant.Constant;
 
 
@@ -46,6 +48,8 @@ public class UserRealm extends AuthorizingRealm {
 	private UserRepositoryDao userRepositoryDao;
 	@Autowired
 	private MenuRepositoryDao menuRepositoryDao;
+	@Autowired
+	private MenuService menuService;
 	
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -66,7 +70,8 @@ public class UserRealm extends AuthorizingRealm {
 			
 		}else{
 			//如果不是系统管理员,根据用户ID查询所拥有的菜单
-			permsList = userRepositoryDao.getPermsByUser(userId);
+			//permsList = userRepositoryDao.getPermsByUser(userId); getPermsByUserId
+			permsList = menuService.getPermsByUserId(userId);
 		}
 		
 		// 用户权限列表  （HashSet存value不能重复的对象)

@@ -67,5 +67,19 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	List<Menu> queryNotButtonList();
 	
 	
+	/**
+	 * 
+	 *【根据菜单ID查询菜单实体】 
+	 * @param menuId
+	 * @return List<Menu>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月6日下午2:47:25
+	 * @throws 异常
+	 */
+	@Query("SELECT m FROM Menu m WHERE m.menuId in(?1)")
+	List<Menu> queryMenuByMenuId(List<Long> menuId);
+	
+	
+	
 	
 }

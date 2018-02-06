@@ -207,5 +207,27 @@ public class MenuServiceImpl implements MenuService{
 		return menuId;
 	}
 
+
+	@Override
+	public List<String> getPermsByUserId(Long userId) {
+		//用户角色，菜单角色，菜单
+		UserRole userRole = userRoleRepositoryDao.queryUserRoleByUserId(userId);
+		List<MenuRole> menuRole = menuRoleRepositoryDao.queryMenuRoleByRoleId(userRole.getRoleId());
+		
+		List<Long> menuId = new ArrayList<>();
+		for(MenuRole mr : menuRole){
+			menuId.add(mr.getMenuId());
+		}
+		
+		List<Menu> menu = menuRepositoryDao.queryMenuByMenuId(menuId);
+		
+		List<String> per = new ArrayList<>();
+		for(Menu m : menu){
+			per.add(m.getPerms());
+		}
+		
+		return per;
+	}
+
 	
 }

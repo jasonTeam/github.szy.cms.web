@@ -1,10 +1,8 @@
 package com.cms.szy.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cms.szy.entity.po.User;
 import com.cms.szy.entity.vo.UserVO;
@@ -32,7 +30,6 @@ public interface UserService {
 	 * @throws 异常
 	 */
 	Page<User> findPageUser(UserVO vo ,Integer pageNo,Integer pageSize,String sortField);
-//	Page<User> findPageUser(@RequestParam Map<String, Object> params);
 	
 	
 	/**
@@ -46,8 +43,7 @@ public interface UserService {
 	 * @throws 查询失败
 	 */
 	List<String> getPermsByUser(Long userId);
-	
-	
+		
 	/**
 	 * 
 	 * (查询用户的所有菜单ID) 

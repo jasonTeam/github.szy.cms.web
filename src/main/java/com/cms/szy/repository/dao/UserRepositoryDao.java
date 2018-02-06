@@ -32,10 +32,6 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	List<String> getPermsByUser(Long userId);
 	
 	
-	
-	
-	
-
 	/**
 	 * 
 	 * 根据用户名查询用户信息) 
@@ -77,7 +73,7 @@ public interface UserRepositoryDao extends BaseRepository<User, Long>{
 	 * @throws 异常
 	 */
 	@Modifying(clearAutomatically = true)
-	@Transactional //事务控制
+	@Transactional 
 	@Query("UPDATE User u SET u.password = ?1 WHERE u.userId = ?2 ")
 	int updatePwd(String newPassowrd, Long userId);
 	

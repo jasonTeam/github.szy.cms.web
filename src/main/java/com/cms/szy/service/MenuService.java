@@ -39,6 +39,19 @@ public interface MenuService {
 	 */
 	List<Menu> getUserMenuList(Long userId);
 	
+	
+	/**
+	 * JPA实现
+	 *【根据用户ID查询查询用户权限】 
+	 * @param userId
+	 * @return List<String>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月6日下午2:15:02
+	 * @throws 异常
+	 */
+	List<String> getPermsByUserId(Long userId);
+	
+	
 	/**
 	 * JPA 实现代码查询
 	 *【根据用户ID获取菜单ID,角色ID,用户ID相关的实体类】 
