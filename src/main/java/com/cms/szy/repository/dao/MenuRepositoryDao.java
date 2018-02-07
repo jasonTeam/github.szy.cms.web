@@ -79,7 +79,16 @@ public interface MenuRepositoryDao extends BaseRepository<Menu, Long>{
 	@Query("SELECT m FROM Menu m WHERE m.menuId in(?1)")
 	List<Menu> queryMenuByMenuId(List<Long> menuId);
 	
-	
+	/**
+	 * 
+	 *【查询所有的二级菜单】 
+	 * @return List<Menu>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月7日上午11:57:17
+	 * @throws 异常
+	 */
+	@Query("SELECT m FROM Menu m WHERE m.parentId <> 0 AND m.menuUrl IS NOT NULL ")
+	List<Menu> queryAllChildMenu();
 	
 	
 }

@@ -232,5 +232,11 @@ public class MenuServiceImpl implements MenuService{
 		return per;
 	}
 
+
+	@Override
+	public List<Menu> queryAllChildMenu() {
+		return menuRepositoryDao.queryAllChildMenu();
+	}
+
 	
 }

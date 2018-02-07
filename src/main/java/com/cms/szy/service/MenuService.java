@@ -157,6 +157,15 @@ public interface MenuService {
 	 */
 	List<Menu> queryNotButtonList();
 	
+	/**
+	 * 
+	 *【查询所有的二级菜单】 
+	 * @return List<Menu>返回类型   
+	 * @author ShenZiYang
+	 * @date 2018年2月7日下午3:05:40
+	 * @throws 异常
+	 */
+	List<Menu> queryAllChildMenu();
 	
 	
 }
