@@ -80,7 +80,7 @@ public class VerifyForm {
 		//所属部门是否为空
 		if (null == role.getDeptId() || role.getDeptId() < 0) {
 			GwsLogger.error("修改角色时部门名为空:deptName={}",JSON.toJSON(role.getDeptId()));
-			throw new RRException("部门名称不能为空!");
+			throw new RRException("所属部门不能为空!");
 		}
 		
 		// 功能权限为空判断

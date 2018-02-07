@@ -26,10 +26,10 @@ import org.springframework.stereotype.Component;
 
 import com.cms.szy.entity.po.Menu;
 import com.cms.szy.entity.po.User;
+import com.cms.szy.enums.UserStatusEnum;
 import com.cms.szy.repository.dao.MenuRepositoryDao;
 import com.cms.szy.repository.dao.UserRepositoryDao;
 import com.cms.szy.service.MenuService;
-import com.cms.szy.service.UserService;
 import com.cms.szy.tools.constant.Constant;
 
 
@@ -110,6 +110,11 @@ public class UserRealm extends AuthorizingRealm {
 		//账号不存在
         if(user == null) {
             throw new UnknownAccountException("账号或密码不正确");
+        }
+        
+        //判断用户状态 (modify by szy 2018.1.7)
+        if(user.getStatus().equals(UserStatusEnum.LOCK.getVal())){
+        	throw new UnknownAccountException("账号已被锁定,请联系管理员");
         }
 		
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());

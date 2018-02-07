@@ -10,7 +10,7 @@ package com.cms.szy.enums;
 public enum UserStatusEnum {
 	
 	NORMAL(Short.valueOf("1"), "正常"),
-	LOCK(Short.valueOf("2"), "锁定");
+	LOCK(Short.valueOf("0"), "锁定");
 	
 	private Short val;   //值 
 	private String desc; //描述
